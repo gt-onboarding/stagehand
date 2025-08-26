@@ -1,0 +1,248 @@
+---
+title: 代理
+description: "使用 AI 驱动的浏览器代理自动化复杂流程"
+---
+
+## 什么是 `agent()?`
+
+```typescript
+agent.execute("apply for a job at browserbase")
+```
+
+`agent` 会将高层任务转化为**完全自主**的浏览器工作流。你可以通过指定 LLM 提供商与模型、设置自定义行为指令，并配置最大步骤来定制该代理。
+
+<img src="/images/agent.gif" alt="Agent" />
+
+## 为什么使用 `agent()`？
+
+<CardGroup cols={2}>
+  <Card title="多步工作流" icon="route" href="zh/#agent-execution-configuration">
+    自动完成复杂的多步操作。
+  </Card>
+
+  <Card title="视觉理解" icon="eye" href="/zh/best-practices/computer-use">
+    借助计算机视觉像人类一样看懂并理解网页界面。
+  </Card>
+</CardGroup>
+
+## 使用 `agent()`
+
+以下展示如何使用 `agent()` 来创建一个代理。
+
+<CodeGroup>
+  ```typescript TypeScript
+  const agent = stagehand.agent({
+    provider: "anthropic",
+    model: "claude-sonnet-4-20250514",
+    instructions: "You are a helpful assistant that can use a web browser.",
+    options: {
+      apiKey: process.env.ANTHROPIC_API_KEY,
+    },
+  });
+  await agent.execute("apply for a job at Browserbase")
+  ```
+
+  ```python Python
+  agent = stagehand.agent({
+      "provider": "anthropic",
+      "model": "claude-sonnet-4-20250514",
+      "instructions": "You are a helpful assistant that can use a web browser.",
+      "options": {
+        "apiKey": os.getenv("ANTHROPIC_API_KEY"),
+      },
+  })
+  await agent.execute("apply for a job at Browserbase")
+  ```
+</CodeGroup>
+
+<Warning>
+  Stagehand 默认使用 1024x768 的视口（这是计算机使用代理的最佳尺寸）。其他视口大小可能降低性能。若需修改视口，可在 [浏览器配置](/zh/configuration/browser) 中调整。
+</Warning>
+
+## 可用模型
+
+使用专用的计算机使用模型（例如 OpenAI 的 `computer-use-preview` 或 Anthropic 的 `claude-sonnet-4-20250514`）
+
+<Card title="Available Models" icon="robot" href="/zh/configuration/models">
+  查看在 Stagehand 中使用不同模型的方法指南。
+</Card>
+
+## 代理执行配置
+
+使用 `maxSteps` 参数控制代理为完成任务可执行的最大步数。
+
+<CodeGroup>
+  ```typescript TypeScript
+  // 设置 maxSteps 以限制代理可执行的动作步数
+  await agent.execute({
+    instruction: "帮我办理一张图书馆借书证",
+    maxSteps: 15 // 如果任务未完成，代理将在第 15 步后停止
+  });
+  ```
+
+  ```python Python
+  # 设置 max_steps 以限制代理可执行的动作步数
+  result = await agent.execute({
+      "instruction": "帮我办理一张图书馆借书证",
+      "max_steps": 15  # 如果任务未完成，代理将在第 15 步后停止
+  })
+  ```
+</CodeGroup>
+
+对于复杂任务，请提高 `maxSteps` 上限并检查任务是否成功完成。
+
+<CodeGroup>
+  ```typescript TypeScript
+  // 需要更多操作的复杂多步骤任务
+  const result = await agent.execute({
+    instruction: "查找并申请软件工程职位，按远程工作筛选并保存 3 份申请",
+    maxSteps: 30, // 为复杂工作流设置更高的上限
+  });
+
+  // 检查任务是否成功完成
+  if (result.success === true) {
+    console.log("任务已成功完成！");
+  } else {
+    console.log("任务失败或未完成");
+  }
+  ```
+
+  ```python Python
+  # 需要更多操作的复杂多步骤任务
+  result = await agent.execute({
+      "instruction": "查找并申请软件工程职位，按远程工作筛选并保存 3 份申请",
+      "max_steps": 30  # 为复杂工作流设置更高的上限
+  })
+
+  # 检查任务是否成功完成
+  if result.success == True:
+      print("任务已成功完成！")
+  else:
+      print("任务失败或未完成")
+  ```
+</CodeGroup>
+
+## 最佳实践
+
+遵循这些最佳实践将提升代理的成功率、缩短执行时间，并在完成任务时尽量减少意外错误。
+
+### 从正确的页面开始
+
+在执行任务前先跳转至目标页面：
+
+<Tabs>
+  <Tab title="这样做">
+    <CodeGroup>
+      ```typescript TypeScript
+      await page.goto('https://github.com/browserbase/stagehand');
+      await agent.execute('Get me the latest PR on the stagehand repo');
+      ```
+
+      ```python Python
+      await page.goto("https://github.com/browserbase/stagehand")
+      result = await agent.execute("Get me the latest PR on the stagehand repo")
+      ```
+    </CodeGroup>
+  </Tab>
+
+  <Tab title="不要这样做">
+    <CodeGroup>
+      ```typescript TypeScript
+      await agent.execute('Go to GitHub and find the latest PR on browserbase/stagehand');
+      ```
+
+      ```python Python
+      result = await agent.execute("Go to GitHub and find the latest PR on browserbase/stagehand")
+      ```
+    </CodeGroup>
+  </Tab>
+</Tabs>
+
+### 具体明确
+
+提供细致明确的指令以获得更好的结果：
+
+<Tabs>
+  <Tab title="这样做">
+    <CodeGroup>
+      ```typescript TypeScript
+      await agent.execute("Find Italian restaurants in Brooklyn that are open after 10pm and have outdoor seating");
+      ```
+
+      ```python Python
+      result = await agent.execute("Find Italian restaurants in Brooklyn that are open after 10pm and have outdoor seating")
+      ```
+    </CodeGroup>
+  </Tab>
+
+  <Tab title="不要这样做">
+    <CodeGroup>
+      ```typescript TypeScript
+      await agent.execute("Find a restaurant");
+      ```
+
+      ```python Python
+      result = await agent.execute("Find a restaurant")
+      ```
+    </CodeGroup>
+  </Tab>
+</Tabs>
+
+## 疑难解答
+
+<AccordionGroup>
+  <Accordion title="Agent is stopping before completing the task">
+    **问题**：代理在完成请求的任务前就停止了
+
+    **解决方案**：
+
+    - 检查代理是否触及了 maxSteps 上限（默认 20）
+    - 对于复杂任务，提高 maxSteps：例如 `maxSteps: 30` 或更高
+    - 将非常复杂的任务拆分为更小的顺序子任务
+
+    ```typescript
+    // 对于复杂任务提高 maxSteps
+    await agent.execute({
+      instruction: "Complete the multi-page registration form with all required information",
+      maxSteps: 40 // 为复杂任务提升上限
+    });
+
+    // 或拆分为更小的任务并进行成功性检查
+    const firstResult = await agent.execute({
+      instruction: "Fill out page 1 of the registration form", 
+      maxSteps: 15
+    });
+
+    // 仅在第一个任务成功时继续
+    if (firstResult.success === true) {
+      await agent.execute({
+        instruction: "Navigate to page 2 and complete remaining fields",
+        maxSteps: 15
+      });
+    } else {
+      console.log("First task failed, stopping execution");
+    }
+    ```
+  </Accordion>
+
+  <Accordion title="Agent is failing to click the proper elements">
+    **问题**：代理点击了错误的元素，或未能与正确的 UI 组件交互
+
+    **解决方案**：
+
+    - 确保使用合适的 Viewport（视口）大小：Stagehand 默认 `1024x768`（对 Computer Use Agent 模型最优）
+    - 避免更改视口尺寸，其他大小可能降低性能
+  </Accordion>
+</AccordionGroup>
+
+## 下一步
+
+<CardGroup cols={2}>
+  <Card title="Act" icon="play" href="/zh/basics/act">
+    使用 observe() 结果高效执行操作
+  </Card>
+
+  <Card title="Extract" icon="download" href="/zh/basics/extract">
+    从已观测的元素中提取结构化数据
+  </Card>
+</CardGroup>
