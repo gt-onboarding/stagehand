@@ -1,20 +1,20 @@
 ---
 title: "Browserbase MCP 服务器配置"
 sidebarTitle: "配置"
-description: "使用命令行参数、环境变量与高级选项配置浏览器自动化"
+description: "通过命令行参数、环境变量与高级选项配置浏览器自动化"
 ---
 
 ## 配置概览
 
-Browserbase MCP 服务器支持通过命令行参数和环境变量进行广泛配置。你可以设置浏览器行为、代理、隐身模式、模型选择等，以定制你的浏览器自动化工作流程。
+Browserbase MCP 服务器可通过命令行参数和环境变量进行广泛配置。你可以设置浏览器行为、代理、隐身模式、模型选择等，从而定制你的浏览器自动化工作流。
 
 <Note>
-命令行参数仅在本地运行服务器时可用（使用带参数的 `npx @browserbasehq/mcp-server-browserbase` 或在本地开发环境中运行）。
+命令行参数仅在本地运行服务器时可用（通过携带参数的 `npx @browserbasehq/mcp-server-browserbase` 启动，或在本地开发环境中使用）。
 </Note>
 
 ## 环境变量
 
-配置必需的 Browserbase 凭据和可选的调试设置：
+配置必要的 Browserbase 凭据及可选的调试设置：
 
 <CardGroup cols={2}>
 <Card title="BROWSERBASE_API_KEY" icon="key">
@@ -27,29 +27,29 @@ Browserbase MCP 服务器支持通过命令行参数和环境变量进行广泛�
 
 </CardGroup>
 
-## 命令行参数
+## 命令行标志
 
-### 可用参数
+### 可用标志
 
-| 参数 | 说明 |
+| 标志 | 描述 |
 |------|-------------|
 | `--proxies` | 为会话启用 Browserbase 代理 |
-| `--advancedStealth` | 启用 Browserbase Advanced Stealth（仅限 Scale 套餐） |
-| `--keepAlive` | 启用 Browserbase 会话保活 |
+| `--advancedStealth` | 启用 Browserbase 高级隐匿（仅限 Scale 方案） |
+| `--keepAlive` | 启用 Browserbase 保持会话常驻（Keep Alive） |
 | `--contextId <contextId>` | 指定要使用的 Browserbase Context ID |
 | `--persist [boolean]` | 是否持久化 Browserbase 上下文（默认：true） |
-| `--port <port>` | 用于 HTTP/SHTTP 传输的监听端口 |
-| `--host <host>` | 服务器绑定的主机（默认：localhost，全部网卡使用 0.0.0.0） |
+| `--port <port>` | 监听用于 HTTP/SHTTP 传输的端口 |
+| `--host <host>` | 绑定服务器的主机名（默认：localhost；所有网卡请用 0.0.0.0） |
 | `--cookies [json]` | 注入到浏览器的 cookies 的 JSON 数组 |
-| `--browserWidth <width>` | 浏览器视口宽度（默认：1024） |
-| `--browserHeight <height>` | 浏览器视口高度（默认：768） |
+| `--browserWidth <width>` | 浏览器 Viewport 宽度（默认：1024） |
+| `--browserHeight <height>` | 浏览器 Viewport 高度（默认：768） |
 | `--modelName <model>` | Stagehand 使用的模型（默认：gemini-2.0-flash） |
-| `--modelApiKey <key>` | 自定义模型提供方的 API 密钥（使用自定义模型时必填） |
-| `--experimental` | 启用实验功能（默认：false） |
+| `--modelApiKey <key>` | 自定义模型提供商的 API 密钥（使用自定义模型时必填） |
+| `--experimental` | 启用实验性功能（默认：false） |
 
 ## 配置示例
 
-### 基本配置
+### 基础配置
 
 <Tabs>
 <Tab title="Remote URL (SHTTP)">
@@ -67,7 +67,7 @@ Browserbase MCP 服务器支持通过命令行参数和环境变量进行广泛�
 ```
 </CodeGroup>
 
-当使用我们的远程托管服务器时，我们会为 Gemini（在 [Stagehand](https://www.stagehand.dev) 中的[表现最佳模型](https://www.stagehand.dev/evals)）承担 LLM 费用。
+使用我们的远程托管服务器时，我们会为 Gemini 提供 LLM 费用明细；它是在 [Stagehand](https://www.stagehand.dev) 的[评估套件与仪表盘，用于比较 Stagehand 任务的模型性能与成本](https://www.stagehand.dev/evals)中表现最好的模型。
 </Tab>
 
 <Tab title="NPM Package">
@@ -134,10 +134,10 @@ node cli.js --port 8931
 
 <Tabs>
 <Tab title="Proxies">
-启用 Browserbase 代理以进行 IP 轮换和地理定位测试。
+启用 Browserbase 代理，以进行 IP 轮换和地理位置测试。
 
 <Panel>
-[了解 Browserbase Proxies 的更多信息](https://docs.browserbase.com/features/proxies)
+[了解 Browserbase Proxies](https://docs.browserbase.com/features/proxies)
 </Panel>
 
 ```json
@@ -158,12 +158,12 @@ node cli.js --port 8931
 </Tab>
 
 <Tab title="Advanced Stealth">
-启用高级反检测能力，强化隐身浏览。
+启用高级反检测能力，提升隐匿浏览效果。
 
 <Panel>
-[了解 Advanced Stealth 的更多信息](https://docs.browserbase.com/features/stealth-mode#advanced-stealth-mode)
+[了解 Advanced Stealth](https://docs.browserbase.com/features/stealth-mode#advanced-stealth-mode)
 
-**注意：** Advanced Stealth 仅向 Scale 方案用户提供。
+**注意：**Advanced Stealth 仅对 Scale 方案用户开放。
 </Panel>
 
 ```json
@@ -184,10 +184,10 @@ node cli.js --port 8931
 </Tab>
 
 <Tab title="Contexts">
-使用持久化浏览器上下文，在多次会话间保持认证状态和数据。
+使用持久化浏览器上下文，在会话之间保留认证与状态。
 
 <Panel>
-[了解 Browserbase Contexts 的更多信息](https://docs.browserbase.com/features/contexts)
+[了解 Browserbase Contexts](https://docs.browserbase.com/features/contexts)
 </Panel>
 
 ```json
@@ -234,16 +234,16 @@ node cli.js --port 8931
 ```
 
 **常见分辨率：**
-- 桌面：1920x1080、1280x720、1024x768
-- 移动：375x667（iPhone）、360x640（Android）
+- 桌面端：1920x1080、1280x720、1024x768
+- 移动端：375x667（iPhone）、360x640（Android）
 - 平板：768x1024（iPad）
 </Tab>
 
 <Tab title="Cookie Injection">
-注入会话 Cookie 以完成认证。当持久化上下文无法处理会话 Cookie 时很有用。
+注入会话 Cookie 以完成身份验证。适用于持久化上下文无法处理会话 Cookie 的情况。
 
 <Panel>
-Cookie 必须采用 [Playwright Cookie 格式](https://playwright.dev/docs/api/class-browsercontext#browser-context-cookies)。
+Cookie 必须符合 [Playwright Cookie 格式](https://playwright.dev/docs/api/class-browsercontext#browser-context-cookies)。
 </Panel>
 
 ```json
@@ -270,10 +270,10 @@ Cookie 必须采用 [Playwright Cookie 格式](https://playwright.dev/docs/api/c
 
 ## 模型配置
 
-为更强大的浏览器自动化配置 AI 模型。Stagehand（AI增强的浏览器自动化框架）默认使用 Google 的 Gemini 2.0 Flash，但也支持多个模型提供商。
+为增强型浏览器自动化配置 AI 模型。Stagehand 默认使用 Google 的 Gemini 2.0 Flash，但也支持多个模型提供商。
 
 <Warning>
-使用任何自定义模型（非默认）时，必须通过 `--modelApiKey` 标志为该模型提供商提供你自己的 API 密钥。
+使用任何自定义模型（非默认）时，必须通过 `--modelApiKey` 标志为该模型提供商提供您自己的 API 密钥。
 </Warning>
 
 <Tabs>
@@ -294,7 +294,7 @@ Cookie 必须采用 [Playwright Cookie 格式](https://playwright.dev/docs/api/c
 - `anthropic/claude-3-5-sonnet-latest`
 - `anthropic/claude-3-7-sonnet-latest`
 
-[查看完整支持模型列表](https://docs.stagehand.dev/examples/custom_llms#supported-llms)
+[查看支持模型的完整列表](https://docs.stagehand.dev/examples/custom_llms#supported-llms)
 </Tab>
 
 <Tab title="配置示例">
@@ -340,7 +340,7 @@ Cookie 必须采用 [Playwright Cookie 格式](https://playwright.dev/docs/api/c
 </Tab>
 </Tabs>
 
-## 开发配置
+## 开发环境配置
 
 <Tabs>
 <Tab title="调试模式">
@@ -364,8 +364,8 @@ Cookie 必须采用 [Playwright Cookie 格式](https://playwright.dev/docs/api/c
 ```
 </Tab>
 
-<Tab title="自定义 Host/Port">
-为 SHTTP 传输配置自定义主机与端口。
+<Tab title="自定义主机/端口">
+为 SHTTP 传输配置自定义主机和端口。
 
 ```json
 {
@@ -391,46 +391,46 @@ Cookie 必须采用 [Playwright Cookie 格式](https://playwright.dev/docs/api/c
 
 ## 最佳实践
 
-<Accordion title="性能 - 如何优化浏览器自动化性能？">
-- 根据具体用例选择合适的视口尺寸
-- 仅在需要定位到特定地区时启用代理
-- 选择高效模型（Gemini Flash 侧重速度，GPT-4o 侧重准确性）
-- 复用上下文以保持登录态
+<Accordion title="性能 - 如何优化浏览器自动化的性能？">
+- 按照你的用例选择合适的 Viewport 尺寸
+- 仅在需要指定地理位置时启用代理
+- 选择高效的模型（Gemini Flash 侧重速度，GPT-4o 侧重准确性）
+- 复用上下文以持久化认证状态
 </Accordion>
 
 <Accordion title="安全 - 应实施哪些安全措施？">
-- 将 API 密钥安全存放在环境变量中
+- 将 API 密钥安全地存储在环境变量中
 - 在敏感操作中启用 Advanced Stealth
-- 落实规范的会话管理
+- 实施完善的会话管理
 - 定期轮换 cookies 与上下文
 </Accordion>
 
 <Accordion title="开发 - 推荐的开发实践有哪些？">
 - 在开发阶段启用调试模式
 - 使用上下文持久化以加快迭代
-- 使用不同视口尺寸进行测试
+- 使用不同的 Viewport 尺寸进行测试
 - 监控会话使用与配额
 </Accordion>
 
 <Accordion title="生产 - 在生产环境中应如何配置？">
-- 使用 NPM 安装以提升可靠性
+- 使用 NPM 安装以提高稳定性
 - 配置合理的超时时间
-- 实施健壮的错误处理与重试机制
+- 实施错误处理与重试机制
 - 监控性能与资源使用
 </Accordion>
 
 ## 延伸阅读
 
 <CardGroup cols={3}>
-<Card title="Browserbase 文档" icon="globe" href="https://docs.browserbase.com">
-完整的平台文档
+<Card title="Browserbase Documentation" icon="globe" href="https://docs.browserbase.com">
+平台完整文档
 </Card>
 
-<Card title="Stagehand 文档" icon="robot" href="https://docs.stagehand.dev/">
-AI增强的浏览器自动化
+<Card title="Stagehand Docs" icon="robot" href="https://docs.stagehand.dev/">
+AI 增强的浏览器自动化
 </Card>
 
-<Card title="支持" icon="headset" href="mailto:support@browserbase.com">
-联系团队获取帮助
+<Card title="Support" icon="headset" href="mailto:support@browserbase.com">
+联系团队获取支持
 </Card>
 </CardGroup>

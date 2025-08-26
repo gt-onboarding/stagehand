@@ -1,25 +1,25 @@
 ---
-title: Browser
-sidebarTitle: Browser
+title: 浏览器
+sidebarTitle: 浏览器
 description: 在 Browserbase 或本地配置 Stagehand
 ---
 
-Stagehand 支持两种主要运行环境：
+Stagehand（AI增强的浏览器自动化框架）支持两种主要环境：
 
-- **Browserbase** - 面向大规模生产环境的云托管浏览器基础设施，专为网页自动化优化
+- **Browserbase** - 面向大规模生产环境、针对网页自动化优化的云端浏览器基础设施
 - **本地** - 在本机直接运行浏览器，用于开发与调试
 
 ## Browserbase 环境
 
-Browserbase 提供面向大规模 Web 自动化优化的托管云浏览器基础设施，具备隐身模式、代理支持和持久化上下文等高级功能。
+Browserbase 提供为大规模网页自动化优化的托管云端浏览器基础设施，具备隐身模式、代理支持和持久化上下文等高级功能。
 
-<Card icon="cloud" title="Browserbase" href="https://docs.browserbase.com" description="了解在可扩展 Web 自动化中使用 Browserbase 的功能与优势。">
-  使用 Browserbase，体验云托管浏览器基础设施的强大能力。
+<Card icon="cloud" title="Browserbase" href="https://docs.browserbase.com" description="了解在可扩展网页自动化场景中使用 Browserbase 的功能与优势。">
+  借助 Browserbase，体验云托管浏览器基础设施的强大能力。
 </Card>
 
 ### 环境变量
 
-开始之前，请先设置所需的环境变量：
+开始之前，请设置所需的环境变量：
 
 <CodeGroup>
 ```bash .env
@@ -29,14 +29,14 @@ BROWSERBASE_PROJECT_ID=your_project_id_here
 </CodeGroup>
 
 <Tip>
-在 [Browserbase 控制台](https://browserbase.com/overview)获取你的 API Key 和 Project ID
+在 [Browserbase Dashboard](https://browserbase.com/overview) 获取你的 API Key 和 Project ID
 </Tip>
 
-### 将 Stagehand 与 Browserbase 搭配使用
+### 在 Browserbase 上使用 Stagehand
 
-#### 基础设置
+#### 基本设置
 
-最简单的入门方式是使用默认设置：
+最简单的入门方式是使用默认配置：
 
 <CodeGroup>
 ```typescript TypeScript
@@ -62,14 +62,14 @@ await stagehand.init()
 
 #### 高级配置
 
-配置浏览器设置、代理支持及其他会话参数：
+配置浏览器设置、代理支持以及其他会话参数：
 <CodeGroup>
 ```typescript TypeScript
 import { Stagehand } from "@browserbasehq/stagehand";
 
 const stagehand = new Stagehand({
   env: "BROWSERBASE",
-  // 可选：API Key 和 Project ID 将直接从环境变量中读取
+  // 可选：API Key 与 Project ID 会直接从环境变量读取
   apiKey: process.env.BROWSERBASE_API_KEY,
   projectId: process.env.BROWSERBASE_PROJECT_ID,
   browserbaseSessionCreateParams: {
@@ -91,7 +91,7 @@ from stagehand import Stagehand
 
 stagehand = Stagehand(
     env="BROWSERBASE",
-    # 可选：API Key 和 Project ID 将直接从环境变量中读取
+    # 可选：API Key 与 Project ID 会直接从环境变量读取
     api_key=os.getenv("BROWSERBASE_API_KEY"),
     project_id=os.getenv("BROWSERBASE_PROJECT_ID"),
     browserbase_session_create_params={
@@ -120,7 +120,7 @@ stagehand = Stagehand(
         timeout: 3600, // 会话超时 1 小时
         keepAlive: true, // Startup 方案可用
         browserSettings: {
-          advancedStealth: false, // 这是 Scale 方案功能——请联系 support@browserbase.com 启用
+          advancedStealth: false, // 属于 Scale 方案功能 — 如需启用请联系 support@browserbase.com
           blockAds: true,
           solveCaptchas: true,
           recordSession: false,
@@ -155,7 +155,7 @@ stagehand = Stagehand(
             "timeout": 3600,  # 会话超时 1 小时
             "keep_alive": True,  # Startup 方案可用
             "browser_settings": {
-                "advanced_stealth": False,  # 这是 Scale 方案功能——请联系 support@browserbase.com 启用
+                "advanced_stealth": False,  # 属于 Scale 方案功能 — 如需启用请联系 support@browserbase.com
                 "block_ads": True,
                 "solve_captchas": True,
                 "record_session": False,
@@ -206,7 +206,7 @@ print(result)
 
 <AccordionGroup>
 <Accordion title="debugUrl">
-**打开 Browserbase 的[会话实时视图](https://docs.browserbase.com/features/session-live-view)**，以引入人工在环。
+**打开 Browserbase 的[会话实时视图](https://docs.browserbase.com/features/session-live-view)**，以便引入人类参与（human-in-the-loop）。
 </Accordion>
 
 <Accordion title="sessionUrl">
@@ -214,13 +214,13 @@ print(result)
 </Accordion>
 
 <Accordion title="sessionId">
-[Browserbase 会话](https://docs.browserbase.com/introduction/what-is-browserbase)的**唯一标识符**。用于在 Browserbase 控制台中标识会话并连接到该会话。
+[Browserbase 会话](https://docs.browserbase.com/introduction/what-is-browserbase)的**唯一标识符**。用于在 Browserbase 控制台中识别并连接该会话。
 </Accordion>
 </AccordionGroup>
 
 ### 备选方案：Browserbase SDK
 
-如果你更希望直接管理会话，可以使用 Browserbase SDK：
+如果你更倾向于直接管理会话，可以使用 Browserbase SDK：
 
 <CodeGroup>
 ```typescript TypeScript
@@ -232,7 +232,7 @@ const bb = new Browserbase({
 
 const session = await bb.sessions.create({
   projectId: process.env.BROWSERBASE_PROJECT_ID!,
-  // 在此添加配置项
+  // 在此添加配置选项
 });
 ```
 ```python Python
@@ -242,14 +242,14 @@ bb = Browserbase(api_key=os.environ["BROWSERBASE_API_KEY"])
 
 session = bb.sessions.create(
     project_id=os.environ["BROWSERBASE_PROJECT_ID"],
-    # 在此添加配置项
+    # 在此添加配置选项
 )
 ```
 </CodeGroup>
 
-#### 连接到已有会话
+#### 连接到现有会话
 
-使用会话 ID 连接到先前创建的 Browserbase 会话：
+使用会话 ID 连接到已创建的 Browserbase 会话：
 
 <CodeGroup>
 ```typescript TypeScript
@@ -261,7 +261,7 @@ const stagehand = new Stagehand({
 });
 
 await stagehand.init();
-console.log("已恢复的会话 ID：", stagehand.sessionId);
+console.log("Resumed Session ID:", stagehand.sessionId);
 ```
 ```python Python
 import os
@@ -273,29 +273,29 @@ stagehand = Stagehand(
 )
 
 await stagehand.init()
-print(f"已恢复的会话 ID：{stagehand.session_id}")
+print(f"Resumed Session ID: {stagehand.session_id}")
 ```
 </CodeGroup>
 
 ## 本地环境
 
-本地环境直接在你的机器上运行浏览器，能够完全控制浏览器实例与配置。适合用于开发、调试，以及需要自定义浏览器设置的场景。
+本地环境会在你的机器上直接运行浏览器，让你对浏览器实例与配置拥有完全控制。适合用于开发、调试，以及需要自定义浏览器设置的场景。
 
 ### 环境对比
 
 | 功能 | Browserbase | 本地 |
 | --- | --- | --- |
-| **可扩展性** | 高（云端托管） | 有限（本地资源） |
-| **隐身特性** | 高级指纹防护 | 基础隐身 |
-| **代理支持** | 内置住宅代理 | 手动配置 |
+| **可扩展性** | 高（云端托管） | 有限（受本地资源限制） |
+| **隐匿特性** | 高级指纹防护 | 基础隐匿 |
+| **代理支持** | 内置住宅代理 | 需手动配置 |
 | **会话持久化** | 云端上下文存储 | 基于文件的用户数据 |
 | **地理分布** | 多区域部署 | 单机 |
-| **调试** | 会话回放与日志 | 直接使用 DevTools |
-| **搭建复杂度** | 仅需环境变量 | 需安装浏览器 |
-| **成本** | 按用量计费 | 基础设施与维护 |
+| **调试** | 会话录制与日志 | 直接访问 DevTools |
+| **设置复杂度** | 仅需配置环境变量 | 需要安装浏览器 |
+| **成本** | 按用量计费 | 基础设施与维护成本 |
 | **最佳用途** | 生产、规模化、合规 | 开发、调试 |
 
-### 本地基础配置
+### 本地基础设置
 
 <CodeGroup>
 ```typescript TypeScript
@@ -379,7 +379,7 @@ await stagehand.init()
 
 ### 连接到本地浏览器
 
-连接到现有的本地 Chrome/Chromium 浏览器，而不是启动一个新的实例。这样你可以在日常使用的浏览器上进行自动化，保留所有现有标签页、扩展和设置。
+连接到你现有的本地 Chrome/Chromium 浏览器，而不是启动新实例。这样可以在保留现有标签页、扩展和设置的情况下自动化你的常用浏览器。
 
 <CodeGroup>
 ```typescript TypeScript
@@ -408,26 +408,26 @@ await stagehand.init()
 ```
 </CodeGroup>
 
-## 疑难解答
+## 故障排查
 
 ### 常见问题
 
 <AccordionGroup>
-<Accordion title="Browserbase 认证错误">
-- 确认已正确设置 `BROWSERBASE_API_KEY` 和 `BROWSERBASE_PROJECT_ID`
-- 检查你的 API Key 是否具备必要权限
-- 确保你的 Browserbase 账户有足够额度
+<Accordion title="Browserbase 身份验证错误">
+- 请确认已正确设置 `BROWSERBASE_API_KEY` 和 `BROWSERBASE_PROJECT_ID`
+- 检查您的 API 密钥是否具备所需权限
+- 确保您的 Browserbase 账户额度充足
 </Accordion>
 
 <Accordion title="本地浏览器启动失败">
 - 在系统中安装 Chrome 或 Chromium
-- 为你的 Chrome 安装设置正确的 `executablePath`
-- 检查是否已安装所需依赖（Linux：`libnss3-dev libatk-bridge2.0-dev libgtk-3-dev libxss1 libasound2`）
+- 为已安装的 Chrome 配置正确的 `executablePath`
+- 确认已安装必要依赖（Linux：`libnss3-dev libatk-bridge2.0-dev libgtk-3-dev libxss1 libasound2`）
 </Accordion>
 
 <Accordion title="会话超时问题">
-- 在 `browserbaseSessionCreateParams.timeout` 中增大会话超时时间
-- 对于长时间运行的会话，使用 `keepAlive: true`
+- 在 `browserbaseSessionCreateParams.timeout` 中提高会话超时时间
+- 对于长时间运行的会话，启用 `keepAlive: true`
 - 监控会话使用情况，避免意外终止
 </Accordion>
 </AccordionGroup>

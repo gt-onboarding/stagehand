@@ -6,7 +6,7 @@ icon: "robot"
 
 <CardGroup cols={1}>
   <Card title="Agent" icon="robot" href="/zh/basics/agent">
-    了解如何使用 agent() 创建用于多步骤浏览器工作流的自主 AI 代理
+    了解如何使用 agent() 为多步浏览器工作流创建自主 AI 代理
   </Card>
 </CardGroup>
 
@@ -54,13 +54,13 @@ icon: "robot"
 ### Agent 配置
 
 <ParamField path="provider" type="AgentProviderType" optional>
-  agent 功能所用的 AI 提供方。
+  用于 agent 功能的 AI 提供方。
 
-  **可选值：** `"anthropic"`, `"openai"`
+  **可选：** `"anthropic"`, `"openai"`
 </ParamField>
 
 <ParamField path="model" type="string" optional>
-  agent 执行所用的具体模型。
+  用于 agent 执行的具体模型。
 
   **Anthropic：** `"claude-sonnet-4-20250514"`, `"claude-3-5-sonnet-20241022"`
 
@@ -68,16 +68,16 @@ icon: "robot"
 </ParamField>
 
 <ParamField path="instructions" type="string" optional>
-  定义 agent 行为的系统指令。
+  定义 agent 行为的系统级指令。
 </ParamField>
 
 <ParamField path="options" type="Record<string, unknown>" optional>
-  提供方特定的配置。
+  提供方特定的配置项。
 
   **通用：** `apiKey`, `baseURL`, `organization`
 </ParamField>
 
-### execute 方法
+### 执行方法
 
 <Tabs>
   <Tab title="TypeScript">
@@ -119,32 +119,32 @@ icon: "robot"
   </Tab>
 </Tabs>
 
-### execute 参数
+### 执行参数
 
 <ParamField path="instruction" type="string" required>
-  用自然语言编写的高层任务描述。
+  使用自然语言撰写的高层任务描述。
 </ParamField>
 
 <ParamField path="maxSteps" type="number" optional>
-  agent 可执行的最大动作数。
+  agent 可执行的最大操作步数。
 
-  **默认值：** `20`
+  **默认：** `20`
 </ParamField>
 
 <ParamField path="autoScreenshot" type="boolean" optional>
-  是否在每个动作前自动截图。
+  是否在每次操作前自动截图。
 
-  **默认值：** `true`
+  **默认：** `true`
 </ParamField>
 
 <ParamField path="waitBetweenActions" type="number" optional>
-  各动作之间的延迟（毫秒）。
+  各操作之间的延迟（毫秒）。
 
-  **默认值：** `0`
+  **默认：** `0`
 </ParamField>
 
 <ParamField path="context" type="string" optional>
-  提供给 agent 的额外上下文或约束。
+  提供给 agent 的附加上下文或约束。
 </ParamField>
 
 ### 响应
@@ -171,15 +171,15 @@ interface AgentResult {
 <Tabs>
   <Tab title="TypeScript">
     <ParamField path="success" type="boolean">
-      任务是否已成功完成。
+      任务是否成功完成。
     </ParamField>
 
     <ParamField path="message" type="string">
-      对执行结果与状态的说明。
+      对执行结果与状态的描述。
     </ParamField>
 
     <ParamField path="actions" type="AgentAction[]">
-      执行过程中采取的各个操作数组。
+      执行过程中所采取的各项动作数组。
     </ParamField>
 
     <ParamField path="completed" type="boolean">
@@ -191,21 +191,21 @@ interface AgentResult {
     </ParamField>
 
     <ParamField path="usage" type="object" optional>
-      Token 使用情况与性能指标。
+      Token 使用量与性能指标。
     </ParamField>
   </Tab>
 
   <Tab title="Python">
     <ParamField path="success" type="boolean">
-      任务是否已成功完成。
+      任务是否成功完成。
     </ParamField>
 
     <ParamField path="message" type="string">
-      对执行结果与状态的说明。
+      对执行结果与状态的描述。
     </ParamField>
 
     <ParamField path="actions" type="AgentAction[]">
-      执行过程中采取的各个操作数组。
+      执行过程中所采取的各项动作数组。
     </ParamField>
 
     <ParamField path="completed" type="boolean">

@@ -1,5 +1,5 @@
 ---
-sidebarTitle: 使用案例
+sidebarTitle: 使用场景
 ---
 
 ## 真实场景用例
@@ -7,12 +7,12 @@ sidebarTitle: 使用案例
 ### 电商商品发现
 
 ```typescript
-// 发现商品的可交互元素
+// 发现商品的交互元素
 const productActions = await page.observe({
   instruction: "Find add to cart buttons, size selectors, and product images"
 });
 
-// 按类型对动作进行分类
+// 按类型归类动作
 const cartButtons = productActions.filter(a => 
   a.description.toLowerCase().includes('cart')
 );
@@ -47,14 +47,14 @@ console.log(`Found ${requiredFields.length} required fields to complete`);
 // 系统化填写表单
 for (const field of requiredFields) {
   await page.act(field);
-  // 根据字段类型填写合适的输入
+  // 根据字段类型输入合适的内容
 }
 ```
 
 ### 动态内容与 SPA 导航
 
 ```typescript
-// 等待并发现动态加载的内容
+// 等待并发现动态加载内容
 await page.waitForLoadState('networkidle');
 
 const dynamicElements = await page.observe({
@@ -78,7 +78,7 @@ if (scrollTriggers.length > 0) {
 ### 多步工作流规划
 
 ```typescript
-// 预先规划整个结账流程
+// 预先规划完整的结账流程
 async function planCheckoutWorkflow() {
   // 步骤 1：购物车页分析
   await page.goto('/cart');
@@ -98,7 +98,7 @@ async function planCheckoutWorkflow() {
   return { shippingFields, paymentFields, submitButton };
 }
 
-// 执行规划的工作流
+// 执行已规划的工作流
 const workflow = await planCheckoutWorkflow();
-// 填写顺序：配送 → 支付 → 提交
+// 填写顺序：收货信息 → 支付信息 → 提交
 ```

@@ -1,65 +1,65 @@
 ---
 title: "Next.js + Vercel"
 sidebarTitle: "简介"
-description: "构建并部署由 Stagehand 驱动的 Next.js 应用到 Vercel"
+description: "在 Vercel 上构建并部署由 Stagehand（增强型浏览器自动化框架）驱动的 Next.js 应用"
 ---
 
 ## 概览
 
-Stagehand + Next.js 快速入门是一个可用于生产的模板，将 Stagehand 的 AI 浏览器自动化与现代 Next.js 应用结合，可一键部署到 Vercel。
+Stagehand + Next.js 快速入门是一个可用于生产环境的模板，将 Stagehand（增强型浏览器自动化框架）的 AI 浏览器自动化与现代化的 Next.js 应用结合，可在 Vercel 上一键部署。
 
 <CardGroup cols={3}>
-  <Card title="部署模板" icon="rocket" href="https://vercel.com/templates/ai/stagehand-next-js-quickstart">
+  <Card title="Deploy Template" icon="rocket" href="https://vercel.com/templates/ai/stagehand-next-js-quickstart">
     一键部署到 Vercel，并自动完成环境配置
   </Card>
 
-  <Card title="在线演示" icon="globe" href="https://stagehand-nextjs-quickstart.vercel.app">
-    查看已部署模板的实际运行效果
+  <Card title="Live Demo" icon="globe" href="https://stagehand-nextjs-quickstart.vercel.app">
+    查看已部署模板的实际演示
   </Card>
 
-  <Card title="源代码" icon="github" href="https://github.com/browserbase/stagehand-nextjs-quickstart">
-    在 GitHub 上浏览仓库
+  <Card title="Source Code" icon="github" href="https://github.com/browserbase/stagehand-nextjs-quickstart">
+    在 GitHub 上浏览源码仓库
   </Card>
 </CardGroup>
 
 ## 你将获得
 
 <CardGroup cols={2}>
-  <Card title="App Router project" icon="browser">
-    基于 Next.js App Router 的脚手架，预置 Tailwind 样式
+  <Card title="App Router 项目" icon="browser">
+    基于 Next.js App Router 的脚手架，内置 Tailwind 样式
   </Card>
 
-  <Card title="Server‑safe automation" icon="shield-check">
-    使用 Browserbase 的云浏览器（可在 Vercel 函数中运行）
+  <Card title="面向服务器的安全自动化" icon="shield-check">
+    使用 Browserbase 提供云端浏览器（可在 Vercel 函数上运行）
   </Card>
 
-  <Card title="Prewired config" icon="gear">
-    配好可切换模型与提供商的 `stagehand.config.ts`
+  <Card title="开箱即用的配置" icon="gear">
+    `stagehand.config.ts`，支持模型与提供方切换
   </Card>
 
-  <Card title="Automation ready" icon="robot">
-    Stagehand 基元的示例用法
+  <Card title="可即刻用于自动化" icon="robot">
+    Stagehand 原语的示例用法
   </Card>
 </CardGroup>
 
-## 要求
+## 环境要求
 
-- 本地安装 **Node 18+**
+- 本地需 **Node 18+**
 - **模型密钥**：OpenAI 或 Anthropic（也可接入自定义客户端）
-- **Browserbase 密钥**：用于云浏览器的 `BROWSERBASE_API_KEY` 与 `BROWSERBASE_PROJECT_ID`
+- **Browserbase 密钥**：用于云端浏览器的 `BROWSERBASE_API_KEY` 和 `BROWSERBASE_PROJECT_ID`
 
 <Tip>
-  Vercel 上无法使用本地 Playwright 浏览器。部署时请将 Stagehand 配置为使用 Browserbase。
+  Vercel 上不可使用本地 Playwright 浏览器。部署时请将 Stagehand 设置为 Browserbase（云端浏览器基础设施）。
 </Tip>
 
 ## 链接
 
 <CardGroup cols={2}>
   <Card title="Quickstart" icon="rocket" href="/zh/integrations/vercel/quickstart">
-    本地运行，并在几分钟内部署到 Vercel
+    本地运行，数分钟内即可部署到 Vercel
   </Card>
 
   <Card title="TypeScript Quickstart" icon="code" href="/zh/first-steps/quickstart">
-    更多模板，包含 Vercel 部署示例
+    提供更多模板，包括 Vercel 部署示例
   </Card>
 </CardGroup>

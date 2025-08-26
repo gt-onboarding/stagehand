@@ -1,13 +1,13 @@
 ---
 title: "使用多个标签页"
-description: "借助 Stagehand 操作多个标签页"
+description: "用 Stagehand 操作多个标签页"
 ---
 
-许多现代 Web 应用在用户点击某些按钮或链接时会打开新的标签页。若缺乏完善的多标签页支持，当预期内容出现在新标签页而非当前标签页时，自动化脚本就可能失败。Stagehand 的多标签页能力可确保你的自动化在多标签页流程中顺畅运行。
+许多现代网页应用会在用户点击某些按钮或链接时打开新的标签页。缺乏完善的多标签页支持时，一旦期望内容出现在新标签页而非当前标签页，自动化脚本就可能失败。Stagehand 的多标签页功能可确保你的自动化在多标签页工作流中无缝运行。
 
-## Stagehand 的 Page
+## Stagehand 页面
 
-Stagehand 会自动适配多标签页工作流。`stagehand.page` 对象始终指向最近打开或当前活动的标签页，确保即使创建了新标签页，你的自动化也能继续运行。
+Stagehand 会自动适配多标签页工作流。`stagehand.page` 对象始终指向最近打开或当前活动的标签页，确保即使新标签页被创建，你的自动化也能继续运行。
 
 这意味着你可以继续使用熟悉的模式：
 
@@ -30,12 +30,12 @@ Stagehand 会自动适配多标签页工作流。`stagehand.page` 对象始终�
 </CodeGroup>
 
 <Warning>
-  **重要**：[Stagehand Agent](/zh/basics/agent) 始终作用于 `stagehand.page`。如果你需要让代理跨特定标签页工作，你需要手动管理页面切换。
+  **重要**： [Stagehand Agent](/zh/basics/agent) 将始终作用于 `stagehand.page`。如果需要让代理在特定多个标签页之间工作，你需要手动管理页面切换。
 </Warning>
 
 ## 手动管理页面
 
-为了获得更精细的控制或实现多标签页工作流，您可以显式管理多个标签页：
+若需更精细的控制或多标签页工作流，你可以显式管理多个标签页：
 
 <CodeGroup>
   ```typescript TypeScript
@@ -52,8 +52,8 @@ Stagehand 会自动适配多标签页工作流。`stagehand.page` 对象始终�
 
   // 同时从两个页面提取数据
   const [stagehandStars, stagehandPythonStars] = await Promise.all([
-    githubPage.extract("extract the repository stars"),
-    pythonPage.extract("extract the repository stars")
+    githubPage.extract("提取该仓库的 star 数"),
+    pythonPage.extract("提取该仓库的 star 数")
   ]);
 
   console.log(`Stagehand stars: ${stagehandStars}`);
@@ -73,8 +73,8 @@ Stagehand 会自动适配多标签页工作流。`stagehand.page` 对象始终�
   await python_page.goto("https://github.com/browserbase/stagehand-python")
 
   # 从两个页面提取数据
-  stagehand_stars = await github_page.extract("extract the repository stars")
-  stagehand_python_stars = await python_page.extract("extract the repository stars")
+  stagehand_stars = await github_page.extract("提取该仓库的 star 数")
+  stagehand_python_stars = await python_page.extract("提取该仓库的 star 数")
 
   print(f"Stagehand stars: {stagehand_stars}")
   print(f"Stagehand-Python stars: {stagehand_python_stars}")
@@ -83,7 +83,7 @@ Stagehand 会自动适配多标签页工作流。`stagehand.page` 对象始终�
 
 ## 处理标签页事件
 
-你也可以监听标签页事件，以控制新标签页打开后的行为：
+你也可以监听标签页事件，以控制新标签页打开时的行为：
 
 <CodeGroup>
   ```typescript TypeScript
@@ -120,22 +120,22 @@ Stagehand 会自动适配多标签页工作流。`stagehand.page` 对象始终�
   ```
 </CodeGroup>
 
-## 下一步
+## 后续步骤
 
 <CardGroup cols={2}>
-  <Card title="用 agent() 编排复杂工作流" icon="robot" iconType="sharp-solid" href="/zh/basics/agent">
-    使用 agent() 自主执行多步骤任务与复杂工作流。
+  <Card title="使用 Agent 编排复杂工作流" icon="robot" iconType="sharp-solid" href="/zh/basics/agent">
+    使用 `Agent()` 自主执行多步任务与复杂工作流。
   </Card>
 
   <Card title="处理 iframes" icon="frame" iconType="sharp-solid" href="/zh/best-practices/working-with-iframes">
-    学习在 iframes 内与元素交互的最佳实践。
+    了解在 iframes 内与元素交互的最佳实践。
   </Card>
 
   <Card title="浏览器配置" icon="browser" iconType="sharp-solid" href="/zh/configuration/browser">
-    管理浏览器上下文与会话，应对复杂的自动化场景。
+    管理浏览器上下文与会话，以应对复杂的自动化场景。
   </Card>
 
   <Card title="日志与调试" icon="bug" iconType="sharp-solid" href="/zh/configuration/logging">
-    优雅地处理错误，高效调试自动化问题。
+    优雅地处理错误并高效调试自动化问题。
   </Card>
 </CardGroup>

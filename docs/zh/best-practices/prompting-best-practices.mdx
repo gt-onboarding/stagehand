@@ -1,111 +1,111 @@
 ---
-title: 提示编写最佳实践
-description: "为构建可靠的 Stagehand 自动化编写高效提示"
+title: 提示最佳实践
+description: "为可靠的 Stagehand 自动化编写高效提示"
 ---
 
-好的提示能让 Stagehand 更可靠，糟糕的提示会导致失败。以下是编写可持续稳定生效的提示的方法。
+优质的提示让 Stagehand 可靠运行；低质的提示会导致失败。以下是编写稳定有效提示的方法。
 
 ## Act 方法
 
-使用 `act()` 执行网页上的单个动作。每个动作都应聚焦、清晰。
+在网页上执行单步操作请使用 `act()`。每个动作都应聚焦且清晰。
 
 <CodeGroup>
 ```typescript TypeScript
-// 好 - 单一、具体的动作
+// 良好 - 单一且具体的动作
 await page.act("click the 'Add to Cart' button");
 await page.act("type 'user@example.com' into the email field");
 
-// 不好 - 将多个动作合并
+// 不佳 - 将多个动作合并
 await page.act("fill out the form and submit it");
 await page.act("login with credentials and navigate to dashboard");
 ```
 
 ```python Python
-# 好 - 单一、具体的动作
+# 良好 - 单一且具体的动作
 await page.act("click the 'Add to Cart' button")
 await page.act("type 'user@example.com' into the email field")
 
-# 不好 - 将多个动作合并
+# 不佳 - 将多个动作合并
 await page.act("fill out the form and submit it")
 await page.act("login with credentials and navigate to dashboard")
 ```
 </CodeGroup>
 
-### 使用元素类型，而非颜色
+### 使用元素类型而非颜色
 
-通过元素的类型和功能来描述，而不是颜色等视觉属性。
+用元素的类型与功能进行描述，而非颜色等视觉属性。
 
 <CodeGroup>
 ```typescript TypeScript
-// 好 - 元素类型与描述性文本
+// 良好 - 使用元素类型与描述性文本
 await page.act("click the 'Sign In' button");
 await page.act("type into the email input field");
 
-// 不好 - 基于颜色的描述
+// 不佳 - 基于颜色的描述
 await page.act("click the blue button");
 await page.act("type into the white input");
 ```
 
 ```python Python
-# 好 - 元素类型与描述性文本
+# 良好 - 使用元素类型与描述性文本
 await page.act("click the 'Sign In' button")
 await page.act("type into the email input field")
 
-# 不好 - 基于颜色的描述
+# 不佳 - 基于颜色的描述
 await page.act("click the blue button")
 await page.act("type into the white input")
 ```
 </CodeGroup>
 
-### 使用更具描述性的语言
+### 使用具描述性的语言
 
 <CodeGroup>
 ```typescript TypeScript
-// 好 - 清晰定位元素
+// 良好 - 清晰标识元素
 await page.act("click the 'Next' button at the bottom of the form");
 await page.act("type into the search bar at the top of the page");
 
-// 不好 - 描述含糊
+// 不佳 - 含糊的描述
 await page.act("click next");
 await page.act("type into search");
 ```
 
 ```python Python
-# 好 - 清晰定位元素
+# 良好 - 清晰标识元素
 await page.act("click the 'Next' button at the bottom of the form")
 await page.act("type into the search bar at the top of the page")
 
-# 不好 - 描述含糊
+# 不佳 - 含糊的描述
 await page.act("click next")
 await page.act("type into search")
 ```
 </CodeGroup>
 
-### 选择正确的动作动词
+### 选择恰当的动作动词
 
-- Click：用于按钮、链接、复选框
-- Type：用于文本输入框
-- Select：用于下拉框
-- Check/uncheck：用于复选框
-- Upload：用于文件选择输入
+- 点击：用于按钮、链接、复选框
+- 输入：用于文本输入框
+- 选择：用于下拉菜单
+- 勾选/取消勾选：用于复选框
+- 上传：用于文件输入
 
 <CodeGroup>
 ```typescript TypeScript
-// 好
+// 良好
 await page.act("click the submit button");
 await page.act("select 'Option 1' from dropdown");
 
-// 不好
+// 不佳
 await page.act("click submit");
 await page.act("choose option 1");
 ```
 
 ```python Python
-# 好
+# 良好
 await page.act("click the submit button")
 await page.act("select 'Option 1' from dropdown")
 
-# 不好
+# 不佳
 await page.act("click submit")
 await page.act("choose option 1")
 ```
@@ -113,11 +113,11 @@ await page.act("choose option 1")
 
 ### 保护敏感数据
 
-使用变量可将敏感信息排除在提示与日志之外。
+使用变量将敏感信息从提示与日志中隔离。
 
 <CodeGroup>
 ```typescript TypeScript
-// 好 - 安全做法
+// 良好 - 安全做法
 await page.act({
   action: "enter %username% in the email field",
   variables: {
@@ -132,14 +132,14 @@ await page.act({
   }
 });
 
-// 不好 - 不安全做法
+// 不佳 - 不安全做法
 await page.act("type 'mySecretPassword123' into the password field");
 ```
 
 ```python Python
 import os
 
-# 好 - 安全做法
+# 良好 - 安全做法
 await page.act(
   "enter %username% in the email field",
   variables={
@@ -154,26 +154,26 @@ await page.act(
   }
 )
 
-# 不好 - 不安全做法
+# 不佳 - 不安全做法
 await page.act("type 'mySecretPassword123' into the password field")
 ```
 </CodeGroup>
 
 <Warning>
-在 Stagehand 配置中将 `verbose: 0` 设置为关闭详细日志，以防止机密出现在日志中。
+在 Stagehand 配置中将 `verbose: 0` 设为关闭详细日志，防止密钥出现在日志中。
 </Warning>
 
-## extract() 方法
+## 提取方法
 
-使用 `extract()` 从页面提取结构化数据。定义清晰的模式并提供上下文。
+使用 `extract()` 从页面提取结构化数据。请定义清晰的模式并提供足够的上下文。
 
-### 模式编写最佳实践
+### 模式最佳实践
 
-使用具描述性的字段名、正确的类型和详尽的说明。字段说明能提供上下文，帮助代理准确理解需要提取的内容。
+使用具描述性的字段名、正确的类型以及详细的说明。字段说明提供上下文，帮助代理准确理解需要提取的内容。
 
 <CodeGroup>
 ```typescript TypeScript
-// Good - 描述性名称、正确类型和有用说明
+// Good - Descriptive names, correct types, and helpful descriptions
 const productData = await page.extract({
   instruction: "Extract product information",
   schema: z.object({
@@ -183,13 +183,13 @@ const productData = await page.extract({
   })
 });
 
-// Bad - 名称泛泛、类型错误、无说明
+// Bad - Generic names, wrong types, no descriptions
 const data = await page.extract({
   instruction: "Get product details", 
   schema: z.object({
-    name: z.string(), // 过于笼统，缺乏上下文
-    price: z.string(), // 应为 number
-    stock: z.string() // 应为 boolean，缺乏上下文
+    name: z.string(), // Too generic, no context
+    price: z.string(), // Should be number
+    stock: z.string() // Should be boolean, no context
   })
 });
 ```
@@ -197,7 +197,7 @@ const data = await page.extract({
 ```python Python
 from pydantic import BaseModel, Field
 
-# Good - 描述性名称、正确类型和有用说明
+# Good - Descriptive names, correct types, and helpful descriptions
 class ProductData(BaseModel):
     productTitle: str = Field(description="The main product name displayed on the page")
     priceInDollars: float = Field(description="Current selling price as a number, without currency symbol")
@@ -208,11 +208,11 @@ productData = await page.extract(
   schema=ProductData
 )
 
-# Bad - 名称泛泛、类型错误、无说明
+# Bad - Generic names, wrong types, no descriptions
 class Data(BaseModel):
-    name: str      # 过于笼统，缺乏上下文
-    price: str     # 应为 float，缺乏上下文
-    stock: str     # 应为 bool，缺乏上下文
+    name: str      # Too generic, no context
+    price: str     # Should be float, no context
+    stock: str     # Should be bool, no context
 
 data = await page.extract(
   "Get product details",
@@ -223,11 +223,11 @@ data = await page.extract(
 
 ### 正确处理数组
 
-始终将数组放在对象内，以获得更可靠的提取。
+始终将数组置于对象字段中，以确保提取稳定可靠。
 
 <CodeGroup>
 ```typescript TypeScript
-// Good - 将数组包裹在对象中
+// Good - Array wrapped in object
 const listings = await page.extract({
   instruction: "Extract all apartment listings",
   schema: z.object({
@@ -238,10 +238,10 @@ const listings = await page.extract({
   })
 });
 
-// Bad - 裸数组
+// Bad - Bare array
 const listings = await page.extract({
   instruction: "Extract apartment listings",
-  schema: z.array(z.string()) // 不要这样用
+  schema: z.array(z.string()) // 不要这样做
 });
 ```
 
@@ -249,7 +249,7 @@ const listings = await page.extract({
 from pydantic import BaseModel
 from typing import List
 
-# Good - 将数组包裹在对象中
+# Good - Array wrapped in object
 class Apartment(BaseModel):
     address: str
     rent: float
@@ -262,24 +262,24 @@ listings = await page.extract(
   schema=Listings
 )
 
-# Bad - 裸数组（不支持）
-# 不要这样用——数组必须包裹在对象中
+# Bad - Bare array (not supported)
+# 不要这样做——数组必须包裹在对象中
 ```
 </CodeGroup>
 
-### 使用正确的 URL 类型
+### 使用合适的 URL 类型
 
-指定 URL 类型以指示 Stagehand 提取 URL。没有正确的 URL 类型时，Stagehand 不会提取 URL。
+通过指定 URL 类型来告知 Stagehand 提取链接。未使用合适的 URL 类型时，Stagehand 不会提取 URL。
 
 <CodeGroup>
 ```typescript TypeScript
-// Good - 明确让 Stagehand 提取 URL
+// Good - Tells Stagehand to extract URLs
 const links = await page.extract({
   instruction: "Extract navigation links",
   schema: z.object({
     links: z.array(z.object({
       text: z.string(),
-      url: z.string().url() // 提取 URL 所必需
+      url: z.string().url() // 进行 URL 提取所必需
     }))
   })
 });
@@ -289,10 +289,10 @@ const links = await page.extract({
 from pydantic import BaseModel, HttpUrl
 from typing import List
 
-# Good - 明确让 Stagehand 提取 URL
+# Good - Tells Stagehand to extract URLs
 class Link(BaseModel):
     text: str
-    url: HttpUrl  # 提取 URL 所必需
+    url: HttpUrl  # 进行 URL 提取所必需
 
 class Links(BaseModel):
     links: List[Link]
@@ -304,13 +304,13 @@ links = await page.extract(
 ```
 </CodeGroup>
 
-## observe 方法
+## Observe 方法
 
-使用 `observe()` 在执行操作前发现可执行元素。
+在执行操作前，使用 `observe()` 先发现可执行元素。
 
 ### 先检查元素
 
-在执行前先确认元素是否存在，避免出错。
+在执行前确认元素是否存在，以避免错误。
 
 <CodeGroup>
 ```typescript TypeScript
@@ -339,95 +339,95 @@ else:
 
 <CodeGroup>
 ```typescript TypeScript
-// 推荐 - 明确元素类型
+// 推荐 —— 指定具体元素类型
 const submitButtons = await page.observe("Find submit button in the form");
 const dropdowns = await page.observe("Find the state dropdown menu");
 
-// 不推荐 - 过于模糊
+// 不推荐 —— 表述过于模糊
 const elements = await page.observe("Find submit stuff");
 const things = await page.observe("Find state selection");
 ```
 
 ```python Python
-# 推荐 - 明确元素类型
+# 推荐 —— 指定具体元素类型
 submit_buttons = await page.observe("Find submit button in the form")
 dropdowns = await page.observe("Find the state dropdown menu")
 
-# 不推荐 - 过于模糊
+# 不推荐 —— 表述过于模糊
 elements = await page.observe("Find submit")
 things = await page.observe("Find state selection")
 ```
 </CodeGroup>
 
-## agent() 方法
+## Agent 方法
 
-在处理复杂的多步工作流时使用 `agent()`。请提供明确详尽的指令，并设置合适的限制。
+在处理复杂的多步骤工作流时使用 `agent()`。请提供详尽的指令并设置合理的限制。
 
-### 先导航再执行
+### 先导航
 
-不要把导航步骤写进 agent 任务里，单独处理导航。
+不要在 agent 任务中包含导航步骤。请将导航单独处理。
 
 <CodeGroup>
 ```typescript TypeScript
-// 推荐 - 先导航
+// Good - 先导航
 await page.goto('https://amazon.com');
 await agent.execute('Search for wireless headphones under $100 and add the best rated one to cart');
 
-// 不推荐 - 将导航写进任务
+// Bad - 在任务中包含导航
 await agent.execute('Go to Amazon, search for headphones, and add one to cart');
 ```
 
 ```python Python
-# 推荐 - 先导航
+# Good - 先导航
 await page.goto('https://amazon.com')
 await agent.execute('Search for wireless headphones under $100 and add the best rated one to cart')
 
-# 不推荐 - 将导航写进任务
+# Bad - 在任务中包含导航
 await agent.execute('Go to Amazon, search for headphones, and add one to cart')
 ```
 </CodeGroup>
 
-### 指令要高度具体
+### 尽量具体
 
 越具体的指令，效果越好。
 
 <CodeGroup>
 ```typescript TypeScript
-// 推荐 - 具体且详细
+// Good - 详细指令
 await agent.execute({
   instruction: "Find Italian restaurants in Brooklyn that are open after 10pm, have outdoor seating, and are rated 4+ stars. Save the top 3 results.",
   maxSteps: 25
 });
 
-// 不推荐 - 含糊不清
+// Bad - 指令含糊
 await agent.execute("Find some good restaurants");
 ```
 
 ```python Python
-# 推荐 - 具体且详细
+# Good - 详细指令
 await agent.execute(
   instruction="Find Italian restaurants in Brooklyn that are open after 10pm, have outdoor seating, and are rated 4+ stars. Save the top 3 results.",
   max_steps=25
 )
 
-# 不推荐 - 含糊不清
+# Bad - 指令含糊
 await agent.execute("Find some good restaurants")
 ```
 </CodeGroup>
 
-### 设置合理的步数上限
+### 设定合适的步骤上限
 
-根据任务复杂度匹配步数上限。
+根据任务复杂度匹配步骤上限。
 
 <CodeGroup>
 ```typescript TypeScript
-// 简单任务 - 步数更少
+// 简单任务 - 步骤更少
 await agent.execute({
   instruction: "Subscribe to the newsletter with email 'user@example.com'",
   maxSteps: 10
 });
 
-// 复杂任务 - 步数更多
+// 复杂任务 - 步骤更多
 await agent.execute({
   instruction: "Research and compare 5 project management tools with pricing and features",
   maxSteps: 50
@@ -435,13 +435,13 @@ await agent.execute({
 ```
 
 ```python Python
-# 简单任务 - 步数更少
+# 简单任务 - 步骤更少
 await agent.execute(
   instruction="Subscribe to the newsletter with email 'user@example.com'",
   max_steps=10
 )
 
-# 复杂任务 - 步数更多
+# 复杂任务 - 步骤更多
 await agent.execute(
   instruction="Research and compare 5 project management tools with pricing and features",
   max_steps=50
@@ -449,45 +449,45 @@ await agent.execute(
 ```
 </CodeGroup>
 
-### 包含成功判定标准
+### 包含完成判据
 
-明确告知 agent 何时视为完成。
+告诉 agent 如何判断任务已完成。
 
 <CodeGroup>
 ```typescript TypeScript
-// 推荐 - 明确的成功标准
+// Good - 明确的完成判据
 await agent.execute({
   instruction: "Add 3 smartphone cases to cart and confirm the cart shows exactly 3 items with total price",
   maxSteps: 20
 });
 
-// 不推荐 - 无验证
+// Bad - 无验证
 await agent.execute("Add some items to cart");
 ```
 
 ```python Python
-# 推荐 - 明确的成功标准
+# Good - 明确的完成判据
 await agent.execute(
   instruction="Add 3 smartphone cases to cart and confirm the cart shows exactly 3 items with total price",
   max_steps=20
 )
 
-# 不推荐 - 无验证
+# Bad - 无验证
 await agent.execute("Add some items to cart")
 ```
 </CodeGroup>
 
-## 常见错误避免指南
+## 常见错误与避免方法
 
-- **合并多个动作** - 每次仅让一次 `act()` 调用执行一个动作
-- **描述不够具体** - 明确指出要交互的目标元素
-- **暴露敏感数据** - 凭据务必通过变量传递
-- **跳过验证** - 继续之前先校验结果
+- **合并多个操作** - 每次仅让 `act()` 执行一个操作
+- **描述不够具体** - 清楚指明要交互的具体元素
+- **暴露敏感数据** - 凭证务必通过变量传递
+- **跳过验证** - 继续之前先检查结果
 
 ## 测试你的提示词
 
 1. **从简单开始** - 先验证基础功能
-2. **逐步增加复杂度** - 逐步扩展到复杂的工作流
-3. **监控结果** - 通过日志了解实际发生情况
-4. **根据失败迭代** - 失效时优化提示词
-请记住：高质量提示词来自持续迭代。拿不准时，与其模糊不清，不如更具体。
+2. **逐步增加复杂度** - 逐步扩展至复杂工作流
+3. **监控结果** - 通过日志定位与理解行为
+4. **基于失败迭代** - 当效果不佳时优化提示词
+请记住：高质量的提示是迭代产生的。拿不准时，与其模糊不清，不如更具体。
