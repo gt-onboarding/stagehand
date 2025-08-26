@@ -20,8 +20,8 @@ jobs:
 
       - uses: generaltranslation/translate@v0
         with:
+          app_directory: './docs'
           gt_api_key: ${{ secrets.GT_API_KEY }}
           gt_project_id: ${{ secrets.GT_PROJECT_ID }}
-          config: './docs/gt.config.json'
           inline: false
           pr_branch: 'gt-translate/${{ github.ref_name }}'
