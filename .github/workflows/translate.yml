@@ -22,6 +22,6 @@ jobs:
         with:
           app_directory: './docs'
           gt_api_key: ${{ secrets.GT_API_KEY }}
-          gt_project_id: ${{ secrets.GT_PROJECT_ID }}
+          gt_project_id: ${{ vars.GT_PROJECT_ID }}
           inline: false
           pr_branch: 'gt-translate/${{ github.ref_name }}'
