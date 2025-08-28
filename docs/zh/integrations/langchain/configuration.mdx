@@ -1,14 +1,14 @@
 ---
 title: "LangChain JS 配置"
 sidebarTitle: 配置
-description: "将 Stagehand 与 LangChain JS 集成，构建智能网页自动化代理"
+description: "将 Stagehand 与 LangChain JS 配置在一起，创建智能网页自动化代理"
 ---
 
-本指南将带你将 Stagehand 与 LangChain JS 集成，并使用自然语言指令构建强大的网页自动化工作流。
+本指南将带你逐步完成将 Stagehand 与 LangChain JS 集成的流程，并使用自然语言指令构建强大的网页自动化工作流程。
 
 ## 步骤 1：安装依赖
 
-安装用于集成 LangChain JS 与 Stagehand 的必需包：
+为 LangChain JS 与 Stagehand 的集成安装所需包：
 
 ```bash
 npm install @langchain/langgraph @langchain/community @langchain/core @browserbasehq/stagehand
@@ -16,7 +16,7 @@ npm install @langchain/langgraph @langchain/community @langchain/core @browserba
 
 ## 步骤 2：配置环境变量
 
-用于远程浏览器自动化时，请设置 Browserbase 凭据：
+要进行远程浏览器自动化，请设置你的 Browserbase 凭证：
 
 ```bash
 BROWSERBASE_API_KEY="your-browserbase-api-key"
@@ -25,7 +25,7 @@ BROWSERBASE_PROJECT_ID="your-browserbase-project-id"
 
 ## 步骤 3：创建 Stagehand 实例
 
-使用你首选的配置初始化 Stagehand：
+使用你偏好的配置初始化 Stagehand：
 
 ```typescript
 import { Stagehand } from "@browserbasehq/stagehand";
@@ -57,16 +57,16 @@ const stagehandToolkit = await StagehandToolkit.fromStagehand(stagehand);
 
 ## 步骤 5：使用单个工具
 
-该工具包提供四个面向网页自动化的专用工具：
+该工具包提供四个用于网页自动化的专用工具：
 
 ### 可用工具
 
 - **stagehand_navigate**：跳转到指定 URL
 - **stagehand_act**：执行浏览器操作（点击、输入等）
 - **stagehand_extract**：基于模式提取结构化数据
-- **stagehand_observe**：分析页面元素与可执行操作
+- **stagehand_observe**：分析页面元素及可执行操作
 
-### 基本用法
+### 基本工具用法
 
 ```typescript
 // 访问网站
@@ -75,7 +75,7 @@ const navigateTool = stagehandToolkit.tools.find(
 );
 await navigateTool.invoke("https://www.google.com");
 
-// 执行动作
+// 执行操作
 const actionTool = stagehandToolkit.tools.find(
     (t) => t.name === "stagehand_act"
 );
@@ -91,9 +91,9 @@ const result = await observeTool.invoke(
 console.log(JSON.parse(result));
 ```
 
-## 步骤 6：构建 LangGraph 代理
+## 第 6 步：构建 LangGraph 代理
 
-集成 LangGraph 以编排复杂的自动化工作流：
+集成 LangGraph，以实现复杂的自动化流程：
 
 ```typescript
 npm install @langchain/langgraph @langchain/community @langchain/core @langchain/openai @browserbasehq/stagehand
@@ -111,12 +111,12 @@ const agent = createReactAgent({
     tools: stagehandToolkit.tools,
 });
 
-// 执行一个复杂工作流
+// 执行复杂流程
 const result = await agent.invoke({
     messages: [
         {
             role: "user", 
-            content: "前往 example.com，找到联系表单，并提取所有表单字段"
+            content: "访问 example.com，找到联系表单，并提取所有表单字段"
         }
     ]
 });
@@ -151,7 +151,7 @@ try {
 }
 ```
 
-## 示例工作流
+## 示例工作流程
 
 <Tabs>
   <Tab title="数据提取" value="data-extraction" label="TypeScript">
@@ -167,9 +167,9 @@ try {
             content: `
                 访问 news-website.com 并提取：
                 1. 所有文章标题
-                2. 发布日期
+                2. 发表日期
                 3. 作者姓名
-                按结构化 JSON 格式输出
+                请按结构化 JSON 格式输出
             `
         }]
     });
@@ -186,11 +186,11 @@ try {
         messages: [{
             role: "user", 
             content: `
-                访问 contact-form.com 并：
+                前往 contact-form.com，并执行：
                 1. 填写联系表单：
-                   - Name: John Doe
-                   - Email: john@example.com
-                   - Message: 咨询服务相关事宜
+                   - 姓名：John Doe
+                   - 邮箱：john@example.com
+                   - 留言：咨询相关服务
                 2. 提交表单
                 3. 确认提交成功
             `
@@ -209,10 +209,10 @@ try {
         messages: [{
             role: "user",
             content: `
-                按以下步骤进行产品定价调研：
-                1. 访问 competitor1.com 并提取定价信息
-                2. 访问 competitor2.com 并提取定价信息
-                3. 比较功能与价格
+                通过以下方式调研产品定价：
+                1. 访问 competitor1.com，提取定价信息
+                2. 访问 competitor2.com，提取定价信息
+                3. 对比功能与价格
                 4. 提供总结性分析
             `
         }]

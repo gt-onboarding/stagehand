@@ -1,32 +1,38 @@
 ---
 title: 成本优化  
 sidebarTitle: 成本优化
-description: 在保持自动化性能的同时将成本最小化
+description: 在保持自动化性能的同时，将成本降至最低
 ---
 
-在 Stagehand 中进行成本优化需要在 LLM 推理成本与浏览器基础设施成本之间取得平衡。本文提供实用策略，帮助降低自动化成本。
+在 Stagehand 中，成本优化意味着在 LLM 推理成本与浏览器基础设施成本之间取得平衡。本指南提供务实可行的策略，帮助你降低自动化开销。
 
-## 速赢技巧
+<div id="quick-wins">
+  ## 速效优化
+</div>
 
-先从这些简单的优化开始，可有效降低成本：
+先从这些简单且能降低成本的优化着手：
 
-### 1. 为任务选择合适的模型
+<div id="1-use-the-right-model-for-the-job">
+  ### 1. 为任务选择合适的模型
+</div>
 
-我们不建议在简单任务上使用更大、更高价的模型。查看我们的[评估结果](https://stagehand.dev/evals)，了解不同任务类型下的模型性能与成本对比。
+不建议在简单任务中使用更大、更昂贵的模型。查看我们的[评估结果](https://stagehand.dev/evals)，了解不同任务类型下的模型性能与成本对比。
 
 <CardGroup cols={2}>
   <Card title="模型选择指南" icon="brain" href="/zh/configuration/models">
-    按照预算与精度需求选择合适的 LLM
+    按预算与准确性需求选择合适的 LLM
   </Card>
 
   <Card title="评估结果" icon="chart-line" href="https://www.stagehand.dev/evals">
-    查看不同模型在不同任务上的表现
+    查看不同模型在各类任务中的表现
   </Card>
 </CardGroup>
 
-### 2. 启用智能缓存
+<div id="2-implement-smart-caching">
+  ### 2. 实施智能缓存
+</div>
 
-缓存成功的操作以避免重复调用 LLM。可在我们的[缓存指南](/zh/best-practices/caching)中了解基础用法：
+缓存成功的操作以避免重复的 LLM 调用。基础用法详见我们的[缓存指南](/zh/best-practices/caching)：
 
 <CodeGroup>
   ```typescript TypeScript
@@ -60,13 +66,15 @@ description: 在保持自动化性能的同时将成本最小化
 
 <CardGroup cols={1}>
   <Card title="缓存指南" icon="database" href="/zh/best-practices/caching">
-    通过智能操作缓存与观察策略降低成本
+    通过智能操作缓存与模式观察降低成本
   </Card>
 </CardGroup>
 
-### 3. 优化浏览器会话
+<div id="3-optimize-browser-sessions">
+  ### 3. 优化浏览器会话
+</div>
 
-尽可能复用会话并设置合理的超时。详见[浏览器配置](/zh/configuration/browser)：
+尽量复用会话，并设置合适的超时时间。详情参见[浏览器配置](/zh/configuration/browser)：
 
 <CodeGroup>
   ```typescript TypeScript
@@ -92,20 +100,24 @@ description: 在保持自动化性能的同时将成本最小化
 
 <CardGroup cols={1}>
   <Card title="Browserbase 成本优化" icon="window-maximize" href="https://docs.browserbase.com/guides/cost-optimization">
-    优化 Browserbase 基础设施成本与会话管理
+    优化 Browserbase 的基础设施成本与会话管理
   </Card>
 </CardGroup>
 
-## 高级策略
+<div id="advanced-strategies">
+  ## 高级策略
+</div>
 
-### 智能模型切换
+<div id="intelligent-model-switching">
+  ### 智能模型切换
+</div>
 
-针对简单任务自动回退到更便宜的模型：
+对简单任务自动降级为更低成本的模型：
 
 <CodeGroup>
   ```typescript TypeScript
-  // 根据任务复杂度从低到高选择模型
-  // 参见 stagehand.dev/evals 获取性能/成本对比
+  // 根据任务复杂度从低到高依次尝试模型
+  // 性能对比见 stagehand.dev/evals
   async function smartAct(page: Page, prompt: string) {
     const models = ["cheaper-model", "premium-model"];
     
@@ -124,8 +136,8 @@ description: 在保持自动化性能的同时将成本最小化
   ```
 
   ```python Python
-  # 根据任务复杂度从低到高选择模型
-  # 参见 stagehand.dev/evals 获取性能/成本对比
+  # 根据任务复杂度从低到高依次尝试模型
+  # 性能对比见 stagehand.dev/evals
   async def smart_act(page, prompt: str):
       models = ["cheaper-model", "premium-model"]
       
@@ -142,7 +154,9 @@ description: 在保持自动化性能的同时将成本最小化
   ```
 </CodeGroup>
 
-### 会话池化
+<div id="session-pooling">
+  ### 会话池化
+</div>
 
 在多个任务间复用浏览器会话：
 
@@ -180,20 +194,22 @@ description: 在保持自动化性能的同时将成本最小化
   ```
 </CodeGroup>
 
-## 成本监控
+<div id="cost-monitoring">
+  ## 成本监控
+</div>
 
-跟踪支出以发现优化机会。有关详细指标，请参阅我们的[可观测性指南](/zh/configuration/observability)：
+跟踪支出以发现优化空间。查看我们的[可观测性指南](/zh/configuration/observability)以获取详细指标：
 
 <CodeGroup>
   ```typescript TypeScript
-  // 监控 token 使用情况
+  // 监控令牌用量
   const metrics = stagehand.metrics;
   console.log(`Total tokens: ${metrics.totalPromptTokens + metrics.totalCompletionTokens}`);
   console.log(`Estimated cost: $${(metrics.totalPromptTokens + metrics.totalCompletionTokens) * 0.00001}`);
   ```
 
   ```python Python
-  # 监控 token 使用情况
+  # 监控令牌用量
   metrics = stagehand.metrics
   total_tokens = metrics['total_prompt_tokens'] + metrics['total_completion_tokens']
   print(f"Total tokens: {total_tokens}")
@@ -207,9 +223,11 @@ description: 在保持自动化性能的同时将成本最小化
   </Card>
 </CardGroup>
 
-## 预算控制
+<div id="budget-controls">
+  ## 预算控制
+</div>
 
-设置支出上限以避免意外费用：
+设置支出上限，避免出现意外费用：
 
 <CodeGroup>
   ```typescript TypeScript
@@ -223,7 +241,7 @@ description: 在保持自动化性能的同时将成本最小化
     
     checkBudget(estimatedCost: number): void {
       if (this.dailySpend + estimatedCost > this.maxDailyBudget) {
-        throw new Error(`Daily budget exceeded: $${this.maxDailyBudget}`);
+        throw new Error(`已超出每日预算：$${this.maxDailyBudget}`);
       }
       this.dailySpend += estimatedCost;
     }
@@ -238,27 +256,29 @@ description: 在保持自动化性能的同时将成本最小化
       
       def check_budget(self, estimated_cost: float) -> None:
           if self.daily_spend + estimated_cost > self.max_daily_budget:
-              raise Exception(f"Daily budget exceeded: ${self.max_daily_budget}")
+              raise Exception(f"已超出每日预算：${self.max_daily_budget}")
           self.daily_spend += estimated_cost
   ```
 </CodeGroup>
 
-## 相关资源
+<div id="related-resources">
+  ## 相关资源
+</div>
 
 <CardGroup cols={2}>
   <Card title="模型选择指南" icon="brain" href="/zh/configuration/models">
-    按预算与精度要求选择合适的 LLM
+    按预算与精度需求选择合适的 LLM
   </Card>
 
   <Card title="缓存策略" icon="database" href="/zh/best-practices/caching">
-    通过智能动作缓存与 observe 模式降低成本
+    通过智能动作缓存降低成本并洞察模式
   </Card>
 
   <Card title="可观测性与指标" icon="chart-line" href="/zh/configuration/observability">
-    实时监控使用趋势并跟踪成本
+    监控使用趋势并实时跟踪成本
   </Card>
 
   <Card title="浏览器配置" icon="window-maximize" href="/zh/configuration/browser">
-    优化 Browserbase 基础设施成本与会话管理
+    优化 Browserbase 的基础设施成本与会话管理
   </Card>
 </CardGroup>

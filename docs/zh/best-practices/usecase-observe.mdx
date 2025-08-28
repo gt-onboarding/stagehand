@@ -1,18 +1,22 @@
 ---
-sidebarTitle: 使用场景
+sidebarTitle: 使用案例
 ---
 
-## 真实场景用例
+<div id="real-world-use-cases">
+  ## 真实世界用例
+</div>
 
-### 电商商品发现
+<div id="e-commerce-product-discovery">
+  ### 电商商品发现
+</div>
 
 ```typescript
-// 发现商品的交互元素
+// 发现商品交互元素
 const productActions = await page.observe({
   instruction: "Find add to cart buttons, size selectors, and product images"
 });
 
-// 按类型归类动作
+// 按类型对操作进行分类
 const cartButtons = productActions.filter(a => 
   a.description.toLowerCase().includes('cart')
 );
@@ -29,10 +33,12 @@ if (cartButtons.length > 0) {
 }
 ```
 
-### 表单处理与校验
+<div id="form-handling-validation">
+  ### 表单处理与验证
+</div>
 
 ```typescript
-// 填写前先分析表单结构
+// 填写前分析表单结构
 const formElements = await page.observe({
   instruction: "Find form fields, validation messages, and submit buttons"
 });
@@ -47,19 +53,21 @@ console.log(`Found ${requiredFields.length} required fields to complete`);
 // 系统化填写表单
 for (const field of requiredFields) {
   await page.act(field);
-  // 根据字段类型输入合适的内容
+  // 根据字段类型填入合适的内容
 }
 ```
 
-### 动态内容与 SPA 导航
+<div id="dynamic-content-spa-navigation">
+  ### 动态内容与 SPA 导航
+</div>
 
 ```typescript
-// 等待并发现动态加载内容
+// 等待并发现动态加载的内容
 await page.waitForLoadState('networkidle');
 
 const dynamicElements = await page.observe({
   instruction: "Find newly loaded content, infinite scroll triggers, or loading indicators",
-  domSettleTimeoutMs: 15000 // 为动态内容适当延长等待时间
+  domSettleTimeoutMs: 15000 // 动态内容延长等待时间
 });
 
 // 处理无限滚动
@@ -75,16 +83,18 @@ if (scrollTriggers.length > 0) {
 }
 ```
 
-### 多步工作流规划
+<div id="multi-step-workflow-planning">
+  ### 多步骤工作流规划
+</div>
 
 ```typescript
-// 预先规划完整的结账流程
+// 预先规划整个结账流程
 async function planCheckoutWorkflow() {
-  // 步骤 1：购物车页分析
+  // 步骤 1：购物车页面分析
   await page.goto('/cart');
   const cartActions = await page.observe("Find checkout and cart modification options");
   
-  // 步骤 2：结账页分析
+  // 步骤 2：结账页面分析
   const checkoutButton = cartActions.find(a => a.description.includes('checkout'));
   if (checkoutButton) await page.act(checkoutButton);
   
@@ -98,7 +108,7 @@ async function planCheckoutWorkflow() {
   return { shippingFields, paymentFields, submitButton };
 }
 
-// 执行已规划的工作流
+// 执行计划的工作流
 const workflow = await planCheckoutWorkflow();
-// 填写顺序：收货信息 → 支付信息 → 提交
+// 按顺序填写：配送 → 支付 → 提交
 ```

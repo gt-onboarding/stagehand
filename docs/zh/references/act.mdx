@@ -21,7 +21,7 @@ icon: "arrow-pointer"
     // 使用 ActOptions
     await page.act(options: ActOptions): Promise<ActResult>
 
-    // 执行已观察到的操作
+    // 执行已观测到的操作
     await page.act(observeResult: ObserveResult): Promise<ActResult>
     ```
 
@@ -45,7 +45,7 @@ icon: "arrow-pointer"
     # 字符串指令
     await page.act(instruction: str) -> ActResult
 
-    # 带参数
+    # 传入参数
     await page.act(
         instruction: str,
         variables: Dict[str, str] = None,
@@ -56,7 +56,7 @@ icon: "arrow-pointer"
         iframes: bool = None,
     ) -> ActResult
 
-    # 执行已观察到的操作
+    # 执行已观测到的操作
     await page.act(observe_result: ObserveResult) -> ActResult
     ```
   </Tab>
@@ -65,7 +65,7 @@ icon: "arrow-pointer"
 ### 参数
 
 <ParamField path="action" type="string" required>
-  以自然语言描述要执行的操作。
+  要执行的操作的自然语言描述。
 </ParamField>
 
 <ParamField path="variables" type="Record<string, string>" optional>
@@ -77,15 +77,15 @@ icon: "arrow-pointer"
 </ParamField>
 
 <ParamField path="modelClientOptions" type="ClientOptions" optional>
-  模型相关的配置选项。
+  模型特定的配置选项。
 
-  **选项：** `temperature`、`maxTokens`、`apiKey`
+  选项：`temperature`、`maxTokens`、`apiKey`
 </ParamField>
 
 <ParamField path="domSettleTimeoutMs" type="number" optional>
   在尝试执行操作前等待 DOM 稳定的最长时间。
 
-  **默认值：** `30000`
+  默认值：`30000`
 </ParamField>
 
 <ParamField path="timeoutMs" type="number" optional>
@@ -93,13 +93,13 @@ icon: "arrow-pointer"
 </ParamField>
 
 <ParamField path="iframes" type="boolean" optional>
-  如果目标元素位于 iframe 中，请设为 `true`。
+  如果目标元素位于 iframe 内，请设置为 `true`。
 
-  **默认值：** `false`
+  默认值：`false`
 </ParamField>
 
 <ParamField path="observeResult" type="ObserveResult" optional>
-  直接执行先前通过 observe() 得到的操作（启用 Self‑healing）。
+  直接执行先前观测到的操作（启用自愈）。
 </ParamField>
 
 ### 返回值 `Promise<ActResult>`
@@ -109,7 +109,7 @@ icon: "arrow-pointer"
 </ParamField>
 
 <ParamField path="message" type="string" required>
-  关于操作执行的详细信息。
+  操作执行的详细信息。
 </ParamField>
 
 <ParamField path="action" type="string" required>
@@ -120,7 +120,7 @@ icon: "arrow-pointer"
 {
   success: true,
   message: 'Action [scrollTo] performed successfully on selector: /html[1]',
-  action: 'Scrollable area of the page where user can navigate to the pricing section or other parts of the page'
+  action: '页面中可滚动的区域，用户可在此跳转到定价部分或页面的其他区域'
 }
 ```
 
@@ -129,4 +129,4 @@ icon: "arrow-pointer"
 - **TimeoutError** - 操作超出超时限制
 - **ElementNotFoundError** - 无法定位目标元素
 - **ActionFailedError** - 操作未能完成
-- **StagehandError** - Stagehand 特定的通用错误
+- **StagehandError** - Stagehand 的通用错误

@@ -59,6 +59,7 @@
     "experimentalLocalizeStaticImports": true,
     "experimentalLocalizeStaticUrls": true,
     "docsHideDefaultLocaleImport": true,
-    "experimentalHideDefaultLocale": true
+    "experimentalHideDefaultLocale": true,
+    "experimentalAddHeaderAnchorIds": "mintlify"
   }
 }

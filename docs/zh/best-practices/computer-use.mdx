@@ -1,9 +1,11 @@
 ---
-title: Computer Use 代理
-description: 在 Stagehand 中仅用一行代码集成 Anthropic 和 OpenAI 的 Computer Use API。
+title: 电脑操作代理
+description: 在 Stagehand 中仅用一行代码即可集成 Anthropic 和 OpenAI 的电脑操作 API。
 ---
 
-## 什么是 Computer Use Agent？
+<div id="what-is-a-computer-use-agent">
+  ## 什么是 Computer Use Agent？
+</div>
 
 <iframe
   width="100%"
@@ -16,26 +18,30 @@ description: 在 Stagehand 中仅用一行代码集成 Anthropic 和 OpenAI 的 
 ></iframe>
 你可能听说过 [Claude Computer Use](https://www.anthropic.com/news/3-5-models-and-computer-use) 或 [OpenAI 的 Computer Using Agent](https://openai.com/index/computer-using-agent/)。
 
-它们是强大的工具，能够把自然语言转化为计算机上的具体操作。但如果没有额外支持，你需要自己编写代码，将这些操作转换为 Playwright 命令。
+这些强大的工具可以把自然语言转化为计算机上的实际操作。不过，在此之外，你还需要自己编写代码，把这些操作转换为 Playwright 命令。
 
-Stagehand 不仅负责执行 Computer Use 的输出，还支持你仅用一行代码在 OpenAI 与 Anthropic 的模型之间无缝切换。
+Stagehand 不仅负责执行 Computer Use 的输出，还能让你仅用一行代码在 OpenAI 与 Anthropic 的模型之间热切换。
 
-## 如何在 Stagehand 中使用 Computer Use Agent
+<div id="how-to-use-a-computer-use-agent-in-stagehand">
+  ## 如何在 Stagehand 中使用 Computer Use Agent
+</div>
 
-在 Stagehand 中，使用 Computer Use Agent 只需一行代码：
+Stagehand 让你只需一行代码即可使用 Computer Use Agents：
 
 <Note>
-**重要：请配置浏览器窗口尺寸**
+**重要！请配置浏览器尺寸**
 
-Computer Use Agent 常会返回屏幕点击用的 XY 坐标，因此需要预先配置浏览器窗口尺寸。
+Computer Use Agents 往往会返回在屏幕上需要点击的 XY 坐标，因此你需要先配置浏览器尺寸。
 
-若未指定，默认尺寸为 1024x768。你也可以在 `browserbaseSessionCreateParams` 或 `localBrowserLaunchOptions` 选项中进行配置。
+如果未指定，默认浏览器尺寸为 1024×768。你也可以在 `browserbaseSessionCreateParams` 或 `localBrowserLaunchOptions` 选项中进行配置。
 </Note>
 
 
-### 配置浏览器窗口尺寸
+<div id="configuring-browser-dimensions">
+  ### 配置浏览器尺寸
+</div>
 
-不同运行环境的浏览器配置方式不同：
+不同运行环境的浏览器配置有所不同：
 
 <Tabs>
 <Tab title="BROWSERBASE">
@@ -45,8 +51,8 @@ import { Stagehand } from "@browserbasehq/stagehand";
 
 const stagehand = new Stagehand({
 	env: "BROWSERBASE",
-  	apiKey: process.env.BROWSERBASE_API_KEY /* 用于认证的 API key */,
-    projectId: process.env.BROWSERBASE_PROJECT_ID /* 项目标识符 */,
+  	apiKey: process.env.BROWSERBASE_API_KEY /* API key for authentication */,
+    projectId: process.env.BROWSERBASE_PROJECT_ID /* Project identifier */,
   
     browserbaseSessionCreateParams: {
       projectId: process.env.BROWSERBASE_PROJECT_ID!,
@@ -68,8 +74,8 @@ from stagehand import Stagehand, StagehandConfig
 
 stagehand = Stagehand(StagehandConfig(
     env="BROWSERBASE",
-    api_key=os.getenv("BROWSERBASE_API_KEY"),  # 用于认证的 API key
-    project_id=os.getenv("BROWSERBASE_PROJECT_ID"),  # 项目标识符
+    api_key=os.getenv("BROWSERBASE_API_KEY"),  # API key for authentication
+    project_id=os.getenv("BROWSERBASE_PROJECT_ID"),  # Project identifier
     
     browserbase_session_create_params={
         "projectId": os.getenv("BROWSERBASE_PROJECT_ID"),
@@ -125,60 +131,62 @@ await stagehand.init()
 </Tab>
 </Tabs>
 
-### 指挥你的 Computer Use Agent
+<div id="direct-your-computer-use-agent">
+  ### 指挥你的 Computer Use Agent
+</div>
 
-在代理上调用 `execute` 来分配任务。
+在 agent 上调用 `execute` 来为其分配任务。
 
 <CodeGroup>
 ```typescript TypeScript
-// 访问网站
+// Navigate to a website
 await stagehand.page.goto("https://www.google.com");
 
 const agent = stagehand.agent({
-	// 你可以使用 OpenAI 或 Anthropic
+	// You can use either OpenAI or Anthropic
 	provider: "anthropic",
-	// 要使用的模型（OpenAI 使用 computer-use-preview）
+	// The model to use (computer-use-preview for OpenAI)
 	model: "claude-sonnet-4-20250514",
 
-	// 自定义系统提示
+	// Customize the system prompt
 	instructions: `You are a helpful assistant that can use a web browser.
 	Do not ask follow up questions, the user will trust your judgement.`,
 
-	// 自定义 API key
+	// Customize the API key
 	options: {
 		apiKey: process.env.ANTHROPIC_API_KEY,
 	},
 });
 
-// 执行代理
+// Execute the agent
 await agent.execute("Apply for a library card at the San Francisco Public Library");
 ```
 
 ```python Python
 import os
 
-# 访问网站
+# Navigate to a website
 await stagehand.page.goto("https://www.google.com")
 
 agent = stagehand.agent({
-    # 要使用的模型
+    # The model to use
     model="computer-use-preview",
 
-    # 自定义系统提示
+    # Customize the system prompt
     instructions="You are a helpful assistant that can use a web browser. Do not ask follow up questions, the user will trust your judgement.",
 
-    # 自定义 API key
+    # Customize the API key
     options={
         "apiKey": os.getenv("ANTHROPIC_API_KEY"),
     },
 })
 
-# 执行代理
+# Execute the agent
 await agent.execute("Apply for a library card at the San Francisco Public Library")
 ```
 </CodeGroup>
 
-你也可以设置代理可执行的最大步数：
+你也可以通过以下方式设置 agent 的最大执行步数：
 
 <CodeGroup>
 ```typescript TypeScript

@@ -1,12 +1,14 @@
 ---
 title: 日志与调试
 sidebarTitle: 日志
-description: 为 Stagehand 工作流配置日志、调试与错误跟踪
+description: 为 Stagehand 工作流设置日志、调试与错误监控
 ---
 
-Stagehand（AI 增强浏览器自动化框架）提供全面的日志能力，助你调试自动化工作流、跟踪执行并定位问题。你可以在开发与生产环境中配置日志级别、结构化输出和调试工具。
+Stagehand 提供完善的日志功能，帮助你调试自动化工作流、跟踪执行并诊断问题。可为开发与生产环境配置日志级别、结构化输出和调试工具。
 
-## 日志配置
+<div id="logging-configuration">
+  ## 日志配置
+</div>
 
 <CodeGroup>
 ```typescript TypeScript
@@ -28,17 +30,23 @@ stagehand = Stagehand(
 ```
 </CodeGroup>
 
-### 日志详细级别
+<div id="verbose-levels">
+  ### 日志详尽级别
+</div>
 
-- **Level 0**：仅错误——适用于生产环境的最少输出
-- **Level 1**：信息——包含成功操作与重要事件
-- **Level 2**：调试——包含内部操作在内的全面日志
+- **级别 0**：仅错误——适合生产环境的最小输出
+- **级别 1**：信息——包含成功操作和重要事件
+- **级别 2**：调试——涵盖内部操作在内的全面日志
 
-## 结构化日志
+<div id="structured-logging">
+  ## 结构化日志
+</div>
 
-### 日志行格式
+<div id="log-line-format">
+  ### 日志行格式
+</div>
 
-每条日志记录均包含结构化信息：
+每条日志条目包含结构化信息：
 
 <CodeGroup>
 ```typescript TypeScript
@@ -73,7 +81,9 @@ interface LogLine {
 ```
 </CodeGroup>
 
-### 自定义日志记录器
+<div id="custom-logger">
+  ### 自定义日志记录器
+</div>
 
 <CodeGroup>
 ```typescript TypeScript
@@ -101,17 +111,17 @@ class AdvancedLogger {
     // 控制台彩色输出
     console.log(`${color}[${logLine.category}]${reset} ${logLine.message}`);
     
-    // 若有，记录执行时间
+    // 若可用则记录执行时间
     if (logLine.auxiliary?.executionTime) {
       console.log(` ${logLine.auxiliary.executionTime.value}${logLine.auxiliary.executionTime.unit}`);
     }
     
-    // 记录附加上下文
+    // 记录额外上下文
     if (logLine.auxiliary && Object.keys(logLine.auxiliary).length > 0) {
       console.log('  Context:', JSON.stringify(logLine.auxiliary, null, 2));
     }
     
-    // 文件日志（可选）
+    // 写入文件日志（可选）
     if (this.logFile) {
       const logEntry = {
         timestamp,
@@ -155,20 +165,20 @@ class AdvancedLogger:
         color = colors.get(log_line.get('category', ''), '\033[0m')
         reset = '\033[0m'
         
-        // 控制台彩色输出
+        # 控制台彩色输出
         print(f"{color}[{log_line.get('category')}]{reset} {log_line.get('message')}")
         
-        # 若有，记录执行时间
+        // 若可用则记录执行时间
         if log_line.get('auxiliary', {}).get('execution_time'):
             exec_time = log_line['auxiliary']['execution_time']
             print(f"{exec_time['value']}{exec_time['unit']}")
         
-        # 记录附加上下文
+        # 记录额外上下文
         auxiliary = log_line.get('auxiliary', {})
         if auxiliary and len(auxiliary) > 0:
             print('  Context:', json.dumps(auxiliary, indent=2))
         
-        # 文件日志（可选）
+        # 写入文件日志（可选）
         if self.log_file:
             log_entry = {
                 'timestamp': timestamp,
@@ -187,9 +197,13 @@ stagehand = Stagehand(
 ```
 </CodeGroup>
 
-## 详细日志功能
+<div id="detailed-logging-features">
+  ## 详细日志功能
+</div>
 
-### LLM 推理日志
+<div id="llm-inference-logging">
+  ### LLM 推理日志
+</div>
 
 启用对所有 LLM 交互的详细日志记录：
 
@@ -197,7 +211,7 @@ stagehand = Stagehand(
 ```typescript TypeScript
 const stagehand = new Stagehand({
   env: "BROWSERBASE",
-  logInferenceToFile: true,  // 将创建 inference_summary/ 目录
+  logInferenceToFile: true,  // 创建 inference_summary/ 目录
   verbose: 2
 });
 ```
@@ -205,7 +219,7 @@ const stagehand = new Stagehand({
 ```python Python
 stagehand = Stagehand(
     env="BROWSERBASE",
-    log_inference_to_file=True,  # 将创建 inference_summary/ 目录
+    log_inference_to_file=True,  # 创建 inference_summary/ 目录
     verbose=2
 )
 ```
@@ -226,15 +240,20 @@ inference_summary/
     └── observe_summary.json       
 ```
 
-## 日志分析与调试
+<div id="log-analysis-debugging">
+  ## 日志分析与调试
+</div>
 
-### 常见日志模式
+<div id="common-log-patterns">
+  ### 常见日志模式
+</div>
+
 <Tabs>
   <Tab title="操作成功">
     ```json
     {
       "category": "action", 
-      "message": "act completed successfully",
+      "message": "操作成功完成",
       "level": 1,
       "auxiliary": {
         "executionTime": {"value": "1250", "unit": "ms"},
@@ -248,7 +267,7 @@ inference_summary/
     ```json
     {
       "category": "llm",
-      "message": "inference completed", 
+      "message": "推理完成", 
       "level": 1,
       "auxiliary": {
         "model": "gpt-4o",
@@ -262,7 +281,7 @@ inference_summary/
     ```json
     {
       "category": "action",
-      "message": "action failed: element not found",
+      "message": "操作失败：未找到元素",
       "level": 0, 
       "auxiliary": {
         "selector": "button[data-testid='submit']",
@@ -274,26 +293,28 @@ inference_summary/
   </Tab>
 </Tabs>
 
-## 最佳实践
+<div id="best-practices">
+  ## 最佳实践
+</div>
 
 <AccordionGroup>
 <Accordion title="开发环境">
-- 使用 `verbose: 2` 进行可视化调试
-- 启用浏览器 DevTools 以检查元素
-- 使用 `logInferenceToFile: true` 记录并捕获 LLM 决策
-- 尽早实施结构化日志
+- 将 `verbose: 2` 与可视化调试配合使用
+- 启用浏览器 DevTools 进行元素检查
+- 使用 `logInferenceToFile: true` 记录 LLM 决策
+- 尽早落地结构化日志
 </Accordion>
 
 <Accordion title="生产环境">
-- 使用 `verbose: 1` 在可见性与性能之间取得平衡
-- 实施错误跟踪与告警
+- 使用 `verbose: 1` 在可见性与性能间取得平衡
+- 部署错误追踪与告警
 - 使用结构化 JSON 日志
-- 监控会话成功率和执行时间
+- 监控会话成功率与执行时间
 </Accordion>
 
 <Accordion title="安全与合规">
 - 切勿记录凭据或敏感数据
-- 实施日志保留策略
+- 制定并执行日志保留策略
 - 保护日志文件和仪表盘
 </Accordion>
 </AccordionGroup>
