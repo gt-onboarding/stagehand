@@ -1,7 +1,7 @@
 ---
 title: act()
-description: 'act() 方法的完整 API 参考'
-icon: 'arrow-pointer'
+description: "act() 方法的完整 API 参考"
+icon: "arrow-pointer"
 ---
 
 <CardGroup cols={1}>
@@ -10,7 +10,7 @@ icon: 'arrow-pointer'
   </Card>
 </CardGroup>
 
-### 方法签名
+### 方法签名 {#method-signatures}
 
 <Tabs>
   <Tab title="TypeScript">
@@ -62,10 +62,10 @@ icon: 'arrow-pointer'
   </Tab>
 </Tabs>
 
-### 参数
+### 参数 {#parameters}
 
 <ParamField path="action" type="string" required>
-  以自然语言描述需要执行的操作。
+  要执行的动作的自然语言描述。
 </ParamField>
 
 <ParamField path="variables" type="Record<string, string>" optional>
@@ -73,23 +73,23 @@ icon: 'arrow-pointer'
 </ParamField>
 
 <ParamField path="modelName" type="AvailableModel" optional>
-  覆盖此操作的默认 LLM 模型。
+  覆盖此动作的默认 LLM 模型。
 </ParamField>
 
 <ParamField path="modelClientOptions" type="ClientOptions" optional>
-  模型特定的配置项。
+  模型专用的配置选项。
 
   **选项：** `temperature`、`maxTokens`、`apiKey`
 </ParamField>
 
 <ParamField path="domSettleTimeoutMs" type="number" optional>
-  在尝试执行操作前等待 DOM 稳定的最长时间。
+  在尝试执行动作前等待 DOM 稳定的最长时长。
 
   **默认值：** `30000`
 </ParamField>
 
 <ParamField path="timeoutMs" type="number" optional>
-  等待操作完成的最长时间。
+  等待动作完成的最长时长。
 </ParamField>
 
 <ParamField path="iframes" type="boolean" optional>
@@ -99,21 +99,21 @@ icon: 'arrow-pointer'
 </ParamField>
 
 <ParamField path="observeResult" type="ObserveResult" optional>
-  直接执行先前观察到的动作（启用 Self‑healing）。
+  直接执行先前 observe() 得到的动作（启用自愈能力）。
 </ParamField>
 
-### 返回 `Promise<ActResult>`
+### 返回值 `Promise<ActResult>` {#returns-promiseactresult}
 
 <ParamField path="success" type="boolean" required>
-  操作是否成功完成。
+  动作是否成功完成。
 </ParamField>
 
 <ParamField path="message" type="string" required>
-  有关操作执行的详细信息。
+  关于该动作执行的详细信息。
 </ParamField>
 
 <ParamField path="action" type="string" required>
-  实际执行的操作。
+  实际执行的动作。
 </ParamField>
 
 ```Example Response
@@ -124,9 +124,9 @@ icon: 'arrow-pointer'
 }
 ```
 
-### 错误类型
+### 错误类型 {#error-types}
 
-- **TimeoutError** - 操作超出超时限制
+- **TimeoutError** - 动作超出超时限制
 - **ElementNotFoundError** - 无法定位目标元素
-- **ActionFailedError** - 无法完成操作
-- **StagehandError** - Stagehand 的通用错误
+- **ActionFailedError** - 无法完成该动作
+- **StagehandError** - Stagehand 特定的通用错误

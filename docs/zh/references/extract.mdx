@@ -1,7 +1,7 @@
 ---
 title: extract()
-description: 'extract() 方法的完整 API 参考'
-icon: 'ufo-beam'
+description: "extract() 方法的完整 API 参考"
+icon: "ufo-beam"
 ---
 
 <CardGroup cols={1}>
@@ -10,7 +10,7 @@ icon: 'ufo-beam'
   </Card>
 </CardGroup>
 
-### 方法签名
+### 方法签名 {#method-signatures}
 
 <Tabs>
   <Tab title="TypeScript">
@@ -64,61 +64,63 @@ icon: 'ufo-beam'
   </Tab>
 </Tabs>
 
-### 参数
+### 参数 {#parameters}
 
 <ParamField path="instruction" type="string" optional>
   用自然语言描述需要提取的数据。
 </ParamField>
 
 <ParamField path="schema" type="z.ZodSchema | BaseModel" optional>
-  定义要提取数据结构的类型模式。确保类型安全与校验。
+  定义要提取数据结构的类型模式，确保类型安全与验证。
 </ParamField>
 
 <ParamField path="selector" type="string" optional>
-  将提取范围限定在指定区域的 XPath 选择器。可减少 token 使用并提升准确性。
+  用于限定提取范围的 XPath 选择器，可减少 token 使用并提升准确性。
 </ParamField>
 
 <ParamField path="iframes" type="boolean" optional>
-  若内容位于 iframes 中，请设为 `true`。
+  如果内容位于 iframe 中，请设为 `true`。
 
   **默认值：** `false`
 </ParamField>
 
 <ParamField path="modelName" type="AvailableModel" optional>
-  覆盖此次提取使用的默认 LLM 模型。
+  覆盖本次提取所用的默认 LLM 模型。
 </ParamField>
 
 <ParamField path="modelClientOptions" type="ClientOptions" optional>
-  模型特定的配置项。
+  模型特定的配置选项。
 </ParamField>
 
 <ParamField path="domSettleTimeoutMs" type="number" optional>
-  等待 DOM 稳定的最长时间。
+  等待 DOM 稳定的最长时长（毫秒）。
 
   **默认值：** `30000`
 </ParamField>
 
-### 响应类型
+### 响应类型 {#response-types}
 
 <Tabs>
   <Tab title="With Schema">
-    **返回：** `Promise<ExtractResult<T>>`，其中 T 与你的 schema 匹配
+    **返回：** `Promise<ExtractResult<T>>`，其中 T 与您的模式一致
 
-    返回对象将严格遵循你的 schema 定义进行类型约束。
+    返回对象将严格按您的模式定义进行类型化。
   </Tab>
 
   <Tab title="String Only">
     **返回：** `Promise<{ extraction: string }>`
-    不经 schema 校验的简单字符串提取。
+
+    无需模式验证的纯字符串提取。
   </Tab>
 
   <Tab title="No Parameters">
     **返回：** `Promise<{ page_text: string }>`
+
     页面内容的原始可访问性树表示。
   </Tab>
 </Tabs>
 
-### 代码示例
+### 代码示例 {#code-examples}
 
 <Tabs>
   <Tab title="Single Object">
@@ -135,7 +137,7 @@ icon: 'ufo-beam'
 
       // 数据提取
       const product = await page.extract({
-        instruction: "提取产品详情",
+        instruction: "extract product details",
         schema: ProductSchema
       });
       ```
@@ -151,13 +153,13 @@ icon: 'ufo-beam'
 
       # 数据提取
       product = await page.extract(
-          instruction="提取产品详情",
+          instruction="extract product details",
           schema=Product
       )
       ```
     </CodeGroup>
 
-    #### 示例响应
+    #### 示例输出 {#example-response}
 
     ```json
     {
@@ -173,7 +175,7 @@ icon: 'ufo-beam'
       ```typescript TypeScript
       import { z } from 'zod';
 
-      // 架构定义
+      // Schema 定义
       const ApartmentListingsSchema = z.object({
         apartments: z.array(z.object({
           address: z.string(),
@@ -193,7 +195,7 @@ icon: 'ufo-beam'
       from pydantic import BaseModel
       from typing import List
 
-      # 架构定义
+      # Schema 定义
       class Apartment(BaseModel):
           address: str
           price: str
@@ -210,7 +212,7 @@ icon: 'ufo-beam'
       ```
     </CodeGroup>
 
-    #### 示例返回
+    #### 示例响应 {#example-response}
 
     ```json
     {
@@ -239,11 +241,11 @@ icon: 'ufo-beam'
       const NavigationSchema = z.object({
         links: z.array(z.object({
           text: z.string(),
-          url: z.string().url()  // URL 验证
+          url: z.string().url()  // URL 校验
         }))
       });
 
-      // 提取
+      // 数据提取
       const links = await page.extract({
         instruction: "extract navigation links",
         schema: NavigationSchema
@@ -257,12 +259,12 @@ icon: 'ufo-beam'
       # 模式定义
       class NavLink(BaseModel):
           text: str
-          url: HttpUrl  # URL 验证
+          url: HttpUrl  # URL 校验
 
       class Navigation(BaseModel):
           links: List[NavLink]
 
-      # 提取
+      # 数据提取
       links = await page.extract(
           instruction="extract navigation links", 
           schema=Navigation
@@ -270,7 +272,7 @@ icon: 'ufo-beam'
       ```
     </CodeGroup>
 
-    #### 示例响应
+    #### 示例响应 {#example-response}
 
     ```json
     {
@@ -295,7 +297,7 @@ icon: 'ufo-beam'
         description: z.string()
       });
 
-      // 从页面的特定区域提取
+      // 仅从特定页面区域提取
       const data = await page.extract({
         instruction: "从此区域提取产品信息",
         selector: "xpath=/html/body/div/div",
@@ -311,7 +313,7 @@ icon: 'ufo-beam'
           price: float
           description: str
 
-      # 从页面的特定区域提取
+      # 仅从特定页面区域提取
       data = await page.extract(
           instruction="从此区域提取产品信息",
           selector="xpath=/html/body/div/div",
@@ -320,7 +322,7 @@ icon: 'ufo-beam'
       ```
     </CodeGroup>
 
-    #### 示例响应
+    #### 示例响应 {#example-response}
 
     ```json
     {
@@ -354,7 +356,7 @@ icon: 'ufo-beam'
       ```
     </CodeGroup>
 
-    #### 示例返回
+    #### 示例响应 {#example-response}
 
     ```json
     {
@@ -368,15 +370,15 @@ icon: 'ufo-beam'
       ```typescript TypeScript
       import { z } from 'zod';
 
-      // 带有描述和校验的架构
+      // 带描述与校验的模式
       const ProductSchema = z.object({
-        price: z.number().describe("以 USD 计的商品价格"),
+        price: z.number().describe("产品价格（美元）"),
         rating: z.number().min(0).max(5).describe("客户评分（满分 5 分）"),
-        available: z.boolean().describe("商品是否有库存"),
+        available: z.boolean().describe("产品是否有货"),
         tags: z.array(z.string()).optional()
       });
 
-      // 嵌套架构
+      // 嵌套模式
       const EcommerceSchema = z.object({
         product: z.object({
           name: z.string(),
@@ -396,14 +398,14 @@ icon: 'ufo-beam'
       from pydantic import BaseModel, Field
       from typing import Optional, List
 
-      # 带有描述和校验的模型
+      # 带描述与校验的模式
       class Product(BaseModel):
-          price: float = Field(description="以 USD 计的商品价格")
+          price: float = Field(description="产品价格（美元）")
           rating: float = Field(ge=0, le=5, description="客户评分（满分 5 分）")
-          available: bool = Field(description="商品是否有库存")
+          available: bool = Field(description="产品是否有货")
           tags: Optional[List[str]] = None
 
-      # 嵌套模型
+      # 嵌套模式
       class Price(BaseModel):
           current: float
           original: Optional[float] = None
@@ -422,12 +424,12 @@ icon: 'ufo-beam'
       ```
     </CodeGroup>
 
-    #### 示例响应
+    #### 示例响应 {#example-response}
 
     ```json
     {
       "product": {
-        "name": "商品名称",
+        "name": "Product Name",
         "price": {
           "current": 100,
           "original": 120
@@ -436,7 +438,7 @@ icon: 'ufo-beam'
       "reviews": [
         {
           "rating": 4,
-          "comment": "很棒的商品！"
+          "comment": "Great product!"
         }
       ]
     }

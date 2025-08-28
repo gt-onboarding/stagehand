@@ -3,36 +3,37 @@ title: 提取
 description: 从网页提取结构化数据
 ---
 
-## 什么是 `extract()`？
+## 什么是 `extract()`？ {#what-is-extract}
 
 ```typescript
 page.extract("extract the name of the repository");
 ```
 
-`extract` 用于从网页提取结构化数据。你可以使用 [zod](https://github.com/colinhacks/zod)（TypeScript）或 [pydantic](https://github.com/pydantic/pydantic)（Python）来定义模式。如果你不想定义模式，也可以仅用[自然语言提示](zh/#extract-with-just-a-prompt)来调用 `extract`，或者[不传任何参数](zh/#extract-with-no-parameters)来调用 `extract`。
+`extract` 用于从网页提取结构化数据。你可以使用 [Zod](https://github.com/colinhacks/zod)（TypeScript）或 [Pydantic](https://github.com/pydantic/pydantic)（Python）定义模式。如果不想定义模式，也可以仅凭[自然语言提示](#extract-with-just-a-prompt)调用 `extract`，或[不传任何参数](#extract-with-no-parameters)进行调用。
 
-## 为什么使用 `extract()`？
+## 为什么使用 `extract()`？ {#why-use-extract}
 
 <CardGroup cols={2}>
-  <Card title="Structured" icon="brackets-curly" href="zh/#list-of-objects-extraction">
-    将杂乱的网页数据变成遵循模式的干净对象。
+  <Card title="结构化" icon="brackets-curly" href="#list-of-objects-extraction">
+    将杂乱的网页数据转化为符合模式的干净对象。
   </Card>
 
-  <Card title="Resilient" icon="dumbbell" href="zh/#extract-with-context">
-    构建具备鲁棒性的抽取，网站变更时也不易失效。
+  <Card title="稳健" icon="dumbbell" href="#extract-with-context">
+    构建在网站变化时仍能正常工作的稳健提取。
   </Card>
 </CardGroup>
 
 <Note>
-  在 TypeScript 中，extract() 的模式使用 Zod 定义。
-  在 Python 中，extract() 的模式使用 Pydantic 定义。
+  在 TypeScript 中，提取使用 Zod 模式定义。
+
+  在 Python 中，提取使用 Pydantic 模型定义。
 </Note>
 
-## 使用 `extract()`
+## 使用 `extract()` {#using-extract}
 
-### 单对象提取
+### 单对象提取 {#single-object-extraction}
 
-以下是一个针对单个对象的 `extract` 调用示例：
+以下展示了针对单个对象的 `extract` 调用示例：
 
 <CodeGroup>
   ```typescript TypeScript
@@ -49,7 +50,7 @@ page.extract("extract the name of the repository");
       price: float
 
   item = await page.extract(
-      "extract the price of the item", 
+      "extract the price of the item",
       schema=Extraction
   )
   ```
@@ -61,9 +62,9 @@ page.extract("extract the name of the repository");
 { price: number }
 ```
 
-### 对象列表提取
+### 对象列表提取 {#list-of-objects-extraction}
 
-以下是一个针对对象列表的 `extract` 调用示例：
+以下展示了针对对象列表的 `extract` 调用示例：
 
 <CodeGroup>
   ```typescript TypeScript
@@ -120,9 +121,9 @@ list_of_apartments: [
 ]
 ```
 
-### 仅提示提取
+### 仅提示提取 {#prompt-only-extraction}
 
-可以仅使用自然语言提示调用 `extract`：
+你可以仅使用自然语言提示调用 `extract`：
 
 <CodeGroup>
   ```typescript TypeScript
@@ -134,15 +135,15 @@ list_of_apartments: [
   ```
 </CodeGroup>
 
-当仅用提示调用 `extract` 时，输出模式如下：
+当仅以提示调用 `extract` 时，输出模式如下：
 
 ```Example
 { extraction: string }
 ```
 
-### 无参数提取
+### 无参数提取 {#extract-with-no-parameters}
 
-以下是在不传入任何参数的情况下调用 `extract` 的方式：
+以下展示了如何在无参数情况下调用 `extract`：
 
 <CodeGroup>
   ```typescript TypeScript
@@ -160,7 +161,7 @@ list_of_apartments: [
 { page_text: string }
 ```
 
-在不传入任何参数的情况下调用 `extract` 将返回根 DOM 的分层树表示。该结果不会经过 LLM 处理。输出类似如下：
+在无参数情况下调用 `extract` 将返回根 DOM 的分层树表示。该过程不会经过 LLM。示例如下：
 
 ```
 Accessibility Tree:
@@ -175,11 +176,11 @@ Accessibility Tree:
               [0-247] StaticText: home page
 ```
 
-## 最佳实践
+## 最佳实践 {#best-practices}
 
-### 结合上下文进行提取
+### 结合上下文进行提取 {#extract-with-context}
 
-你可以为模式提供额外上下文，帮助模型更准确地提取数据。
+你可以为模式提供额外的上下文，帮助模型更准确地提取数据。
 
 <CodeGroup>
   ```typescript TypeScript
@@ -214,11 +215,11 @@ Accessibility Tree:
   ```
 </CodeGroup>
 
-### 链接提取
+### 链接提取 {#link-extraction}
 
 <Note>
-  要提取链接或 URL，在 Stagehand 的 TypeScript 版本中，需要将相关字段定义为 `z.string().url()`。
-  在 Python 中，需要将其定义为 `HttpUrl`。
+  要提取链接或 URL，在 Stagehand 的 TypeScript 版本中，你需要将相关字段定义为 `z.string().url()`。
+  在 Python 中，你需要将其定义为 `HttpUrl`。
 </Note>
 
 下面展示了一个用于提取链接或 URL 的 `extract` 调用示例。同样适用于图片链接。
@@ -228,7 +229,7 @@ Accessibility Tree:
   const extraction = await page.extract({
     instruction: "extract the link to the 'contact us' page",
     schema: z.object({
-      link: z.string().url(), // note the usage of z.string().url() here
+      link: z.string().url(), // 注意这里使用 z.string().url()
     }),
   });
 
@@ -237,7 +238,7 @@ Accessibility Tree:
 
   ```python Python
   class Extraction(BaseModel):
-      link: HttpUrl # note the usage of HttpUrl here
+      link: HttpUrl # 注意这里使用 HttpUrl
 
   extraction = await page.extract(
       "extract the link to the 'contact us' page", 
@@ -249,26 +250,26 @@ Accessibility Tree:
 </CodeGroup>
 
 <Tip>
-  在 Stagehand 内部，提取链接的工作方式是让 LLM 选择一个 ID。Stagehand 会在 ID -> URL 的映射中查找该 ID。记录 LLM 追踪日志时，你会看到的是 ID；实际的 URL 会包含在最终的 `ExtractResult` 中。
+  在 Stagehand 内部，链接提取通过让 LLM 选择一个 ID 实现。Stagehand 会在 ID -> URL 的映射中查找该 ID。记录 LLM 追踪日志时，你会看到的是 ID。实际的 URL 将包含在最终的 `ExtractResult` 中。
 </Tip>
 
-## 故障排除
+## 故障排查 {#troubleshooting}
 
 <AccordionGroup>
-  <Accordion title="空或不完整的结果">
+  <Accordion title="结果为空或不完整">
     **问题**: `extract()` 返回空或不完整的数据
 
     **解决方案**:
 
-    - **检查指令是否清晰**: 确保你的指令足够具体，并准确描述需要提取的数据
+    - **检查指令清晰度**: 确保指令足够具体，并准确描述要提取的数据
     - **验证数据是否存在**: 先使用 `page.observe()` 确认页面上确实存在该数据
-    - **等待动态内容**: 如果页面动态加载内容，在提取前先执行 `page.act("wait for the content to load")`
+    - **等待动态内容加载**: 若页面以动态方式加载内容，提取前先调用 `page.act("wait for the content to load")`
 
-    **解决方案：在提取前等待内容加载完成**
+    **解决方案：在提取前等待内容加载**
 
     <CodeGroup>
       ```typescript TypeScript
-      // Wait for content before extracting
+      // 在提取前等待内容加载
       await page.act("wait for the product listings to load");
       const products = await page.extract({
         instruction: "extract all product names and prices",
@@ -282,7 +283,7 @@ Accessibility Tree:
       ```
 
       ```python Python
-      # Wait for content before extracting
+      # 在提取前等待内容加载
       await page.act("wait for the product listings to load")
       products = await page.extract(
           "extract all product names and prices",
@@ -292,16 +293,16 @@ Accessibility Tree:
     </CodeGroup>
   </Accordion>
 
-  <Accordion title="模式验证错误">
-    **问题**: 出现模式验证错误或类型不匹配
+  <Accordion title="Schema 验证错误">
+    **问题**: 出现 Schema 验证错误或类型不匹配
 
     **解决方案**:
 
-    - **使用可选字段**: 若数据可能并非总是存在，在 TypeScript 中使用 `z.optional()`，或在 Python 中使用 `Optional[type]`
-    - **使用更灵活的类型**: 对可能包含货币符号的价格，考虑用 `z.string()` 代替 `z.number()`
-    - **添加描述**: 使用 `.describe()`（TypeScript）或 `Field(description="...")`（Python）帮助模型理解字段要求
+    - **使用可选字段**: 若数据可能并非总是存在，使用 `z.optional()`（TypeScript）或 `Optional[type]`（Python）
+    - **使用更灵活的类型**: 对可能包含货币符号的价格，考虑使用 `z.string()` 而非 `z.number()`
+    - **添加描述信息**: 使用 `.describe()`（TypeScript）或 `Field(description="...")`（Python）帮助模型理解字段要求
 
-    **解决方案：更灵活的模式**
+    **解决方案：更灵活的 Schema**
 
     <CodeGroup>
       ```typescript TypeScript
@@ -322,23 +323,23 @@ Accessibility Tree:
   </Accordion>
 
   <Accordion title="结果不一致">
-    **问题**: 多次运行时提取结果存在差异
+    **问题**: 不同运行之间的提取结果存在差异
 
     **解决方案**:
 
-    - **使指令更具体**: 不要只写 "extract prices"，应使用 "extract the numerical price value for each item"
-    - **在模式描述中提供上下文**: 添加字段描述以引导模型
-    - **结合 observe 使用**: 先用 `page.observe()` 了解页面结构
+    - **让指令更具体**: 不要写“extract prices”，而应写“extract the numerical price value for each item”
+    - **在 Schema 描述中提供上下文**: 为字段添加描述以引导模型
+    - **结合 observe 使用**: 先用 `page.observe()` 理解页面结构
 
     **解决方案：先用 observe 验证**
 
     <CodeGroup>
       ```typescript TypeScript
-      // First observe to understand the page structure
+      // 先进行 observe 以理解页面结构
       const elements = await page.observe("find all product listings");
       console.log("Found elements:", elements.map(e => e.description));
 
-      // Then extract with specific targeting
+      // 然后进行更有针对性的提取
       const products = await page.extract({
         instruction: "extract name and price from each product listing shown on the page",
         schema: z.object({
@@ -351,11 +352,11 @@ Accessibility Tree:
       ```
 
       ```python Python
-      # First observe to understand the page structure
+      # 先进行 observe 以理解页面结构
       elements = await page.observe("find all product listings")
       print("Found elements:", [e.description for e in elements])
 
-      # Then extract with specific targeting
+      # 然后进行更有针对性的提取
       products = await page.extract(
           "extract name and price from each product listing shown on the page",
           schema=ProductSchema
@@ -364,17 +365,17 @@ Accessibility Tree:
     </CodeGroup>
   </Accordion>
 
-  <Accordion title="Performance issues">
+  <Accordion title="性能问题">
     **问题**：提取速度慢或发生超时
 
     **解决方案**：
 
-    - **缩小范围**：分多次调用，分别提取较小的数据块，而非一次性拿全量数据
-    - **使用更有针对性的指令**：明确说明需要聚焦页面的哪一部分
-    - **考虑分页**：对于大型数据集，按页逐一提取
-    - **增加超时时间**：对复杂的提取使用 `timeoutMs` 参数
+    - **缩小范围**：将数据拆分为多次、较小的提取，而不是一次性提取全部
+    - **使用针对性指令**：明确需要关注的页面区域
+    - **考虑分页**：对于大型数据集，逐页提取
+    - **增加超时时间**：在复杂提取中使用 `timeoutMs` 参数
 
-    **解决方案：拆分大规模提取**
+    **解决方案：拆分大型提取任务**
 
     <CodeGroup>
       ```typescript TypeScript
@@ -415,7 +416,7 @@ Accessibility Tree:
   </Accordion>
 </AccordionGroup>
 
-## 后续步骤
+## 后续步骤 {#next-steps}
 
 <CardGroup cols={2}>
   <Card title="Act" icon="play" href="/zh/basics/act">

@@ -6,11 +6,11 @@ icon: "magnifying-glass"
 
 <CardGroup cols={1}>
   <Card title="Observe" icon="magnifying-glass" href="/zh/basics/observe">
-    了解如何使用 observe() 来发现可执行元素并分析网页结构
+    了解如何使用 observe() 发现可操作元素并分析网页结构
   </Card>
 </CardGroup>
 
-### 方法签名
+### 方法签名 {#method-signatures}
 
 <Tabs>
   <Tab title="TypeScript">
@@ -38,7 +38,7 @@ icon: "magnifying-glass"
 
   <Tab title="Python">
     ```python
-    # 传入参数方式
+    # 传参用法
     await page.observe(
         instruction: str,
         dom_settle_timeout_ms: int = None,
@@ -50,18 +50,18 @@ icon: "magnifying-glass"
   </Tab>
 </Tabs>
 
-### 参数
+### 参数 {#parameters}
 
 <ParamField path="instruction" type="string" optional>
-  用自然语言描述要发现的元素或操作。
+  对待发现的元素或操作的自然语言描述。
 </ParamField>
 
 <ParamField path="modelName" type="AvailableModel" optional>
-  覆盖本次观测所用的默认 LLM 模型。
+  覆盖本次观察所用的默认 LLM 模型。
 </ParamField>
 
 <ParamField path="modelClientOptions" type="ClientOptions" optional>
-  模型专属的配置项。
+  模型特定的配置项。
 </ParamField>
 
 <ParamField path="domSettleTimeoutMs" type="number" optional>
@@ -71,31 +71,31 @@ icon: "magnifying-glass"
 </ParamField>
 
 <ParamField path="drawOverlay" type="boolean" optional>
-  是否在已发现的元素上绘制可视化覆盖层（用于调试）。
+  是否在发现的元素上绘制可视化覆盖层（用于调试）。
 
   **默认值：** `false`
 </ParamField>
 
 <ParamField path="iframes" type="boolean" optional>
-  设为 `true` 以在 iframes 中搜索。
+  设为 `true` 可在 iframe 中进行搜索。
 
   **默认值：** `false`
 </ParamField>
 
-### 响应
+### 响应 {#response}
 
 **返回：** `Promise<ObserveResult[]>`
 
-按相关性排序的可执行元素数组。
+按相关性排序的可操作元素数组。
 
 **ObserveResult 接口：**
 
 ```typescript
 interface ObserveResult {
-  selector: string;        // 用于定位元素的 XPath 选择器
-  description: string;     // 人类可读的描述
+  selector: string;        // XPath 选择器，用于定位元素
+  description: string;     // 面向人的可读描述
   method?: string;         // 建议的操作方法
-  arguments?: string[];    // 该操作的附加参数
+  arguments?: string[];    // 额外的操作参数
 }
 ```
 
@@ -104,7 +104,7 @@ interface ObserveResult {
 </ParamField>
 
 <ParamField path="description" type="string">
-  对元素及其用途的人类可读描述。
+  对元素及其用途的可读性描述。
 </ParamField>
 
 <ParamField path="method" type="string" optional>
@@ -112,10 +112,10 @@ interface ObserveResult {
 </ParamField>
 
 <ParamField path="arguments" type="string[]" optional>
-  建议操作的附加参数。
+  建议操作的额外参数。
 </ParamField>
 
-### 代码示例
+### 代码示例 {#code-examples}
 
 <CodeGroup>
   ```typescript TypeScript
@@ -145,7 +145,7 @@ interface ObserveResult {
     btn.description.toLowerCase().includes('primary')
   );
 
-  // iframe 搜索
+  // iframe 内搜索
   const iframeElements = await page.observe({
     instruction: "find form fields inside the iframe",
     iframes: true
@@ -157,7 +157,7 @@ interface ObserveResult {
   buttons = await page.observe("find all clickable buttons")
   form_fields = await page.observe("locate the form fields")
 
-  # 高级配置
+  # 高级配置  
   elements = await page.observe(
       instruction="find important call-to-action buttons",
       model_name="gpt-4.1-mini",
@@ -179,7 +179,7 @@ interface ObserveResult {
       if 'primary' in btn.description.lower()
   ), None)
 
-  # iframe 搜索
+  # iframe 内搜索
   iframe_elements = await page.observe(
       instruction="find the form fields inside the iframe",
       iframes=True
@@ -187,7 +187,7 @@ interface ObserveResult {
   ```
 </CodeGroup>
 
-### 集成模式
+### 集成模式 {#integration-patterns}
 
 <CodeGroup>
   ```typescript TypeScript
@@ -216,7 +216,7 @@ interface ObserveResult {
   ```
 
   ```python Python
-  # Observe → Act 工作流
+  # Observe → Act 工作流  
   actions = await page.observe("find checkout elements")
   for action in actions:
       await page.act(action)

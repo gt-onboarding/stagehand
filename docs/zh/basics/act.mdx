@@ -1,39 +1,39 @@
 ---
-title: act()
-description: "在网页上进行交互"
+title: act
+description: 与网页进行交互
 ---
 
-## 什么是 `act()`？
+## 什么是 `act()`？ {#what-is-act}
 
 ```typescript
 page.act("click on add to cart")
 ```
 
-`act()` 使 Stagehand 能在网页上执行「单一」自然语言操作。使用它可构建具备 Self‑healing 且具确定性的自动化流程，能够适应网站变化。
+`act()` 使 Stagehand 能在网页上执行「单个」自然语言动作。使用它可构建具备自愈能力且确定性的自动化流程，从而适应网站变化。
 
-## 为什么使用 `act()`？
+## 为什么使用 `act()`？ {#why-use-act}
 
 <CardGroup cols={2}>
-  <Card title="Natural Language Instructions" icon="wand-magic-sparkles" href="zh/#using-act">
-    用自然语言编写自动化。无需选择器或复杂语法。
+  <Card title="自然语言指令" icon="wand-magic-sparkles" href="#using-act">
+    用纯英文编写自动化，无需 Selector 或复杂语法。
   </Card>
 
-  <Card title="Precise Control" icon="crosshairs" href="zh/#best-practices">
-    按步骤构建自动化，精确掌控每一步发生的行为。
+  <Card title="精确控制" icon="crosshairs" href="#best-practices">
+    逐步构建自动化，精确定义每个步骤的行为。
   </Card>
 
-  <Card title="Self-Healing" icon="bandage" href="zh/#ensure-reliable-actions">
-    当网站发生变化时，操作会自动自愈与适配。
+  <Card title="自我修复" icon="bandage" href="#ensure-reliable-actions">
+    当网站变化时，动作会自动适配。
   </Card>
 
-  <Card title="Caching" icon="repeat" href="zh/#reduce-model-costs">
-    缓存操作以避免 LLM 调用，并在多次运行中保持一致的执行。
+  <Card title="缓存" icon="repeat" href="#reduce-model-costs">
+    缓存动作以避免调用 LLM，并确保多次运行的一致性。
   </Card>
 </CardGroup>
 
-## 使用 `act()`
+## 使用 `act()` {#using-act}
 
-使用 `act` 在自动化中执行单一步骤操作。如下示例演示点击按钮：
+使用 `act` 在自动化中执行单个动作。下面示例展示如何点击按钮：
 
 <CodeGroup>
   ```typescript TypeScript
@@ -47,33 +47,33 @@ page.act("click on add to cart")
   ```
 </CodeGroup>
 
-使用 `act` 时，将复杂任务拆解为小而清晰的单步操作效果最佳。若需编排多步流程，请串联多个 `act` 命令或使用 `agent`。
+使用 `act` 时，将复杂操作拆解为更小的单步动作效果最佳。若需编排多步流程，请组合多个 `act` 命令或使用 `agent`。
 
-<Accordion title="建议的操作">
-  | 操作 | 示例指令 |
+<Accordion title="推荐的动作">
+  | 动作 | 示例指令 |
   |--------|---------------------|
-  | 点击 | `click the button` |
-  | 填写 | `fill the field with <value>` |
-  | 输入 | `type <text> into the search box` |
-  | 按键 | `press <key> in the search field` |
-  | 滚动 | `scroll to <position>` |
-  | 从下拉菜单选择 | `select <value> from the dropdown` |
+  | Click | `click the button` |
+  | Fill | `fill the field with <value>` |
+  | Type | `type <text> into the search box` |
+  | Press | `press <key> in the search field` |
+  | Scroll | `scroll to <position>` |
+  | Select from dropdown | `select <value> from the dropdown` |
 </Accordion>
 
 <Tabs>
-  <Tab title="这样做">
-    将任务拆解为单步操作。
+  <Tab title="应该这样做">
+    将任务拆分为单步动作。
 
     <CodeGroup>
       ```typescript TypeScript
-      // Break it into single-step actions
+      // 拆分为单步动作
       await page.act("open the filters panel");
       await page.act("choose 4-star rating");
       await page.act("click the apply button");
       ```
 
       ```python Python
-      # Break it into single-step actions
+      # 拆分为单步动作
       await page.act("open the filters panel")
       await page.act("choose 4-star rating")
       await page.act("click the apply button")
@@ -86,25 +86,25 @@ page.act("click on add to cart")
 
     <CodeGroup>
       ```typescript TypeScript
-      // Too complex - trying to do multiple things at once
+      // 过于复杂——一次尝试完成多步操作
       await page.act("open the filters panel, choose 4-star rating, and click apply");
       ```
 
       ```python Python
-      # Too complex - trying to do multiple things at once
+      # 过于复杂——一次尝试完成多步操作
       await page.act("open the filters panel, choose 4-star rating, and click apply")
       ```
     </CodeGroup>
   </Tab>
 </Tabs>
 
-### 高级配置
+### 高级配置 {#advanced-configuration}
 
-在更高级的场景下，你可以配置更多选项：
+在高级场景下，你可以配置更多选项：
 
 <CodeGroup>
   ```typescript TypeScript
-  // Dynamic food search with advanced options
+  // 使用高级选项的动态食物搜索
   const foodItem = "organic quinoa";
 
   await page.act({
@@ -118,12 +118,12 @@ page.act("click on add to cart")
     },
     iframes: true, // 如有需要，在 iframes 中搜索
     domSettleTimeoutMs: 45000, // 为动态内容延长等待时间
-    timeoutMs: 60000 // 慢加载表单的超时时间
+    timeoutMs: 60000 // 为加载缓慢的表单延长超时时间
   });
   ```
 
   ```python Python
-  # Dynamic food search with advanced options
+  # 使用高级选项的动态食物搜索
   food_item = "organic quinoa"
 
   await page.act({
@@ -137,20 +137,20 @@ page.act("click on add to cart")
     },
     "iframes": True, # 如有需要，在 iframes 中搜索
     "domSettleTimeoutMs": 45000, # 为动态内容延长等待时间
-    "timeoutMs": 60000 # 慢加载表单的超时时间
+    "timeoutMs": 60000 # 为加载缓慢的表单延长超时时间
   })
   ```
 </CodeGroup>
 
 <Note>
-  现已支持 Shadow DOM！在你的 Stagehand 配置中设置 `experimental: true` 以启用。参见[配置指南](/zh/configuration/browser)了解更多信息。
+  现已支持 Shadow DOM！在你的 Stagehand 配置中设置 `experimental: true` 以启用。详见[配置指南](/zh/configuration/browser)。
 </Note>
 
-## 最佳实践
+## 最佳实践 {#best-practices}
 
-### 确保操作可靠
+### 确保动作稳定可靠 {#ensure-reliable-actions}
 
-使用 `observe()` 在当前页面发现可执行的候选操作并进行可靠规划。它会返回一组建议操作（包含 selector、description、method 和 arguments）。你可以将观察到的操作直接传给 `act` 执行。
+使用 `observe()` 在当前页面发现候选动作并进行可靠规划。它会返回建议动作的列表（包含 selector、description、method 和 arguments）。你可以将 observe() 的结果直接传给 `act()` 来执行。
 
 <CodeGroup>
   ```typescript TypeScript
@@ -170,16 +170,16 @@ page.act("click on add to cart")
 </CodeGroup>
 
 <Card title="使用 observe() 分析页面" icon="magnifying-glass" iconType="sharp-solid" href="/zh/basics/observe">
-  在用 `act` 执行前，先用 `observe()` 规划操作。
+  在用 `act()` 执行前，先用 `observe()` 规划动作。
 </Card>
 
-### 降低模型成本
+### 降低模型成本 {#reduce-model-costs}
 
-缓存已观察到的操作，避免重复的 LLM 调用并确保执行一致。
+缓存已观察到的动作，避免重复的 LLM 调用并确保执行一致。
 
 <CodeGroup>
   ```typescript TypeScript
-  // 通过缓存优化成本的操作
+  // 使用缓存优化成本的动作
   const actionCache = new Map();
 
   const getCachedAction = async (instruction: string) => {
@@ -192,13 +192,13 @@ page.act("click on add to cart")
     return action;
   };
 
-  // 重用已缓存的操作
+  // 复用已缓存的动作
   const loginAction = await getCachedAction("click the login button");
   await page.act(loginAction);
   ```
 
   ```python Python
-  # 通过缓存优化成本的操作
+  # 使用缓存优化成本的动作
   action_cache = {}
 
   async def get_cached_action(instruction: str):
@@ -213,7 +213,7 @@ page.act("click on add to cart")
       
       return None
 
-  # 重用已缓存的操作
+  # 复用已缓存的动作
   login_action = await get_cached_action("click the login button")
   if login_action:
       await page.act(login_action)
@@ -221,15 +221,15 @@ page.act("click on add to cart")
 </CodeGroup>
 
 <Card title="完整缓存指南" icon="database" iconType="sharp-solid" href="/zh/best-practices/caching">
-  学习高级缓存技术与模式，获得最佳性能。
+  学习高级缓存技巧与模式，获取最佳性能。
 </Card>
 
-### 保护你的自动化
+### 保护你的自动化 {#secure-your-automations}
 
 变量不会与 LLM 提供商共享。将它们用于密码、API 密钥和其他敏感数据。
 
 <Note>
-  使用 `.env` 文件从环境变量加载敏感数据。切勿将 API 密钥、密码或其他机密直接硬编码在代码中。
+  使用 `.env` 文件从环境变量加载敏感数据。切勿在代码中直接硬编码 API 密钥、密码或其他机密信息。
 </Note>
 
 <CodeGroup>
@@ -269,26 +269,26 @@ page.act("click on add to cart")
 </CodeGroup>
 
 <Warning>
-  处理敏感数据时，请在 Stagehand 配置中设置 `verbose: 0`，以防止机密出现在日志中。查看 [配置指南](/zh/configuration/browser) 了解更多细节。
+  处理敏感数据时，请在 Stagehand 配置中将 `verbose` 设为 `0`，以防机密信息出现在日志中。更多详情参见[配置指南](/zh/configuration/browser)。
 </Warning>
 
 <Card title="用户数据最佳实践" icon="shield-check" iconType="sharp-solid" href="/zh/best-practices/user-data">
-  使用最佳实践与配置来保护浏览器自动化的完整指南。
+  通过最佳实践与配置，全方位指导你保护浏览器自动化的安全。
 </Card>
 
-## 疑难排解
+## 故障排查 {#troubleshooting}
 
 <AccordionGroup>
-  <Accordion title="方法不受支持">
-    **问题**：`act` 调用失败，报错 "method not supported"
+  <Accordion title="不支持的方法">
+    **问题**：`act` 因 “method not supported” 错误而失败
 
     **解决方案**：
 
-    - 为要完成的动作提供清晰、具体的指令
-    - 查看我们的 [evals](https://stagehand.dev/evals)，为你的用例选择最合适的模型
-    - 使用 [`observe()`](/zh/basics/observe) 并校验生成的操作是否在预期操作列表内
+    - 为目标操作提供清晰、具体的指令
+    - 查看我们的[评估套件与仪表板](https://stagehand.dev/evals)，为你的用例选择最佳模型
+    - 使用[`observe()`](/zh/basics/observe)，并验证得到的动作是否在预期动作列表内
 
-    **方案一：用 observe 校验**
+    **解决方案 1：使用 observe 校验**
 
     <CodeGroup>
       ```typescript TypeScript
@@ -299,7 +299,7 @@ page.act("click on add to cart")
         await page.act(prompt);
       } catch (error) {
         if (error.message.includes("method not supported")) {
-          // 对同一提示进行 observe 获取计划的操作
+          // 对同一提示进行 observe，以获取计划中的动作
           const [action] = await page.observe(prompt);
           
           if (action && action.method === expectedMethod) {
@@ -321,7 +321,7 @@ page.act("click on add to cart")
           await page.act(prompt)
       except Exception as error:
           if "method not supported" in str(error):
-              # 对同一提示进行 observe 获取计划的操作
+              # 对同一提示进行 observe，以获取计划中的动作
               results = await page.observe(prompt)
               
               if results and results[0].method == expected_method:
@@ -334,11 +334,11 @@ page.act("click on add to cart")
       ```
     </CodeGroup>
 
-    **方案二：使用指数退避重试**
+    **解决方案 2：使用指数退避重试**
 
     <CodeGroup>
       ```typescript TypeScript
-      // 对间歇性问题使用指数退避重试
+      // 针对间歇性问题使用指数退避重试
       const prompt = "click the submit button";
       const maxRetries = 3;
 
@@ -360,7 +360,7 @@ page.act("click on add to cart")
       ```
 
       ```python Python
-      # 对间歇性问题使用指数退避重试
+      # 针对间歇性问题使用指数退避重试
       import asyncio
 
       prompt = "click the submit button"
@@ -384,18 +384,18 @@ page.act("click on add to cart")
   </Accordion>
 
   <Accordion title="操作失败或超时">
-    **问题**：`act` 超时或未能完成操作（常见原因是找不到元素）
+    **问题**：`act` 超时或未能完成操作（常见原因是未找到元素）
 
     **解决方案**：
 
     - 确保页面已完全加载
-    - 检查内容是否位于 iframes 中：[了解更多关于使用 iframes](/zh/best-practices/working-with-iframes)
-    - 增长操作超时时间
+    - 检查内容是否位于 iframes 中：[了解如何处理 iframes](/zh/best-practices/working-with-iframes)
+    - 增加操作超时时间
     - 先使用 `observe()` 验证元素是否存在
 
     <CodeGroup>
       ```typescript TypeScript
-      // 处理超时与元素未找到问题
+      // 处理超时与未找到元素的问题
       try {
         await page.act("click the submit button", { timeout: 30000 });
       } catch (error) {
@@ -406,17 +406,17 @@ page.act("click on add to cart")
         const [element] = await page.observe("find the submit button");
         
         if (element) {
-          console.log("Element found, trying more specific instruction");
+          console.log("找到元素，尝试更具体的指令");
           await page.act("click the submit button at the bottom of the form");
         } else {
-          console.log("Element not found, trying alternative selector");
+          console.log("未找到元素，尝试备用选择器");
           await page.act("click the button with text 'Submit'");
         }
       }
       ```
 
       ```python Python
-      # 处理超时与元素未找到问题
+      # 处理超时与未找到元素的问题
       try:
           await page.act("click the submit button", {"timeout": 30000})
       except Exception as error:
@@ -427,22 +427,22 @@ page.act("click on add to cart")
           results = await page.observe("find the submit button")
           
           if results:
-              print("Element found, trying more specific instruction")
+              print("找到元素，尝试更具体的指令")
               await page.act("click the submit button at the bottom of the form")
           else:
-              print("Element not found, trying alternative selector")
+              print("未找到元素，尝试备用选择器")
               await page.act("click the button with text 'Submit'")
       ```
     </CodeGroup>
   </Accordion>
 
-  <Accordion title="选择了错误的元素">
+  <Accordion title="选择了不正确的元素">
     **问题**：`act` 在错误的元素上执行了操作
 
     **解决方案**：
 
     - 在指令中更具体：包含视觉线索、位置或上下文
-    - 使用 `observe()` 预览将会选中哪个元素
+    - 使用 `observe()` 预览将会选中的元素
     - 添加上下文信息：“页眉中的搜索按钮”
     - 在可用时使用唯一标识符
 
@@ -455,7 +455,7 @@ page.act("click on add to cart")
       // 使用具体上下文：
       await page.act("click the red 'Delete' button next to the user John Smith");
 
-      // 或先用 observe 预览：
+      // 或先用 observe 进行预览：
       const [action] = await page.observe("click the submit button in the checkout form");
       if (action.description.includes("checkout")) {
         await page.act(action);
@@ -470,7 +470,7 @@ page.act("click on add to cart")
       # 使用具体上下文：
       await page.act("click the red 'Delete' button next to the user John Smith")
 
-      # 或先用 observe 预览：
+      # 或先用 observe 进行预览：
       results = await page.observe("click the submit button in the checkout form")
       if results and "checkout" in results[0].description:
           await page.act(results[0])
@@ -479,22 +479,22 @@ page.act("click on add to cart")
   </Accordion>
 </AccordionGroup>
 
-## 下一步
+## 下一步 {#next-steps}
 
 <CardGroup cols={2}>
-  <Card title="用 Agent 编排复杂工作流" icon="robot" iconType="sharp-solid" href="/zh/basics/agent">
-    使用 `Agent` 自主完成多步骤任务和复杂工作流。
+  <Card title="使用 agent() 编排复杂工作流" icon="robot" iconType="sharp-solid" href="/zh/basics/agent">
+    使用 `agent()` 自主执行多步任务和复杂工作流。
   </Card>
 
-  <Card title="缓存操作" icon="bolt" iconType="sharp-solid" href="/zh/best-practices/caching">
-    通过缓存操作加速重复的自动化。
+  <Card title="缓存动作" icon="bolt" iconType="sharp-solid" href="/zh/best-practices/caching">
+    通过缓存动作，加速重复的自动化流程。
   </Card>
 
-  <Card title="用 extract() 提取数据" icon="table" iconType="sharp-solid" href="/zh/basics/extract">
-    搭配数据 schema 使用 `extract`，从任意页面提取干净且带类型的数据。
+  <Card title="使用 extract() 提取数据" icon="table" iconType="sharp-solid" href="/zh/basics/extract">
+    使用带数据模式的 `extract()` 从任意页面提取干净、类型化的数据。
   </Card>
 
   <Card title="处理 iframes" icon="frame" iconType="sharp-solid" href="/zh/best-practices/working-with-iframes">
-    了解在 iframes 内与元素交互的最佳实践。
+    学习在 iframe 中与元素交互的最佳实践。
   </Card>
 </CardGroup>

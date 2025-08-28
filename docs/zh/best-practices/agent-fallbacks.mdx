@@ -1,24 +1,24 @@
 ---
-title: 代理回退
-description: "当页面出现意外变化需要额外步骤时的保险机制"
+title: Agent 回退
+description: "当页面意外变化需要额外步骤时的安全兜底"
 ---
 
-## 何时使用
+## 何时使用 {#when-to-use}
 
-当单步操作意外演变为多步流程时，将代理回退用作保险措施。
+当单步操作意外演变为多步流程时，将 agent 回退用作故障保护。
 
-## 工作原理
+## 工作原理 {#how-it-works}
 
-1. 优先尝试用于直接操作的[`act()`](/zh/basics/act)
-2. 如果失败，由[`agent()`](/zh/basics/agent)规划新的路径
-3. 代理完成所有必要步骤（打开菜单 → 点击按钮）
+1. 先尝试使用 [`act()`](/zh/basics/act) 执行直接动作
+2. 若失败，则由 [`agent()`](/zh/basics/agent) 规划新的路径
+3. 代理会完成所有必要步骤（打开菜单 → 点击按钮）
 
-### 示例场景
+### 示例场景 {#example-scenario}
 
 **之前**：Sign in 按钮在页眉\
-**之后**：现在登录需要：点击账户菜单 → 点击“Sign in”选项
+**之后**：现在需要：点击账户菜单 → 点击 “Sign in” 选项
 
-单次 `act("click sign in")` 无法应对这一变化。代理回退可以发现并执行这两个步骤。
+单个 `act("click sign in")` 无法应对这种变化。Agent 回退可以发现并执行这两个步骤。
 
 <CodeGroup>
   ```typescript TypeScript

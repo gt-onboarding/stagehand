@@ -128,7 +128,7 @@
       {
         "groups": [
           {
-            "group": "入门",
+            "group": "<FINAL_STRING>入门</FINAL_STRING>",
             "pages": [
               "zh/first-steps/introduction",
               "zh/first-steps/quickstart",
@@ -137,7 +137,7 @@
             ]
           },
           {
-            "group": "基础入门",
+            "group": "<FINAL_STRING>\n基础知识\n</FINAL_STRING>",
             "pages": [
               "zh/basics/act",
               "zh/basics/extract",
@@ -146,7 +146,7 @@
             ]
           },
           {
-            "group": "配置",
+            "group": "<FINAL_STRING>配置</FINAL_STRING>",
             "pages": [
               "zh/configuration/browser",
               "zh/configuration/observability",
@@ -156,7 +156,7 @@
             ]
           },
           {
-            "group": "最佳实践",
+            "group": "<FINAL_STRING>最佳实践</FINAL_STRING>",
             "pages": [
               "zh/best-practices/caching",
               "zh/best-practices/cost-optimization",
@@ -173,10 +173,10 @@
             ]
           },
           {
-            "group": "集成",
+            "group": "<FINAL_STRING>集成</FINAL_STRING>",
             "pages": [
               {
-                "group": "MCP 服务器",
+                "group": "<FINAL_STRING>MCP 服务器</FINAL_STRING>",
                 "pages": [
                   "zh/integrations/mcp/introduction",
                   "zh/integrations/mcp/setup",
@@ -185,21 +185,21 @@
                 ]
               },
               {
-                "group": "CrewAI",
+                "group": "<FINAL_STRING>CrewAI</FINAL_STRING>",
                 "pages": [
                   "zh/integrations/crew-ai/introduction",
                   "zh/integrations/crew-ai/configuration"
                 ]
               },
               {
-                "group": "LangChain",
+                "group": "<FINAL_STRING>LangChain</FINAL_STRING>",
                 "pages": [
                   "zh/integrations/langchain/introduction",
                   "zh/integrations/langchain/configuration"
                 ]
               },
               {
-                "group": "Next.js + Vercel",
+                "group": "<FINAL_STRING>\nNext.js + Vercel\n</FINAL_STRING>",
                 "pages": [
                   "zh/integrations/vercel/introduction",
                   "zh/integrations/vercel/configuration"
@@ -208,7 +208,7 @@
             ]
           },
           {
-            "group": "参考",
+            "group": "<FINAL_STRING>参考</FINAL_STRING>",
             "pages": [
               "zh/references/act",
               "zh/references/extract",
@@ -220,12 +220,12 @@
         "global": {
           "anchors": [
             {
-              "anchor": "更新日志",
+              "anchor": "<FINAL_STRING>更新日志</FINAL_STRING>",
               "href": "https://github.com/browserbase/stagehand/releases",
               "icon": "scroll"
             },
             {
-              "anchor": "来自 Browserbase 的 Stagehand",
+              "anchor": "<FINAL_STRING>Browserbase 出品的 Stagehand</FINAL_STRING>",
               "href": "https://docs.stagehand.dev/first-steps/introduction",
               "icon": "code"
             }

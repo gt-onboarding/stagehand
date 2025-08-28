@@ -1,35 +1,35 @@
 ---
 title: "CrewAI 简介"
 sidebarTitle: 简介
-description: "使用自然语言指令，借助 CrewAI 自动化浏览器任务"
+description: "使用自然语言指令，通过 CrewAI 实现浏览器任务自动化"
 ---
 
-## 概览
+## 概览 {#overview}
 
-本指南将演示如何将 CrewAI 与 Browserbase 搭配使用，构建能够自动化网页交互的智能代理。完成本指南后，你将能够：
+本指南演示如何将 CrewAI 与 Browserbase 搭配使用，以创建能够自动化网页交互的智能代理。读完本指南后，你将了解如何：
 
 - 使用 StagehandTool 配置 CrewAI
 - 创建可与网站交互的代理
 - 通过自然语言指令自动化浏览器任务
-- 从网页中提取结构化数据
+- 从网页提取结构化数据
 
-## 适用场景
+## 适用场景 {#when-youd-use-this}
 
-CrewAI 集成非常适合需要智能网页自动化的场景：
+当你需要智能网页自动化时，CrewAI 集成非常适合：
 
-- **调研自动化**：让代理在多个网站上进行信息调研
-- **数据采集**：从电商网站、招聘平台或新闻站点提取结构化数据
+- **研究自动化**：让代理在多个网站上检索与调研信息
+- **数据采集**：从电商网站、招聘平台或新闻网站提取结构化数据
 - **表单自动化**：依据特定条件自动填写并提交表单
-- **多步流程**：执行需决策的复杂浏览器流程
+- **多步工作流**：执行需要决策的复杂浏览器工作流
 
 StagehandTool 封装了 Stagehand 的 Python SDK，使 CrewAI 代理能够控制真实的网页浏览器，并通过三个核心原语与网站交互：
 
 1. **Act**：执行点击、输入或导航等操作
-2. **Extract**：从网页提取结构化数据
-3. **Observe**：发现并分析页面上的元素
+2. **Extract**：从网页中提取结构化数据
+3. **Observe**：识别并分析页面元素
 
 <CardGroup cols={1}>
   <Card title="CrewAI 配置" icon="gear" href="/zh/integrations/crew-ai/configuration">
-    了解如何为 CrewAI 代理配置并使用 StagehandTool 来完成网页自动化任务
+    了解如何为网页自动化任务配置并使用 StagehandTool 搭配 CrewAI 代理
   </Card>
 </CardGroup>

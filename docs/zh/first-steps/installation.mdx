@@ -3,19 +3,19 @@ title: Installation
 description: 将 Stagehand 集成到现有项目中。
 ---
 
-使用 TypeScript 或 Python SDK 在当前应用中安装 Stagehand。
+使用 TypeScript 或 Python 的 SDK 在当前应用中安装 Stagehand。
 
 <Tip>
-  对于 TypeScript/Node.js：强烈建议在 Node.js 运行时中运行 Stagehand 脚本，而非使用 Deno、Bun 等较新的替代方案。
+  对于 TypeScript/Node.js：我们强烈建议使用 Node.js 运行时来运行 Stagehand 脚本，而非 Deno 或 Bun 等较新的替代方案。
 
-  **Bun 不支持 Stagehand**，因为它不支持 [Playwright](https://github.com/search?q=repo:oven-sh/bun+playwright\&type=issues)。
+  由于不支持 [Playwright](https://github.com/search?q=repo:oven-sh/bun+playwright\&type=issues)，**Bun 不支持 Stagehand**。
 
-  对于 Python：需要 Python 3.9+，并推荐使用 [uv](https://docs.astral.sh/uv/) 管理虚拟环境。
+  对于 Python：需要 Python 3.9+，并建议使用 [uv](https://docs.astral.sh/uv/) 管理虚拟环境。
 </Tip>
 
 <Tabs>
   <Tab title="TypeScript">
-    ### 安装依赖
+    ### 安装依赖 {#install-dependencies}
 
     <CodeGroup>
       ```bash npm
@@ -32,13 +32,13 @@ description: 将 Stagehand 集成到现有项目中。
     </CodeGroup>
 
     <Tip>
-      若计划本地运行，请先安装浏览器一次：`npx playwright install`。
-      使用云端浏览器会话则可跳过。
+      若计划本地运行，请先安装浏览器（一次即可）：`npx playwright install`。
+      如使用云端浏览器会话，可跳过此步骤。
     </Tip>
 
-    ### 配置环境
+    ### 配置环境 {#configure-environment}
 
-    设置环境变量（或通过框架提供的方式配置 `.env`）：
+    设置环境变量（或通过框架使用 `.env`）：
 
     <CodeGroup>
       ```bash Bash
@@ -48,9 +48,9 @@ description: 将 Stagehand 集成到现有项目中。
       ```
     </CodeGroup>
 
-    ### 在代码库中使用
+    ### 在代码库中使用 {#use-in-your-codebase}
 
-    在需要浏览器自动化的地方引入 Stagehand。
+    在需要进行浏览器自动化的地方引入 Stagehand。
 
     <CodeGroup>
       ```typescript TypeScript
@@ -68,10 +68,10 @@ description: 将 Stagehand 集成到现有项目中。
 
         await page.goto("https://example.com");
         
-        // Act on the page
+        // 在页面上执行操作
         await page.act("Click the sign in button");
         
-        // Extract structured data
+        // 提取结构化数据
         const { title } = await page.extract({
           instruction: "extract the page title",
           schema: z.object({
@@ -92,7 +92,7 @@ description: 将 Stagehand 集成到现有项目中。
   </Tab>
 
   <Tab title="Python">
-    ### 添加依赖
+    ### 添加依赖 {#add-dependencies}
 
     <CodeGroup>
       ```bash uv
@@ -104,9 +104,9 @@ description: 将 Stagehand 集成到现有项目中。
       ```
     </CodeGroup>
 
-    ### 配置环境
+    ### 配置环境 {#configure-environment}
 
-    设置环境变量（或通过框架提供的方式配置 `.env`）：
+    设置环境变量（或通过框架使用 `.env`）：
 
     <CodeGroup>
       ```bash Bash
@@ -116,7 +116,7 @@ description: 将 Stagehand 集成到现有项目中。
       ```
     </CodeGroup>
 
-    ### 在代码库中使用
+    ### 在代码库中使用 {#use-in-your-codebase}
 
     <CodeGroup>
       ```python Python
@@ -134,10 +134,10 @@ description: 将 Stagehand 集成到现有项目中。
           
           await page.goto("https://example.com")
           
-          # Act on the page
+          # 在页面上执行操作
           await page.act("Click the sign in button")
           
-          # Extract structured data
+          # 提取结构化数据
           result = await page.extract({
               "instruction": "extract the page title",
               "schema": {
@@ -157,22 +157,22 @@ description: 将 Stagehand 集成到现有项目中。
   </Tab>
 </Tabs>
 
-## 下一步
+## 下一步 {#next-steps}
 
 <CardGroup cols={2}>
   <Card title="配置" icon="gear" href="/zh/configuration/browser">
-    环境、Browserbase 与本地、日志记录、超时设置、LLM 定制
+    环境、Browserbase 与本地、日志、超时、LLM 自定义
   </Card>
 
-  <Card title="执行" icon="arrow-pointer" href="/zh/basics/act">
-    以自然语言精确执行操作
+  <Card title="Act" icon="arrow-pointer" href="/zh/basics/act">
+    用自然语言执行精确操作
   </Card>
 
-  <Card title="提取" icon="download" href="/zh/basics/extract">
-    使用 Zod 架构进行类型化数据提取
+  <Card title="Extract" icon="download" href="/zh/basics/extract">
+    使用 Zod 模式进行类型化数据抽取
   </Card>
 
-  <Card title="观测" icon="eye" href="/zh/basics/observe">
-    发现元素与建议的操作
+  <Card title="Observe" icon="eye" href="/zh/basics/observe">
+    发现可操作元素与建议动作
   </Card>
 </CardGroup>
