@@ -128,7 +128,7 @@
       {
         "groups": [
           {
-            "group": "入门",
+            "group": "第一步",
             "pages": [
               "zh/first-steps/introduction",
               "zh/first-steps/quickstart",
@@ -137,7 +137,7 @@
             ]
           },
           {
-            "group": "基础入门",
+            "group": "基础知识",
             "pages": [
               "zh/basics/act",
               "zh/basics/extract",
@@ -225,7 +225,7 @@
               "icon": "scroll"
             },
             {
-              "anchor": "来自 Browserbase 的 Stagehand",
+              "anchor": "Browserbase 出品的 Stagehand",
               "href": "https://docs.stagehand.dev/first-steps/introduction",
               "icon": "code"
             }

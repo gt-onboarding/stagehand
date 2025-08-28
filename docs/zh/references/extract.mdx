@@ -6,7 +6,7 @@ icon: 'ufo-beam'
 
 <CardGroup cols={1}>
   <Card title="Extract" icon="ufo-beam" href="/zh/basics/extract">
-    了解如何使用 extract() 从网页提取结构化数据
+    了解如何使用 extract() 从网页中提取结构化数据
   </Card>
 </CardGroup>
 
@@ -15,13 +15,13 @@ icon: 'ufo-beam'
 <Tabs>
   <Tab title="TypeScript">
     ```typescript
-    // With schema and options
+    // 带 schema 与选项
     await page.extract<T extends z.AnyZodObject>(options: ExtractOptions<T>): Promise<ExtractResult<T>>
 
-    // String instruction only
+    // 仅字符串指令
     await page.extract(instruction: string): Promise<{ extraction: string }>
 
-    // No parameters (raw page content)
+    // 无参数（原始页面内容）
     await page.extract(): Promise<{ page_text: string }>
     ```
 
@@ -44,7 +44,7 @@ icon: 'ufo-beam'
 
   <Tab title="Python">
     ```python
-    # With schema and parameters
+    # 带 schema 与参数
     await page.extract(
         instruction: str = None,
         schema: BaseModel = None,
@@ -55,10 +55,10 @@ icon: 'ufo-beam'
         dom_settle_timeout_ms: int = None
     ) -> ExtractResult
 
-    # String instruction only
+    # 仅字符串指令
     await page.extract(instruction: str) -> Dict[str, str]
 
-    # No parameters (raw page content)
+    # 无参数（原始页面内容）
     await page.extract() -> Dict[str, str]
     ```
   </Tab>
@@ -71,15 +71,15 @@ icon: 'ufo-beam'
 </ParamField>
 
 <ParamField path="schema" type="z.ZodSchema | BaseModel" optional>
-  定义要提取数据结构的类型模式。确保类型安全与校验。
+  定义待提取数据结构的类型模式，确保类型安全与验证。
 </ParamField>
 
 <ParamField path="selector" type="string" optional>
-  将提取范围限定在指定区域的 XPath 选择器。可减少 token 使用并提升准确性。
+  用于限定提取范围的 XPath 选择器，可减少 token 使用并提升准确性。
 </ParamField>
 
 <ParamField path="iframes" type="boolean" optional>
-  若内容位于 iframes 中，请设为 `true`。
+  若内容位于 iframe 中，请设置为 `true`。
 
   **默认值：** `false`
 </ParamField>
@@ -89,11 +89,11 @@ icon: 'ufo-beam'
 </ParamField>
 
 <ParamField path="modelClientOptions" type="ClientOptions" optional>
-  模型特定的配置项。
+  模型相关的专用配置项。
 </ParamField>
 
 <ParamField path="domSettleTimeoutMs" type="number" optional>
-  等待 DOM 稳定的最长时间。
+  等待 DOM 稳定的最长时间（毫秒）。
 
   **默认值：** `30000`
 </ParamField>
@@ -102,18 +102,20 @@ icon: 'ufo-beam'
 
 <Tabs>
   <Tab title="With Schema">
-    **返回：** `Promise<ExtractResult<T>>`，其中 T 与你的 schema 匹配
+    **返回：** `Promise<ExtractResult<T>>`，其中 T 与您的 schema 匹配
 
-    返回对象将严格遵循你的 schema 定义进行类型约束。
+    返回对象将严格按照您的 schema 定义进行类型约束。
   </Tab>
 
   <Tab title="String Only">
     **返回：** `Promise<{ extraction: string }>`
-    不经 schema 校验的简单字符串提取。
+
+    不进行 schema 验证的简单字符串提取。
   </Tab>
 
   <Tab title="No Parameters">
     **返回：** `Promise<{ page_text: string }>`
+
     页面内容的原始可访问性树表示。
   </Tab>
 </Tabs>
@@ -133,7 +135,7 @@ icon: 'ufo-beam'
         inStock: z.boolean()
       });
 
-      // 数据提取
+      // 提取
       const product = await page.extract({
         instruction: "提取产品详情",
         schema: ProductSchema
@@ -149,7 +151,7 @@ icon: 'ufo-beam'
           price: float
           in_stock: bool
 
-      # 数据提取
+      # 提取
       product = await page.extract(
           instruction="提取产品详情",
           schema=Product
@@ -173,7 +175,7 @@ icon: 'ufo-beam'
       ```typescript TypeScript
       import { z } from 'zod';
 
-      // 架构定义
+      // 模型定义
       const ApartmentListingsSchema = z.object({
         apartments: z.array(z.object({
           address: z.string(),
@@ -182,7 +184,7 @@ icon: 'ufo-beam'
         }))
       });
 
-      // 数据提取
+      // 数据抽取
       const listings = await page.extract({
         instruction: "extract all apartment listings", 
         schema: ApartmentListingsSchema
@@ -193,7 +195,7 @@ icon: 'ufo-beam'
       from pydantic import BaseModel
       from typing import List
 
-      # 架构定义
+      # 模型定义
       class Apartment(BaseModel):
           address: str
           price: str
@@ -202,7 +204,7 @@ icon: 'ufo-beam'
       class ApartmentListings(BaseModel):
           apartments: List[Apartment]
 
-      # 数据提取
+      # 数据抽取
       listings = await page.extract(
           instruction="extract all apartment listings",
           schema=ApartmentListings
@@ -210,7 +212,7 @@ icon: 'ufo-beam'
       ```
     </CodeGroup>
 
-    #### 示例返回
+    #### 示例响应
 
     ```json
     {
@@ -239,7 +241,7 @@ icon: 'ufo-beam'
       const NavigationSchema = z.object({
         links: z.array(z.object({
           text: z.string(),
-          url: z.string().url()  // URL 验证
+          url: z.string().url()  // URL 校验
         }))
       });
 
@@ -257,7 +259,7 @@ icon: 'ufo-beam'
       # 模式定义
       class NavLink(BaseModel):
           text: str
-          url: HttpUrl  # URL 验证
+          url: HttpUrl  # URL 校验
 
       class Navigation(BaseModel):
           links: List[NavLink]
@@ -295,9 +297,9 @@ icon: 'ufo-beam'
         description: z.string()
       });
 
-      // 从页面的特定区域提取
+      // 从指定页面区域提取
       const data = await page.extract({
-        instruction: "从此区域提取产品信息",
+        instruction: "从该区域提取产品信息",
         selector: "xpath=/html/body/div/div",
         schema: ProductSchema
       });
@@ -311,9 +313,9 @@ icon: 'ufo-beam'
           price: float
           description: str
 
-      # 从页面的特定区域提取
+      # 从指定页面区域提取
       data = await page.extract(
-          instruction="从此区域提取产品信息",
+          instruction="从该区域提取产品信息",
           selector="xpath=/html/body/div/div",
           schema=Product
       )
@@ -354,7 +356,7 @@ icon: 'ufo-beam'
       ```
     </CodeGroup>
 
-    #### 示例返回
+    #### 示例响应
 
     ```json
     {
@@ -368,11 +370,11 @@ icon: 'ufo-beam'
       ```typescript TypeScript
       import { z } from 'zod';
 
-      // 带有描述和校验的架构
+      // 带有描述与校验的架构
       const ProductSchema = z.object({
-        price: z.number().describe("以 USD 计的商品价格"),
+        price: z.number().describe("产品价格（美元）"),
         rating: z.number().min(0).max(5).describe("客户评分（满分 5 分）"),
-        available: z.boolean().describe("商品是否有库存"),
+        available: z.boolean().describe("是否有现货"),
         tags: z.array(z.string()).optional()
       });
 
@@ -396,11 +398,11 @@ icon: 'ufo-beam'
       from pydantic import BaseModel, Field
       from typing import Optional, List
 
-      # 带有描述和校验的模型
+      # 带有描述与校验的模型
       class Product(BaseModel):
-          price: float = Field(description="以 USD 计的商品价格")
+          price: float = Field(description="产品价格（美元）")
           rating: float = Field(ge=0, le=5, description="客户评分（满分 5 分）")
-          available: bool = Field(description="商品是否有库存")
+          available: bool = Field(description="是否有现货")
           tags: Optional[List[str]] = None
 
       # 嵌套模型
@@ -427,7 +429,7 @@ icon: 'ufo-beam'
     ```json
     {
       "product": {
-        "name": "商品名称",
+        "name": "Product Name",
         "price": {
           "current": 100,
           "original": 120
@@ -436,7 +438,7 @@ icon: 'ufo-beam'
       "reviews": [
         {
           "rating": 4,
-          "comment": "很棒的商品！"
+          "comment": "Great product!"
         }
       ]
     }

@@ -1,16 +1,16 @@
 ---
-title: Installation
+title: 安装
 description: 将 Stagehand 集成到现有项目中。
 ---
 
-使用 TypeScript 或 Python SDK 在当前应用中安装 Stagehand。
+使用 TypeScript 或 Python SDK 将 Stagehand 安装到你当前的应用中。
 
 <Tip>
-  对于 TypeScript/Node.js：强烈建议在 Node.js 运行时中运行 Stagehand 脚本，而非使用 Deno、Bun 等较新的替代方案。
+  对于 TypeScript/Node.js：我们强烈建议使用 Node.js 运行时来运行 Stagehand 脚本，而非 Deno 或 Bun 等较新的替代方案。
 
-  **Bun 不支持 Stagehand**，因为它不支持 [Playwright](https://github.com/search?q=repo:oven-sh/bun+playwright\&type=issues)。
+  由于不支持 [Playwright](https://github.com/search?q=repo:oven-sh/bun+playwright\&type=issues)，**Bun 不支持 Stagehand**。
 
-  对于 Python：需要 Python 3.9+，并推荐使用 [uv](https://docs.astral.sh/uv/) 管理虚拟环境。
+  对于 Python：需要 Python 3.9 及以上版本，建议使用 [uv](https://docs.astral.sh/uv/) 管理虚拟环境。
 </Tip>
 
 <Tabs>
@@ -32,13 +32,13 @@ description: 将 Stagehand 集成到现有项目中。
     </CodeGroup>
 
     <Tip>
-      若计划本地运行，请先安装浏览器一次：`npx playwright install`。
-      使用云端浏览器会话则可跳过。
+      如果计划在本地运行，请先安装浏览器（一次即可）：`npx playwright install`。
+      如使用云端浏览器会话，可跳过此步骤。
     </Tip>
 
     ### 配置环境
 
-    设置环境变量（或通过框架提供的方式配置 `.env`）：
+    设置环境变量（或通过你的框架使用 `.env` 文件）：
 
     <CodeGroup>
       ```bash Bash
@@ -68,10 +68,10 @@ description: 将 Stagehand 集成到现有项目中。
 
         await page.goto("https://example.com");
         
-        // Act on the page
+        // 在页面上执行操作
         await page.act("Click the sign in button");
         
-        // Extract structured data
+        // 提取结构化数据
         const { title } = await page.extract({
           instruction: "extract the page title",
           schema: z.object({
@@ -106,7 +106,7 @@ description: 将 Stagehand 集成到现有项目中。
 
     ### 配置环境
 
-    设置环境变量（或通过框架提供的方式配置 `.env`）：
+    设置环境变量（或通过你的框架使用 `.env` 文件）：
 
     <CodeGroup>
       ```bash Bash
@@ -134,10 +134,10 @@ description: 将 Stagehand 集成到现有项目中。
           
           await page.goto("https://example.com")
           
-          # Act on the page
+          # 在页面上执行操作
           await page.act("Click the sign in button")
           
-          # Extract structured data
+          # 提取结构化数据
           result = await page.extract({
               "instruction": "extract the page title",
               "schema": {
@@ -160,19 +160,19 @@ description: 将 Stagehand 集成到现有项目中。
 ## 下一步
 
 <CardGroup cols={2}>
-  <Card title="配置" icon="gear" href="/zh/configuration/browser">
-    环境、Browserbase 与本地、日志记录、超时设置、LLM 定制
+  <Card title="Configuration" icon="gear" href="/zh/configuration/browser">
+    环境、Browserbase 与本地、日志、超时、LLM 定制
   </Card>
 
-  <Card title="执行" icon="arrow-pointer" href="/zh/basics/act">
-    以自然语言精确执行操作
+  <Card title="Act" icon="arrow-pointer" href="/zh/basics/act">
+    用自然语言执行精准操作
   </Card>
 
-  <Card title="提取" icon="download" href="/zh/basics/extract">
-    使用 Zod 架构进行类型化数据提取
+  <Card title="Extract" icon="download" href="/zh/basics/extract">
+    基于 Zod 模式的类型化数据提取
   </Card>
 
-  <Card title="观测" icon="eye" href="/zh/basics/observe">
-    发现元素与建议的操作
+  <Card title="Observe" icon="eye" href="/zh/basics/observe">
+    发现元素与建议操作
   </Card>
 </CardGroup>

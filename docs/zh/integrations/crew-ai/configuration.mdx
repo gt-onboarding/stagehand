@@ -1,14 +1,14 @@
 ---
 title: "使用 CrewAI 自动化浏览器任务"
 sidebarTitle: Configuration
-description: "通过自然语言指令创建可与网站交互并自动执行浏览器任务的智能代理"
+description: "通过自然语言指令创建可与网站交互并自动化浏览器任务的智能代理"
 ---
 
-本指南将带你在 Browserbase 上完成 CrewAI 的设置，创建能够依据自然语言指令执行网页自动化任务的代理。
+本指南将带你完成在 Browserbase 上配置 CrewAI 的步骤，以创建能够依据自然语言指令执行网页自动化任务的代理。
 
-## 步骤 1：安装依赖
+## 步骤 1：安装依赖项
 
-安装用于集成 CrewAI 与 Stagehand（AI 增强的浏览器自动化框架）的必要包：
+安装用于集成 CrewAI 和 Stagehand 的必需包：
 
 ```bash
 pip install stagehand-py crewai crewai-tools
@@ -16,12 +16,12 @@ pip install stagehand-py crewai crewai-tools
 
 ## 步骤 2：配置环境变量
 
-你需要从以下服务获取 API 密钥：
+你需要从以下两个服务获取 API 密钥：
 
-1. **Browserbase API Key 和 Project ID**：在你的 [Browserbase 仪表盘](https://www.browserbase.com/) 获取
+1. **Browserbase API Key 和 Project ID**：在 [Browserbase 仪表板](https://www.browserbase.com/) 获取
 2. **LLM API Key**：从 [OpenAI](https://platform.openai.com/api-keys) 或 [Anthropic](https://console.anthropic.com/) 获取
 
-将这些 API 密钥安全地保存为环境变量：
+请将这些 API 密钥安全地保存为环境变量：
 
 ```bash
 BROWSERBASE_API_KEY="your-browserbase-api-key"
@@ -30,9 +30,9 @@ OPENAI_API_KEY="your-openai-api-key"
 ANTHROPIC_API_KEY="your-anthropic-api-key"
 ```
 
-## 步骤 3：创建你的第一个 agent()
+## 步骤 3：创建你的第一个 Agent
 
-使用一个基础的 CrewAI agent()（自主多步骤浏览器代理）创建一个 Python 脚本：
+编写一个包含基础 CrewAI Agent 的 Python 脚本：
 
 ```python
 import os
@@ -53,28 +53,28 @@ stagehand_tool = StagehandTool(
     model_name=AvailableModel.GPT_4O,  # 或 AvailableModel.CLAUDE_3_7_SONNET_LATEST
 )
 
-# 使用该工具创建一个 agent
+# 使用该工具创建一个 Agent
 researcher = Agent(
     role="Web Researcher",
-    goal="查找并总结网站上的信息",
-    backstory="我擅长在网上高效搜集信息。",
+    goal="Find and summarize information from websites",
+    backstory="I'm an expert at finding information online.",
     verbose=True,
     tools=[stagehand_tool],
 )
 ```
 
-## 第 4 步：创建并运行任务
+## 步骤 4：创建并运行任务
 
-为你的 agent()（自主多步骤浏览器代理）定义一个任务并执行：
+为你的代理定义一个任务并执行：
 
 ```python
 # 创建一个使用该工具的任务
 research_task = Task(
-    description="访问 https://www.example.com，并告诉我首页的内容。",
+    description="访问 https://www.example.com，并告诉我你在首页看到的内容。",
     agent=researcher,
 )
 
-# 运行 crew
+# 运行工作组
 crew = Crew(
     agents=[researcher],
     tasks=[research_task],
@@ -85,13 +85,13 @@ try:
     result = crew.kickoff()
     print(result)
 finally:
-    # 释放资源
+    # 清理资源
     stagehand_tool.close()
 ```
 
-## 第 5 步：运行脚本
+## 步骤 5：运行你的脚本
 
-运行你的 Python 脚本：
+执行你的 Python 脚本：
 
 ```bash
 python your_crew_script.py
@@ -107,11 +107,11 @@ stagehand_tool = StagehandTool(
     project_id=browserbase_project_id, 
     model_api_key=model_api_key,
     model_name=AvailableModel.CLAUDE_3_7_SONNET_LATEST,
-    dom_settle_timeout_ms=5000,  # 更长时间等待 DOM 稳定
+    dom_settle_timeout_ms=5000,  # 将等待时间延长，直至 DOM 稳定
     headless=True,  # 以无头模式运行浏览器
-    self_heal=True,  # 尝试从错误中恢复
-    wait_for_captcha_solves=True,  # 等待 CAPTCHA 解决
-    verbose=1,  # 控制日志详细度（0-3）
+    self_heal=True,  # 尝试从错误中自愈恢复
+    wait_for_captcha_solves=True,  # 等待完成验证码求解
+    verbose=1,  # 控制日志详细级别（0-3）
 )
 ```
 
@@ -125,7 +125,7 @@ stagehand_tool = StagehandTool(
         提交联系表单：
         1. 访问 https://example.com/contact
         2. 使用姓名“John Doe”、邮箱“john@example.com”填写表单
-        3. 提交并确认成功
+        3. 提交并确认已成功
         """,
         agent=researcher,
     )
@@ -148,11 +148,11 @@ stagehand_tool = StagehandTool(
     ```python
     navigation_task = Task(
         description="""
-        导航并分析：
+        导航与分析：
         1. 从首页开始
-        2. 进入产品板块  
+        2. 前往产品栏目
         3. 按“Electronics”类别筛选
-        4. 查找并提取评分最高的产品详情
+        4. 查找并提取评分最高产品的详细信息
         """,
         agent=researcher,
     )
@@ -162,7 +162,7 @@ stagehand_tool = StagehandTool(
 
 <CardGroup cols={2}>
   <Card title="CrewAI 文档" icon="book" href="https://docs.crewai.com/">
-    深入阅读 CrewAI 文档，了解其功能与集成。
+    深入了解 CrewAI 文档，探索其功能与集成方式。
   </Card>
   <Card title="Browserbase 文档" icon="book" href="https://docs.browserbase.com/">
     查阅 Browserbase 文档，获取完整指南与资源。

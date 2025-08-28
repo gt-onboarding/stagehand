@@ -5,15 +5,17 @@ description: "使用 Stagehand 构建可自主控制浏览器的 AI 代理"
 
 import { Excalidraw } from '/snippets/excalidraw.mdx';
 
-Stagehand 为 AI 代理提供了强大的工具，能够完全自主地控制浏览器。请观看下方演示：一个 Stagehand 代理如何自主打开指定 URL、在页面上执行操作，并提取结构化数据来回答问题。
-用 Stagehand 构建代理有多种方式。我们来看看其中的一些。
+Stagehand 为 AI 代理提供了强大的工具，使其能够完全自主地控制浏览器。请观看下方演示，了解 Stagehand 代理如何自主访问指定 URL、在页面上执行操作，并提取结构化数据来回答问题。
+使用 Stagehand 构建代理的方式有很多。我们来看看其中的几种。
 
 ![Agent](/media/stagehand-agent.gif)
 
-## Stagehand MCP
+<div id="stagehand-mcp">
+  ## Stagehand MCP
+</div>
 
-上面的示例是一个使用 Stagehand 控制浏览器的 Claude 代理。在撰写本文时，[多模态工具调用](https://sdk.vercel.ai/docs/ai-sdk-core/tools-and-tool-calling#multi-modal-tool-results) 仅在 Claude 3.5/3.7 Sonnet 中受支持。
-这意味着 Claude 足够智能，能在需要时请求浏览器截图，并据此判断下一步应执行的操作。
+上面的示例展示了一个使用 Stagehand 来控制浏览器的 Claude 代理。在撰写本文时，[多模态工具调用](https://sdk.vercel.ai/docs/ai-sdk-core/tools-and-tool-calling#multi-modal-tool-results) 仅在 Claude 3.5/3.7 Sonnet 中受支持。
+这意味着 Claude 足够智能，知道何时需要请求浏览器截图，并可以据此截图决定下一步要执行的操作。
 
 <CardGroup>
   <Card title="Browserbase MCP" href="https://github.com/browserbase/mcp-server-browserbase/" icon="hand-horns">
@@ -21,18 +23,19 @@ Stagehand 为 AI 代理提供了强大的工具，能够完全自主地控制浏
   </Card>
 </CardGroup>
 
-更有意思的是，代理能够将对浏览器状态的推理与执行动作解耦！\
-Claude 负责推理浏览器状态，而 Stagehand 则可使用 GPT-4o-mini 或计算机使用模型在页面上执行操作。\
-Stagehand 甚至能智能选择何时使用 GPT-4o-mini、何时使用计算机使用模型，例如在检测到 iframes 时。
+更有意思的是，代理能够将对浏览器状态的推理与具体操作解耦开来！Claude 负责对浏览器状态进行推理，而 Stagehand 则可借助 GPT-4o-mini 或计算机使用模型在页面上执行操作。
+Stagehand 甚至聪明到能判断何时该用 GPT-4o-mini、何时该用计算机使用模型，例如在检测到 iframe 时。
 
 <Excalidraw className="w-full aspect-video" url="https://link.excalidraw.com/readonly/GWQWmWUBqMBEAamlWsIM?darkMode=true" />
 
-我们发现让 Claude 作为“Trajectory”代理，在合适的时机调用 Stagehand 工具，效果非常出色！\
-虽然 MCP 仍处于早期阶段，但我们对其发展前景充满期待。
+我们发现，将 Claude 作为“Trajectory”代理，在合适的时候调用 Stagehand 工具，效果非常出色！
+虽然 MCP 仍处于非常早期的阶段，但我们对它的未来走向充满期待。
 
-## Stagehand + 计算机使用模型
+<div id="stagehand-computer-use-models">
+  ## Stagehand + Computer Use 模型
+</div>
 
-使用 Stagehand，只需一行代码即可调用 OpenAI 和 Anthropic 的强大计算机使用 API。
+Stagehand 让你只需一行代码就能调用来自 OpenAI 和 Anthropic 的强大全机使用 API。
 
 <CodeGroup>
   ```typescript TypeScript
@@ -64,29 +67,31 @@ Stagehand 甚至能智能选择何时使用 GPT-4o-mini、何时使用计算机�
 </CodeGroup>
 
 <CardGroup>
-  <Card title="Stagehand + 计算机使用文档" href="/zh/best-practices/computer-use" icon="scroll">
-    查看我们的文档，了解如何将计算机使用模型与 Stagehand 结合使用。
+  <Card title="Stagehand + Computer Use 文档" href="/zh/best-practices/computer-use" icon="scroll">
+    查看我们的文档页面，了解如何在 Stagehand 中使用 Computer Use 模型。
   </Card>
 
   <Card title="CUA 浏览器演示" href="https://cua.browserbase.com/" icon="brain-circuit">
-    查看由 OpenAI 的 Computer Using Agent（CUA）模型控制的 Browserbase 浏览器的在线演示。
+    查看由 OpenAI 的 Computer Using Agent（CUA）模型驱动的 Browserbase 浏览器在线演示。
   </Card>
 </CardGroup>
 
-## 顺序工具调用（Open Operator）
+<div id="sequential-tool-calling-open-operator">
+  ## 顺序工具调用（Open Operator）
+</div>
 
 2025 年 1 月，Browserbase 发布了 [Open Operator](https://operator.browserbase.com)。
-Open Operator 能够基于浏览器状态进行推理，并据此采取行动来完成更复杂的任务，例如“帮我点一份披萨”。
-它通过按顺序调用 Stagehand 工具来工作：
+Open Operator 能够理解浏览器的当前状态，并据此采取行动来完成更复杂的任务，比如“帮我点一份披萨”。
+它通过按顺序调用 Stagehand 的工具来运行：
 
-1. 若没有 URL，则访问默认 URL。
+1. 如果没有 URL，则访问默认 URL。
 2. 检查浏览器状态，并让 LLM 推理下一步该做什么。
 3. 使用 `page.act()` 执行 LLM 建议的操作。
-4. 重复以上步骤
+4. 重复上述过程
 
 <Excalidraw className="w-full" url="https://link.excalidraw.com/readonly/dKh5sB1gEM1EjVqRCGKn" />
 
-将 `stagehand.agent` 融入你的浏览器自动化，就像添加一行代码一样简单：
+将 `stagehand.agent` 集成到浏览器自动化中，就像添加一行代码一样简单：
 
 <Note>
   Python 目前通过 Computer Use Agent（CUA）模型支持 `stagehand.agent`。默认实现即将推出。
@@ -106,11 +111,13 @@ Open Operator 能够基于浏览器状态进行推理，并据此采取行动来
   ```
 </CodeGroup>
 
-### 回放代理的操作
+<div id="replay-the-agents-actions">
+  ### 回放代理的操作
+</div>
 
-你可以像使用常规 Stagehand 代理一样回放代理的操作。你甚至可以自动缓存这些操作，以在重复运行时避免不必要的 LLM 调用。
+你可以像使用常规的 Stagehand 代理一样，以相同方式回放代理的操作。你甚至可以自动缓存这些操作，以避免在重复运行时产生不必要的 LLM 调用。
 
-下面我们使用 `replay` 函数将操作保存为一个 Stagehand 脚本文件，它会重现代理执行过的相同行为，并内置操作缓存。
+让我们使用下面的 `replay` 函数把这些操作保存到一个 Stagehand 脚本文件中，该文件会复现代理执行过的相同操作，并内置了操作缓存。
 
 <Accordion title="utils.ts">
   ```typescript
@@ -167,7 +174,7 @@ Open Operator 能够基于浏览器状态进行推理，并据此采取行动来
         "npx prettier --write replay.ts",
         (error: any, stdout: any, stderr: any) => {
           if (error) {
-            console.error(\`Error formatting replay.ts: \${error}\`);
+            console.error(`Error formatting replay.ts: ${error}`);
             reject(error);
             return;
           }
@@ -179,7 +186,7 @@ Open Operator 能够基于浏览器状态进行推理，并据此采取行动来
   ```
 </Accordion>
 
-下面是类似于“Get me the stock price of NVDA”这条指令的回放输出：
+下面是针对类似“Get me the stock price of NVDA”这条指令的回放输出：
 
 ```typescript {14-22} replay.ts
 import { Page, BrowserContext, Stagehand } from "@browserbasehq/stagehand";
@@ -189,16 +196,16 @@ export async function main({
   context,
   stagehand,
 }: {
-  page: Page; // 具备 act、extract 和 observe 方法的 Playwright Page
+  page: Page; // 具有 act、extract 和 observe 方法的 Playwright Page
   context: BrowserContext; // Playwright BrowserContext
   stagehand: Stagehand; // Stagehand 实例
 }) {
   await page.goto("https://www.google.com");
 
-  // 回放将优先使用 Playwright，以避免不必要的 LLM 调用！
-  // 如果 Playwright 操作失败，Stagehand AI 将接手并自愈
+  // Replay 将优先使用 Playwright，以避免不必要的 LLM 调用！
+  // 如果 Playwright 动作失败，Stagehand AI 将接管并自动修复
   await page.act({
-    description: "用户输入查询的搜索框（组合框）。",
+    description: "供用户输入查询的搜索框。",
     method: "fill",
     arguments: ["NVDA stock price"],
     selector:

@@ -1,33 +1,39 @@
 ---
 title: 代理
-description: "使用 AI 驱动的浏览器代理自动化复杂流程"
+description: "利用 AI 驱动的浏览器智能体，自动化复杂工作流程"
 ---
 
-## 什么是 `agent()?`
+<div id="what-is-agent">
+  ## 什么是 `agent()?`
+</div>
 
 ```typescript
 agent.execute("apply for a job at browserbase")
 ```
 
-`agent` 会将高层任务转化为**完全自主**的浏览器工作流。你可以通过指定 LLM 提供商与模型、设置自定义行为指令，并配置最大步骤来定制该代理。
+`agent` 可将高层任务转化为**全自动**的浏览器工作流。你可以通过指定 LLM 提供方与模型、设置自定义行为指令，并配置最大执行步数来定制该 agent。
 
 <img src="/images/agent.gif" alt="Agent" />
 
-## 为什么使用 `agent()`？
+<div id="why-use-agent">
+  ## 为什么使用 `agent()`？
+</div>
 
 <CardGroup cols={2}>
-  <Card title="多步工作流" icon="route" href="zh/#agent-execution-configuration">
-    自动完成复杂的多步操作。
+  <Card title="多步骤工作流" icon="route" href="#agent-execution-configuration">
+    自动完成复杂流程。
   </Card>
 
   <Card title="视觉理解" icon="eye" href="/zh/best-practices/computer-use">
-    借助计算机视觉像人类一样看懂并理解网页界面。
+    借助计算机视觉，像人类一样“看懂”网页界面。
   </Card>
 </CardGroup>
 
-## 使用 `agent()`
+<div id="using-agent">
+  ## 使用 `agent()`
+</div>
 
-以下展示如何使用 `agent()` 来创建一个代理。
+以下展示了如何使用 `agent()` 创建一个代理。
 
 <CodeGroup>
   ```typescript TypeScript
@@ -56,47 +62,51 @@ agent.execute("apply for a job at browserbase")
 </CodeGroup>
 
 <Warning>
-  Stagehand 默认使用 1024x768 的视口（这是计算机使用代理的最佳尺寸）。其他视口大小可能降低性能。若需修改视口，可在 [浏览器配置](/zh/configuration/browser) 中调整。
+  Stagehand 默认使用 1024×768 的视口（这对“计算机使用型”代理而言是最佳尺寸）。其他视口大小可能会降低性能。如需修改视口，请在[浏览器配置](/zh/configuration/browser)中进行调整。
 </Warning>
 
-## 可用模型
+<div id="available-models">
+  ## 可用模型
+</div>
 
-使用专用的计算机使用模型（例如 OpenAI 的 `computer-use-preview` 或 Anthropic 的 `claude-sonnet-4-20250514`）
+使用专门用于计算机操作的模型（例如 OpenAI 的 `computer-use-preview` 或 Anthropic 的 `claude-sonnet-4-20250514`）
 
 <Card title="Available Models" icon="robot" href="/zh/configuration/models">
-  查看在 Stagehand 中使用不同模型的方法指南。
+  查看在 Stagehand 中使用不同模型的指南。
 </Card>
 
-## 代理执行配置
+<div id="agent-execution-configuration">
+  ## 代理执行配置
+</div>
 
-使用 `maxSteps` 参数控制代理为完成任务可执行的最大步数。
+使用 `maxSteps` 参数控制代理为完成任务所能执行的最大操作步数。
 
 <CodeGroup>
   ```typescript TypeScript
-  // 设置 maxSteps 以限制代理可执行的动作步数
+  // 通过 maxSteps 限制代理可执行的操作次数
   await agent.execute({
     instruction: "帮我办理一张图书馆借书证",
-    maxSteps: 15 // 如果任务未完成，代理将在第 15 步后停止
+    maxSteps: 15 // 若任务未完成，代理将在 15 步后停止
   });
   ```
 
   ```python Python
-  # 设置 max_steps 以限制代理可执行的动作步数
+  # 通过 max_steps 限制代理可执行的操作次数
   result = await agent.execute({
       "instruction": "帮我办理一张图书馆借书证",
-      "max_steps": 15  # 如果任务未完成，代理将在第 15 步后停止
+      "max_steps": 15  # 若任务未完成，代理将在 15 步后停止
   })
   ```
 </CodeGroup>
 
-对于复杂任务，请提高 `maxSteps` 上限并检查任务是否成功完成。
+对于复杂任务，可提高 `maxSteps` 上限，并检查任务是否成功完成。
 
 <CodeGroup>
   ```typescript TypeScript
-  // 需要更多操作的复杂多步骤任务
+  // 复杂的多步骤任务，需要更多操作
   const result = await agent.execute({
-    instruction: "查找并申请软件工程职位，按远程工作筛选并保存 3 份申请",
-    maxSteps: 30, // 为复杂工作流设置更高的上限
+    instruction: "查找并申请软件工程岗位，按远程工作筛选，并保存 3 份申请",
+    maxSteps: 30, // 为复杂流程设置更高的上限
   });
 
   // 检查任务是否成功完成
@@ -108,10 +118,10 @@ agent.execute("apply for a job at browserbase")
   ```
 
   ```python Python
-  # 需要更多操作的复杂多步骤任务
+  # 复杂的多步骤任务，需要更多操作
   result = await agent.execute({
-      "instruction": "查找并申请软件工程职位，按远程工作筛选并保存 3 份申请",
-      "max_steps": 30  # 为复杂工作流设置更高的上限
+      "instruction": "查找并申请软件工程岗位，按远程工作筛选，并保存 3 份申请",
+      "max_steps": 30  # 为复杂流程设置更高的上限
   })
 
   # 检查任务是否成功完成
@@ -122,13 +132,17 @@ agent.execute("apply for a job at browserbase")
   ```
 </CodeGroup>
 
-## 最佳实践
+<div id="best-practices">
+  ## 最佳实践
+</div>
 
-遵循这些最佳实践将提升代理的成功率、缩短执行时间，并在完成任务时尽量减少意外错误。
+遵循这些最佳实践将提升代理的成功率、缩短执行时间，并尽量减少任务执行中的意外错误。
 
-### 从正确的页面开始
+<div id="start-on-the-right-page">
+  ### 从正确的页面开始
+</div>
 
-在执行任务前先跳转至目标页面：
+在执行任务前先打开目标页面：
 
 <Tabs>
   <Tab title="这样做">
@@ -158,9 +172,11 @@ agent.execute("apply for a job at browserbase")
   </Tab>
 </Tabs>
 
-### 具体明确
+<div id="be-specific">
+  ### 具体明确
+</div>
 
-提供细致明确的指令以获得更好的结果：
+提供更具体的指令以获得更佳效果：
 
 <Tabs>
   <Tab title="这样做">
@@ -188,26 +204,28 @@ agent.execute("apply for a job at browserbase")
   </Tab>
 </Tabs>
 
-## 疑难解答
+<div id="troubleshooting">
+  ## 故障排查
+</div>
 
 <AccordionGroup>
   <Accordion title="Agent is stopping before completing the task">
-    **问题**：代理在完成请求的任务前就停止了
+    **问题**：Agent 在完成所请求的任务之前就停止了
 
     **解决方案**：
 
-    - 检查代理是否触及了 maxSteps 上限（默认 20）
-    - 对于复杂任务，提高 maxSteps：例如 `maxSteps: 30` 或更高
-    - 将非常复杂的任务拆分为更小的顺序子任务
+    - 检查 agent 是否触达 maxSteps 限制（默认 20）
+    - 对于复杂任务提高 maxSteps：例如 `maxSteps: 30` 或更高
+    - 将极其复杂的任务拆分为更小的顺序步骤执行
 
     ```typescript
-    // 对于复杂任务提高 maxSteps
+    // 为复杂任务提高 maxSteps
     await agent.execute({
       instruction: "Complete the multi-page registration form with all required information",
-      maxSteps: 40 // 为复杂任务提升上限
+      maxSteps: 40 // 为复杂任务提高上限
     });
 
-    // 或拆分为更小的任务并进行成功性检查
+    // 或将其拆分为更小的任务并检查成功状态
     const firstResult = await agent.execute({
       instruction: "Fill out page 1 of the registration form", 
       maxSteps: 15
@@ -226,23 +244,25 @@ agent.execute("apply for a job at browserbase")
   </Accordion>
 
   <Accordion title="Agent is failing to click the proper elements">
-    **问题**：代理点击了错误的元素，或未能与正确的 UI 组件交互
+    **问题**：Agent 点击了错误的元素，或无法与正确的 UI 组件交互
 
     **解决方案**：
 
-    - 确保使用合适的 Viewport（视口）大小：Stagehand 默认 `1024x768`（对 Computer Use Agent 模型最优）
-    - 避免更改视口尺寸，其他大小可能降低性能
+    - 确保使用合适的视口大小：Stagehand 默认使用 `1024x768`（对 Computer Use 模型更优）
+    - 避免更改视口尺寸，其他大小可能会降低性能
   </Accordion>
 </AccordionGroup>
 
-## 下一步
+<div id="next-steps">
+  ## 下一步
+</div>
 
 <CardGroup cols={2}>
   <Card title="Act" icon="play" href="/zh/basics/act">
-    使用 observe() 结果高效执行操作
+    基于观察结果高效执行操作
   </Card>
 
   <Card title="Extract" icon="download" href="/zh/basics/extract">
-    从已观测的元素中提取结构化数据
+    从已观察到的元素中提取结构化数据
   </Card>
 </CardGroup>

@@ -1,30 +1,34 @@
 ---
 title: 可观测性
 sidebarTitle: 可观测性
-description: 通过会话可见性与分析追踪 Stagehand 自动化
+description: 通过会话可见性与分析跟踪 Stagehand 自动化
 ---
 
-Stagehand 提供强大的可观测性功能，帮助你监控、衡量性能，并分析浏览器自动化流程。重点覆盖会话监控、资源使用以及在 Browserbase 与本地环境中的运营洞察。
+Stagehand 提供强大的可观测性功能，帮助你监控、跟踪性能并分析浏览器自动化流程。聚焦会话监控、资源使用，以及在 Browserbase 与本地环境中的运营洞察。
 
-## Browserbase 会话监控
+<div id="browserbase-session-monitoring">
+  ## Browserbase 会话监控
+</div>
 
-在 Browserbase 上运行时，你可以通过 Browserbase API 和控制台获得全面的云端监控与会话管理能力。
+在 Browserbase 上运行时，你可以通过 Browserbase API 和仪表板获得完善的云端监控与会话管理能力。
 
 <div style={{ textAlign: "center" }}>
   <img src="/media/observability.gif" alt="Browserbase 会话可观测性" width="400" />
 </div>
 
-### 实时会话可视性
+<div id="live-session-visibility">
+  ### 实时会话可视性
+</div>
 
 Browserbase 为你的自动化会话提供实时可视性：
 
-**会话控制台功能**
+**会话仪表板功能**
 
 - 实时浏览器屏幕录制与回放
 - 带详细时序的网络请求监控
-- JavaScript 控制台日志与错误跟踪
+- JavaScript 控制台日志与错误追踪
 - CPU 与内存使用指标
-- 会话状态与持续时间跟踪
+- 会话状态与时长追踪
 
 **会话管理与 API 访问**
 
@@ -77,15 +81,17 @@ Browserbase 为你的自动化会话提供实时可视性：
   ```
 </CodeGroup>
 
-### 会话分析与洞察
+<div id="session-analytics-insights">
+  ### 会话分析与洞察
+</div>
 
 <CardGroup>
   <Card title="Real-Time Monitoring" icon="chart-line">
-    监控实时会话状态、资源使用与地理分布。基于实时洞察扩缩并管理并发会话。
+    监控实时会话状态、资源使用与地理分布。基于实时洞察进行扩缩容并管理并发会话。
   </Card>
 
   <Card title="Session Recordings" icon="video">
-    查看完整会话录制，逐帧回放。可视化分析网络请求并调试浏览器交互。
+    查看完整会话录制并逐帧回放。以可视化方式分析网络请求并调试浏览器交互。
   </Card>
 
   <Card title="API Management" icon="code">
@@ -93,13 +99,15 @@ Browserbase 为你的自动化会话提供实时可视性：
   </Card>
 
   <Card title="Usage Monitoring" icon="chart-bar">
-    跟踪资源消耗、会话时长与 API 使用情况。获取自动化各环节的成本与利用率明细。
+    跟踪资源消耗、会话时长与 API 使用情况。获取关于自动化流程的成本与利用率的详细拆解。
   </Card>
 </CardGroup>
 
-### 会话监控与筛选
+<div id="session-monitoring-filtering">
+  ### 会话监控与筛选
+</div>
 
-按状态与元数据查询并监控会话：
+按状态与元数据查询和监控会话：
 
 <CodeGroup>
   ```typescript TypeScript
@@ -156,7 +164,7 @@ Browserbase 为你的自动化会话提供实时可视性：
           'ended_at': session['endedAt'],
           'region': session['region'],
           'avg_cpu_usage': session['avgCpuUsage'],
-          'memory_usage': session['MemoryUsage'] if 'MemoryUsage' in session else session['memoryUsage'],
+          'memory_usage': session['memoryUsage'],
           'proxy_bytes': session['proxyBytes'],
           'user_metadata': session['userMetadata']
       } for session in sessions]
@@ -168,11 +176,15 @@ Browserbase 为你的自动化会话提供实时可视性：
   ```
 </CodeGroup>
 
-## 本地环境监控
+<div id="local-environment-monitoring">
+  ## 本地环境监控
+</div>
 
-在本地开发中，Stagehand 可直接在你的机器上提供性能监控与资源跟踪能力。
+在本地开发中，Stagehand 可在你的机器上直接提供性能监控与资源跟踪能力。
 
-### 性能监测
+<div id="performance-tracking">
+  ### 性能监测
+</div>
 
 <CodeGroup>
   ```typescript TypeScript
@@ -180,7 +192,7 @@ Browserbase 为你的自动化会话提供实时可视性：
 
   const stagehand = new Stagehand({
     env: "LOCAL",
-    verbose: 1, // 在不输出调试噪声的情况下监控性能
+    verbose: 1, // 在无调试噪声的前提下监控性能
   });
 
   // 跟踪本地自动化指标
@@ -206,7 +218,7 @@ Browserbase 为你的自动化会话提供实时可视性：
 
   stagehand = Stagehand(
       env="LOCAL",
-      verbose=1,  # 在不输出调试噪声的情况下监控性能
+      verbose=1,  # 在无调试噪声的前提下监控性能
   )
 
   # 跟踪本地自动化指标
@@ -227,7 +239,9 @@ Browserbase 为你的自动化会话提供实时可视性：
   ```
 </CodeGroup>
 
-## 资源使用监控
+<div id="resource-usage-monitoring">
+  ## 资源使用监控
+</div>
 
 在本地运行时，监控系统资源占用与浏览器性能：
 
@@ -336,21 +350,25 @@ Browserbase 为你的自动化会话提供实时可视性：
 </CodeGroup>
 
 <Card title="LLM Usage" icon="chart-line" href="/zh/configuration/evals">
-  监控 Token 使用量、成本与速度；为关键故障设置自动告警；在不同环境间进行成本跟踪；利用会话分析优化自动化工作流。
+  监控 Token 使用量、成本与速度；为关键故障设置自动告警；在不同环境中进行成本跟踪；利用会话分析优化自动化工作流。
 </Card>
 
-## 实时指标与监控
+<div id="real-time-metrics-monitoring">
+  ## 实时指标与监控
+</div>
 
-### 基本用量跟踪
+<div id="basic-usage-tracking">
+  ### 基础用量追踪
+</div>
 
-使用 `stagehand.metrics` 实时监控你的自动化资源使用情况：
+使用 `stagehand.metrics` 实时监控自动化的资源使用情况：
 
 <CodeGroup>
   ```typescript TypeScript
   // 获取当前指标
   console.log(stagehand.metrics);
 
-  // 在自动化过程中进行监控
+  // 在自动化过程中监控
   const startTime = Date.now();
   const initialMetrics = stagehand.metrics;
 
@@ -371,7 +389,7 @@ Browserbase 为你的自动化会话提供实时可视性：
   # 获取当前指标
   print(stagehand.metrics)
 
-  # 在自动化过程中进行监控
+  # 在自动化过程中监控
   import time
   start_time = time.time()
   initial_metrics = stagehand.metrics
@@ -379,7 +397,7 @@ Browserbase 为你的自动化会话提供实时可视性：
   # ... 执行自动化任务
 
   final_metrics = stagehand.metrics
-  execution_time = (time.time() - start_time) * 1000  # 转为毫秒
+  execution_time = (time.time() - start_time) * 1000  # 转换为毫秒
 
   print('Automation Summary:', {
       'total_tokens': final_metrics['total_prompt_tokens'] + final_metrics['total_completion_tokens'],
@@ -390,9 +408,11 @@ Browserbase 为你的自动化会话提供实时可视性：
   ```
 </CodeGroup>
 
-### 解读指标数据
+<div id="understanding-metrics-data">
+  ### 了解指标数据
+</div>
 
-该指标对象会按 Stagehand 操作提供详细拆分：
+metrics 对象会按 Stagehand 的各项操作提供详细拆分：
 
 <CodeGroup>
   ```typescript TypeScript
@@ -436,9 +456,11 @@ Browserbase 为你的自动化会话提供实时可视性：
   ```
 </CodeGroup>
 
-### 将推理记录到文件
+<div id="log-inference-to-file">
+  ### 将推理日志写入文件
+</div>
 
-你也可以将 `logInferenceToFile` 设为 `true`，把推理日志写入文件。此操作会在项目根目录创建一个名为 `inference_summary` 的目录。
+你也可以将 `logInferenceToFile` 设置为 `true`，把推理过程记录到文件。这将在项目根目录创建名为 `inference_summary` 的目录。
 
 <CodeGroup>
   ```typescript TypeScript
@@ -475,7 +497,9 @@ inference_summary/
 │   └── observe_summary.json
 ```
 
-### 日志文件结构
+<div id="log-file-structure">
+  ### 日志文件结构
+</div>
 
 每个操作都会生成用于分析的详细日志：
 
@@ -496,40 +520,42 @@ inference_summary/
 }
 ```
 
-## 最佳实践
+<div id="best-practices">
+  ## 最佳实践
+</div>
 
 <AccordionGroup>
-  <Accordion title="生产监控">
+  <Accordion title="生产环境监控">
     - 跟踪会话成功率与失败模式
-    - 监控资源使用与扩容需求
-    - 为关键故障配置自动告警
-    - 跨环境实施成本追踪
-    - 利用会话分析优化自动化流程
+    - 监控资源使用情况与弹性扩缩需求
+    - 为关键故障设置自动告警
+    - 在不同环境中进行成本跟踪
+    - 使用会话分析优化自动化流程
   </Accordion>
 
   <Accordion title="性能优化">
-    - 比较 Browserbase 与本地执行时间
-    - 跨模型监控 token 消耗与推理成本
+    - 比较 Browserbase 与本地的执行时间
+    - 跨模型监控 token 使用量与推理成本
     - 跟踪不同地域的性能差异
     - 识别自动化流程中的瓶颈
-    - 面向性价比与速度进行优化
+    - 在成本效益与速度之间做优化
   </Accordion>
 
   <Accordion title="运营洞察">
     - 跟踪各地区的会话分布
-    - 监控并发会话上限与弹性扩容
+    - 监控并发会话上限与扩缩能力
     - 分析失败模式与常见错误场景
-    - 通过会话录制进行根因分析
+    - 使用会话录制进行根因分析
     - 使用自定义元数据对流程进行分类
   </Accordion>
 
   <Accordion title="集成与告警">
-    - 将会话 API 接入监控看板
-    - 为会话失败配置自动通知
+    - 将会话 API 集成到监控仪表板
+    - 为会话失败设置自动通知
     - 跟踪 SLA 合规性与性能基准
     - 监控资源成本与使用模式
-    - 用分析数据进行容量规划与优化
+    - 使用分析数据进行容量规划与优化
   </Accordion>
 </AccordionGroup>
 
-有关详细日志与调试功能，请参见 [Logging](/zh/configuration/logging)。
+有关详细的日志与调试功能，请参阅 [Logging](/zh/configuration/logging)。

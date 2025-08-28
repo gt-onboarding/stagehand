@@ -1,39 +1,39 @@
 ---
 title: 介绍 Stagehand
 sidebarTitle: 介绍
-description: 开发者使用 Stagehand 来可靠地自动化 Web。
+description: 开发者借助 Stagehand 稳定可靠地实现网页自动化。
 ---
 
-Stagehand 是一个浏览器自动化框架，可通过自然语言与代码控制网页浏览器。通过将 AI 的能力与代码的精确性相结合，Stagehand 让 Web 自动化更灵活、可维护，而且真正可靠。
+Stagehand 是一款浏览器自动化框架，支持通过自然语言与代码来控制浏览器。它将 AI 的强大能力与代码的精确性结合起来，使网页自动化更灵活、易维护，且真正可靠。
 
-## 浏览器自动化的问题
+## 浏览器自动化的痛点
 
-像 Playwright 和 Puppeteer 这样的传统框架会迫使你编写脆弱的脚本，一旦 UI 变化就容易崩。Web 代理承诺用 AI 解决这个问题，却让你受制于不可预测的行为。
+像 Playwright 和 Puppeteer 这样的传统框架迫使你编写易碎的脚本，UI 每次改动都可能导致脚本失效。Web 代理宣称用 AI 解决这一问题，却让你不得不面对不可控的行为。
 
-**你被夹在两个糟糕的选择之间：**
+**你被困在两个糟糕的选项之间：**
 
-- **过于脆弱**：传统选择器在网站变更时就会失效
-- **过于“代理”**：AI 代理行为不可控且几乎无法调试
+- **过于脆弱**：传统选择器在网站变化时就会失效
+- **过于“智能”**：AI 代理行为不可预测，且几乎无法调试
 
-## 走进 Stagehand
+## 引入 Stagehand
 
-Stagehand 通过四个强大的原语，让你精确掌控 AI 的使用程度，兼得两全其美：
+Stagehand 通过四个强大的基元，让你两全其美，自由掌控使用 AI 的力度：
 
 <CardGroup cols={2}>
   <Card title="Act" icon="play" href="/zh/basics/act">
-    使用自然语言执行操作
+    用自然语言执行操作
   </Card>
 
   <Card title="Extract" icon="database" href="/zh/basics/extract">
-    通过模式提取结构化数据
+    基于模式提取结构化数据
   </Card>
 
   <Card title="Observe" icon="eye" href="/zh/basics/observe">
-    在任意页面发现可执行的操作
+    在任意页面发现可用操作
   </Card>
 
   <Card title="Agent" icon="robot" href="/zh/basics/agent">
-    自主完成整条工作流的自动化
+    自主完成整套工作流
   </Card>
 </CardGroup>
 
@@ -78,47 +78,47 @@ Stagehand 通过四个强大的原语，让你精确掌控 AI 的使用程度，
   ```
 </CodeGroup>
 
-## 为什么开发者选择 Stagehand
+## 开发者为何选择 Stagehand
 
-- **精确控制**：将 AI 驱动的操作与确定性代码相结合。你来决定需要多少 AI 参与。
+- **精细掌控**：将 AI 驱动的操作与确定性代码灵活组合。你来精准拿捏 AI 的参与度。
 
-- **真正可复现**：精确保存并回放动作。浏览器自动化不再有“只在我电脑上能跑”的问题。
+- **真正可复现**：操作可原样保存并重放。告别浏览器自动化里“只在我机器上能跑”的尴尬。
 
-- **可规模化维护**：一个脚本可自动化多个网站。网站变更时，你的自动化会自适应调整。
+- **可规模维护**：一套脚本可自动化多个网站。站点变动时，你的自动化会相应适配。
 
-- **可组合工具**：通过 act()、extract()、observe() 和 agent() 自由把控自动化层级。
+- **可组合式工具**：借助 Act、Extract、Observe 和 Agent，自由选择所需的自动化层级。
 
 ## 为现代开发而生
 
 Stagehand 专为构建需要可靠网页访问的生产级浏览器自动化与 AI 代理的开发者而设计。
 
 <AccordionGroup>
-  <Accordion title="完全兼容 Playwright">
-    可与 Stagehand 搭配使用任意 Playwright API，你不会被我们的抽象所束缚。
+  <Accordion title="与 Playwright 完全兼容">
+    可在 Stagehand 中搭配任何 Playwright API 使用。你永远不会被我们的抽象束缚。
   </Accordion>
 
   <Accordion title="TypeScript 与 Python SDK">
-    为两大生态提供一流支持，具备类型安全与 IDE 自动补全。
+    为这两个生态提供一流支持，具备类型安全与 IDE 自动补全。
   </Accordion>
 
   <Accordion title="随处可用">
     兼容所有基于 Chromium 的浏览器：Chrome、Edge、Arc、Brave 等。
   </Accordion>
 
-  <Accordion title="由 Browserbase 构建">
-    由企业级浏览器基础设施背后的团队创建并维护。
+  <Accordion title="由 Browserbase 打造">
+    出自企业级浏览器基础设施背后的团队之手，并由其持续维护。
   </Accordion>
 </AccordionGroup>
 
-## 60 秒入门
+## 60 秒快速上手
 
 <Info>
-  **专业提示**：为获得最佳效果，建议将 Stagehand 与 [Browserbase](https://www.browserbase.com) 搭配使用，以获得可靠的云端浏览器基础设施。
+  **专业提示**：为获得最佳效果，建议将 Stagehand 与 [Browserbase](https://www.browserbase.com) 搭配使用，享受可靠的云端浏览器基础设施。
 </Info>
 
 <CardGroup cols={2}>
-  <Card title="快速上手" icon="rocket" href="/zh/first-steps/quickstart">
-    一分钟内构建你的第一个自动化
+  <Card title="快速开始" icon="rocket" href="/zh/first-steps/quickstart">
+    一分钟内搭建你的第一个自动化流程
   </Card>
 
   <Card title="试用 Director" icon="wand-magic-sparkles" href="https://www.director.ai">
