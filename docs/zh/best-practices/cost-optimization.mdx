@@ -1,22 +1,22 @@
 ---
 title: 成本优化  
 sidebarTitle: 成本优化
-description: 在保持自动化性能的同时，将成本降至最低
+description: 在保持自动化性能的同时将成本降至最低
 ---
 
-在 Stagehand 中，成本优化意味着在 LLM 推理成本与浏览器基础设施成本之间取得平衡。本指南提供务实可行的策略，帮助你降低自动化开销。
+在 Stagehand 中的成本优化需要同时权衡 LLM 推理成本与浏览器基础设施成本。本文提供可操作的实用策略，帮助你降低自动化成本。
 
 <div id="quick-wins">
-  ## 速效优化
+  ## 快速获益
 </div>
 
-先从这些简单且能降低成本的优化着手：
+从这些简单的优化入手，可降低成本：
 
 <div id="1-use-the-right-model-for-the-job">
   ### 1. 为任务选择合适的模型
 </div>
 
-不建议在简单任务中使用更大、更昂贵的模型。查看我们的[评估结果](https://stagehand.dev/evals)，了解不同任务类型下的模型性能与成本对比。
+我们不建议为简单任务使用更大、更高端的模型。查看我们的[评估结果](https://stagehand.dev/evals)，比较不同任务类型下的模型性能与成本。
 
 <CardGroup cols={2}>
   <Card title="模型选择指南" icon="brain" href="/zh/configuration/models">
@@ -24,7 +24,7 @@ description: 在保持自动化性能的同时，将成本降至最低
   </Card>
 
   <Card title="评估结果" icon="chart-line" href="https://www.stagehand.dev/evals">
-    查看不同模型在各类任务中的表现
+    了解不同模型在不同任务上的表现
   </Card>
 </CardGroup>
 
@@ -32,7 +32,7 @@ description: 在保持自动化性能的同时，将成本降至最低
   ### 2. 实施智能缓存
 </div>
 
-缓存成功的操作以避免重复的 LLM 调用。基础用法详见我们的[缓存指南](/zh/best-practices/caching)：
+缓存成功的动作以避免重复的 LLM 调用。在我们的[缓存指南](/zh/best-practices/caching)中了解基础用法：
 
 <CodeGroup>
   ```typescript TypeScript
@@ -66,7 +66,7 @@ description: 在保持自动化性能的同时，将成本降至最低
 
 <CardGroup cols={1}>
   <Card title="缓存指南" icon="database" href="/zh/best-practices/caching">
-    通过智能操作缓存与模式观察降低成本
+    通过智能动作缓存与 observe 模式降低成本
   </Card>
 </CardGroup>
 
@@ -74,7 +74,7 @@ description: 在保持自动化性能的同时，将成本降至最低
   ### 3. 优化浏览器会话
 </div>
 
-尽量复用会话，并设置合适的超时时间。详情参见[浏览器配置](/zh/configuration/browser)：
+尽可能复用会话，并设置合适的超时时间。详情见[浏览器配置](/zh/configuration/browser)：
 
 <CodeGroup>
   ```typescript TypeScript
@@ -100,7 +100,7 @@ description: 在保持自动化性能的同时，将成本降至最低
 
 <CardGroup cols={1}>
   <Card title="Browserbase 成本优化" icon="window-maximize" href="https://docs.browserbase.com/guides/cost-optimization">
-    优化 Browserbase 的基础设施成本与会话管理
+    优化 Browserbase 基础设施成本与会话管理
   </Card>
 </CardGroup>
 
@@ -112,12 +112,12 @@ description: 在保持自动化性能的同时，将成本降至最低
   ### 智能模型切换
 </div>
 
-对简单任务自动降级为更低成本的模型：
+针对简单任务自动切换至更低成本的模型：
 
 <CodeGroup>
   ```typescript TypeScript
-  // 根据任务复杂度从低到高依次尝试模型
-  // 性能对比见 stagehand.dev/evals
+  // 根据任务复杂度按从低到高的成本选择模型
+  // 参见 stagehand.dev/evals 获取性能与成本对比
   async function smartAct(page: Page, prompt: string) {
     const models = ["cheaper-model", "premium-model"];
     
@@ -136,8 +136,8 @@ description: 在保持自动化性能的同时，将成本降至最低
   ```
 
   ```python Python
-  # 根据任务复杂度从低到高依次尝试模型
-  # 性能对比见 stagehand.dev/evals
+  # 根据任务复杂度按从低到高的成本选择模型
+  # 参见 stagehand.dev/evals 获取性能与成本对比
   async def smart_act(page, prompt: str):
       models = ["cheaper-model", "premium-model"]
       
@@ -158,7 +158,7 @@ description: 在保持自动化性能的同时，将成本降至最低
   ### 会话池化
 </div>
 
-在多个任务间复用浏览器会话：
+在多个任务之间复用浏览器会话：
 
 <CodeGroup>
   ```typescript TypeScript
@@ -198,18 +198,18 @@ description: 在保持自动化性能的同时，将成本降至最低
   ## 成本监控
 </div>
 
-跟踪支出以发现优化空间。查看我们的[可观测性指南](/zh/configuration/observability)以获取详细指标：
+跟踪支出以发现优化机会。有关详细指标，请参阅我们的[可观测性指南](/zh/configuration/observability)：
 
 <CodeGroup>
   ```typescript TypeScript
-  // 监控令牌用量
+  // 监控 token 使用量
   const metrics = stagehand.metrics;
   console.log(`Total tokens: ${metrics.totalPromptTokens + metrics.totalCompletionTokens}`);
   console.log(`Estimated cost: $${(metrics.totalPromptTokens + metrics.totalCompletionTokens) * 0.00001}`);
   ```
 
   ```python Python
-  # 监控令牌用量
+  # 监控 token 使用量
   metrics = stagehand.metrics
   total_tokens = metrics['total_prompt_tokens'] + metrics['total_completion_tokens']
   print(f"Total tokens: {total_tokens}")
@@ -219,7 +219,7 @@ description: 在保持自动化性能的同时，将成本降至最低
 
 <CardGroup cols={1}>
   <Card title="可观测性与指标" icon="chart-line" href="/zh/configuration/observability">
-    实时监控使用情况并跟踪成本
+    实时监控使用模式并跟踪成本
   </Card>
 </CardGroup>
 
@@ -227,7 +227,7 @@ description: 在保持自动化性能的同时，将成本降至最低
   ## 预算控制
 </div>
 
-设置支出上限，避免出现意外费用：
+设置支出上限，避免意外费用：
 
 <CodeGroup>
   ```typescript TypeScript
@@ -267,18 +267,18 @@ description: 在保持自动化性能的同时，将成本降至最低
 
 <CardGroup cols={2}>
   <Card title="模型选择指南" icon="brain" href="/zh/configuration/models">
-    按预算与精度需求选择合适的 LLM
+    按预算与准确性需求选择合适的 LLM
   </Card>
 
   <Card title="缓存策略" icon="database" href="/zh/best-practices/caching">
-    通过智能动作缓存降低成本并洞察模式
+    通过智能动作缓存与 observe 模式降低成本
   </Card>
 
   <Card title="可观测性与指标" icon="chart-line" href="/zh/configuration/observability">
-    监控使用趋势并实时跟踪成本
+    实时监控使用模式并追踪成本
   </Card>
 
   <Card title="浏览器配置" icon="window-maximize" href="/zh/configuration/browser">
-    优化 Browserbase 的基础设施成本与会话管理
+    优化 Browserbase 基础设施成本与会话管理
   </Card>
 </CardGroup>

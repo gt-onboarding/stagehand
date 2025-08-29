@@ -1,37 +1,43 @@
 ---
 title: "Browserbase MCP 服务器设置"
 sidebarTitle: "设置"
-description: "将 Browserbase MCP 服务器添加到 Claude 中"
+description: "将 Browserbase MCP 服务器添加到 Claude"
 ---
 
-## 快速安装
+<div id="quick-installation">
+  ## 快速安装
+</div>
 
 <Card title="Install with Cursor" icon="arrow-pointer" href="cursor://anysphere.cursor-deeplink/mcp/install?name=browserbase&config=eyJjb21tYW5kIjoibnB4IEBicm93c2VyYmFzZWhxL21jcCIsImVudiI6eyJCUk9XU0VSQkFTRV9BUElfS0VZIjoiIiwiQlJPV1NFUkJBU0VfUFJPSkVDVF9JRCI6IiIsIkdFTUlOSV9BUElfS0VZIjoiIn19">
-在 Cursor 中一键安装，已预先配置
+在 Cursor 中一键安装，已预配置
 </Card>
 
-我们为 MCP 服务器提供多种传输方式：STDIO 和 SHTTP。建议使用带有我们远程托管 URL 的 SHTTP，以充分发挥服务器性能。
+我们的 MCP 服务器支持多种传输方式：STDIO 和 SHTTP。我们建议使用带有远程托管 URL 的 SHTTP，以充分发挥服务器性能。
 
-## 先决条件
+<div id="prerequisites">
+  ## 前置条件
+</div>
 
 <Steps>
-<Step title="获取你的 Browserbase 凭证">
-从 [Browserbase 仪表板](https://www.browserbase.com/overview) 获取你的 Browserbase API 密钥和项目 ID。
+<Step title="获取 Browserbase 凭证">
+在 [Browserbase 仪表板](https://www.browserbase.com/overview)获取 Browserbase API Key 和 Project ID。
 
 <Frame>
-<img src="/images/quickstart/api-key.png" alt="Browserbase API 密钥和项目 ID 设置" />
+<img src="/images/quickstart/api-key.png" alt="Browserbase API Key 与 Project ID 设置" />
 </Frame>
 
-然后直接从输入框复制你的 API 密钥和项目 ID。
+然后直接从输入框复制你的 API Key 和 Project ID。
 </Step>
 </Steps>
 
-## 安装方法
+<div id="installation-methods">
+  ## 安装方法
+</div>
 
 <Tabs>
 <Tab title="远程 URL（SHTTP）">
 
-前往 [smithery.ai](https://smithery.ai/server/@browserbasehq/mcp-browserbase)，输入你的 API 密钥和配置，以获取一个远程托管的 URL。
+前往 [smithery.ai](https://smithery.ai/server/@browserbasehq/mcp-browserbase)，输入您的 API 密钥和配置以获取远程托管的 URL。
 
 ![Smithery](../../images/mcp/smithery.jpg)
 
@@ -47,20 +53,20 @@ description: "将 Browserbase MCP 服务器添加到 Claude 中"
 ```
 </CodeGroup>
 
-使用我们的远程托管服务器时，我们会承担 Gemini 的 LLM 费用；在 [Stagehand](https://www.stagehand.dev) 中，它是[表现最佳的模型](https://www.stagehand.dev/evals)。
+使用我们的远程托管服务器时，我们会提供 Gemini 的 LLM 费用数据。它是 [Stagehand](https://www.stagehand.dev) 中的[最佳表现模型](https://www.stagehand.dev/evals)。
 
 </Tab>
 
 <Tab title="NPM 包（STDIO）">
-本地入门的最简单方式是使用我们的 NPM 包。
+本地入门的最简方式是使用我们的 NPM 包。
 
 <Note>
-如果你想使用其他模型，需要在 args 中传入模型名称和对应密钥。更多信息见[此处](https://docs.browserbase.com/integrations/mcp/configuration)。
+如果您想使用其他模型，需要在 args 中传入模型名称和密钥。更多信息见[此处](https://docs.browserbase.com/integrations/mcp/configuration)。
 </Note>
 
 <Steps>
 <Step title="添加到 MCP 配置">
-打开你的 MCP 配置 JSON，添加 Browserbase 服务器：
+打开您的 MCP 配置 JSON，添加 Browserbase Server：
 
 <CodeGroup>
 ```json Claude Desktop
@@ -81,35 +87,35 @@ description: "将 Browserbase MCP 服务器添加到 Claude 中"
 </CodeGroup>
 </Step>
 
-<Step title="重启你的 MCP 客户端">
+<Step title="重启 MCP 客户端">
 <Check>
-就这些！重新加载你的 MCP 客户端，Claude 就可以使用 Browserbase 了。
+完成！重新加载 MCP 客户端后，Claude 即可使用 Browserbase。
 </Check>
 </Step>
 </Steps>
 </Tab>
 
 <Tab title="本地开发">
-用于本地开发或自定义时，你可以在本地运行服务器。
+用于本地开发或定制，您可以在本地运行服务器。
 
 <Steps>
 <Step title="克隆并构建">
 ```bash
-# 克隆仓库
+# Clone the Repo
 git clone https://github.com/browserbase/mcp-server-browserbase.git
 cd mcp-server-browserbase
 
-# 安装依赖并构建项目
+# Install the dependencies and build the project
 npm install && npm run build
 ```
 </Step>
 
 <Step title="选择传输方式">
-你可以使用 STDIO 或 Streamable HTTP（SHTTP）在本地运行。
+您可以使用 STDIO 或 Streamable HTTP（SHTTP）在本地运行。
 
 <Tabs>
 <Tab title="STDIO">
-将以下内容添加到你的 MCP 配置 JSON 文件中：
+将以下内容添加到您的 MCP 配置 JSON 文件中：
 
 ```json
 {
@@ -129,13 +135,13 @@ npm install && npm run build
 </Tab>
 
 <Tab title="SHTTP（自托管）">
-首先，运行服务器：
+首先，启动服务器：
 
 ```bash
 node cli.js --port 8931
 ```
 
-然后将以下内容添加到你的 MCP 配置 JSON 文件中：
+然后将以下内容添加到您的 MCP 配置 JSON 文件中：
 
 ```json
 {
@@ -155,16 +161,18 @@ node cli.js --port 8931
 </Tabs>
 </Step>
 
-<Step title="重启你的客户端">
+<Step title="重启客户端">
 <Check>
-重新加载你的 MCP 客户端，就可以开始使用了！
+重新加载 MCP 客户端即可开始使用！
 </Check>
 </Step>
 </Steps>
 </Tab>
 </Tabs>
 
-## 验证安装
+<div id="verify-installation">
+  ## 验证安装
+</div>
 
 <Steps>
 <Step title="重启你的 Claude 客户端">
@@ -172,19 +180,21 @@ node cli.js --port 8931
 </Step>
 
 <Step title="测试集成">
-让 Claude 导航到任意页面来开始使用我们的 MCP 服务器，并在[仪表板](https://www.browserbase.com/sessions)上查看你的 Browserbase 浏览器实际运行情况。
+让 Claude 导航至任意页面，开始使用我们的 MCP 服务器，并在[仪表板](https://www.browserbase.com/sessions)上查看你的 Browserbase 浏览器实际运行情况。
 
 <Tip>
-可以这样问 Claude："导航到 google.com 并截一张屏"
+可以这样向 Claude 提示："Navigate to google.com and take a screenshot"
 </Tip>
 </Step>
 </Steps>
 
-## 延伸阅读
+<div id="further-reading">
+  ## 延伸阅读
+</div>
 
 <CardGroup cols={3}>
 <Card title="Model Context Protocol（MCP）文档" icon="book" href="https://modelcontextprotocol.io/introduction">
-深入了解 MCP 协议
+进一步了解 MCP 协议
 </Card>
 
 <Card title="Browserbase 文档" icon="globe" href="https://docs.browserbase.com">
@@ -192,6 +202,6 @@ node cli.js --port 8931
 </Card>
 
 <Card title="支持" icon="headset" href="mailto:support@browserbase.com">
-获取支持团队的帮助
+联系支持团队获取帮助
 </Card>
 </CardGroup>

@@ -1,27 +1,31 @@
 ---
 title: "使用 CrewAI 自动化浏览器任务"
-sidebarTitle: Configuration
-description: "通过自然语言指令创建可与网站交互并自动化浏览器任务的智能代理"
+sidebarTitle: 配置
+description: "使用自然语言指令创建可与网站交互并自动化浏览器任务的智能代理"
 ---
 
-本指南将带你完成在 Browserbase 上配置 CrewAI 的步骤，以创建能够依据自然语言指令执行网页自动化任务的代理。
+本指南将演示如何在 Browserbase 上配置 CrewAI，以创建能够依据自然语言指令执行网页自动化任务的代理。
 
-## 步骤 1：安装依赖项
+<div id="step-1-install-dependencies">
+  ## 步骤 1：安装依赖
+</div>
 
-安装用于集成 CrewAI 和 Stagehand 的必需包：
+为 CrewAI 与 Stagehand 的集成安装所需的依赖包：
 
 ```bash
 pip install stagehand-py crewai crewai-tools
 ```
 
-## 步骤 2：配置环境变量
+<div id="step-2-configure-environment-variables">
+  ## 步骤 2：配置环境变量
+</div>
 
-你需要从以下两个服务获取 API 密钥：
+你需要从以下服务获取 API 密钥：
 
-1. **Browserbase API Key 和 Project ID**：在 [Browserbase 仪表板](https://www.browserbase.com/) 获取
+1. **Browserbase API Key 和 Project ID**：在你的 [Browserbase 仪表板](https://www.browserbase.com/)中获取
 2. **LLM API Key**：从 [OpenAI](https://platform.openai.com/api-keys) 或 [Anthropic](https://console.anthropic.com/) 获取
 
-请将这些 API 密钥安全地保存为环境变量：
+将这些 API 密钥安全地设置为环境变量：
 
 ```bash
 BROWSERBASE_API_KEY="your-browserbase-api-key"
@@ -30,9 +34,11 @@ OPENAI_API_KEY="your-openai-api-key"
 ANTHROPIC_API_KEY="your-anthropic-api-key"
 ```
 
-## 步骤 3：创建你的第一个 Agent
+<div id="step-3-create-your-first-agent">
+  ## 步骤 3：创建你的第一个代理
+</div>
 
-编写一个包含基础 CrewAI Agent 的 Python 脚本：
+创建一个包含基础 CrewAI 代理的 Python 脚本：
 
 ```python
 import os
@@ -53,7 +59,7 @@ stagehand_tool = StagehandTool(
     model_name=AvailableModel.GPT_4O,  # 或 AvailableModel.CLAUDE_3_7_SONNET_LATEST
 )
 
-# 使用该工具创建一个 Agent
+# 使用该工具创建代理
 researcher = Agent(
     role="Web Researcher",
     goal="Find and summarize information from websites",
@@ -63,18 +69,20 @@ researcher = Agent(
 )
 ```
 
-## 步骤 4：创建并运行任务
+<div id="step-4-create-and-run-a-task">
+  ## 步骤 4：创建并运行任务
+</div>
 
-为你的代理定义一个任务并执行：
+为代理定义一个任务并执行：
 
 ```python
 # 创建一个使用该工具的任务
 research_task = Task(
-    description="访问 https://www.example.com，并告诉我你在首页看到的内容。",
+    description="前往 https://www.example.com，并告诉我主页上有什么内容。",
     agent=researcher,
 )
 
-# 运行工作组
+# 运行 Crew
 crew = Crew(
     agents=[researcher],
     tasks=[research_task],
@@ -85,21 +93,25 @@ try:
     result = crew.kickoff()
     print(result)
 finally:
-    # 清理资源
+    # 释放资源
     stagehand_tool.close()
 ```
 
-## 步骤 5：运行你的脚本
+<div id="step-5-run-your-script">
+  ## 步骤 5：运行你的脚本
+</div>
 
-执行你的 Python 脚本：
+运行你的 Python 脚本：
 
 ```bash
 python your_crew_script.py
 ```
 
-## 高级配置
+<div id="advanced-configuration">
+  ## 高级配置
+</div>
 
-通过附加参数自定义 StagehandTool 的行为：
+通过额外参数自定义 StagehandTool 的行为：
 
 ```python
 stagehand_tool = StagehandTool(
@@ -107,15 +119,17 @@ stagehand_tool = StagehandTool(
     project_id=browserbase_project_id, 
     model_api_key=model_api_key,
     model_name=AvailableModel.CLAUDE_3_7_SONNET_LATEST,
-    dom_settle_timeout_ms=5000,  # 将等待时间延长，直至 DOM 稳定
+    dom_settle_timeout_ms=5000,  # 延长等待时间以确保 DOM 稳定
     headless=True,  # 以无头模式运行浏览器
     self_heal=True,  # 尝试从错误中自愈恢复
-    wait_for_captcha_solves=True,  # 等待完成验证码求解
-    verbose=1,  # 控制日志详细级别（0-3）
+    wait_for_captcha_solves=True,  # 等待 CAPTCHA 解题完成
+    verbose=1,  # 控制日志详尽程度（0-3）
 )
 ```
 
-## 示例任务
+<div id="example-tasks">
+  ## 示例任务
+</div>
 
 <Tabs>
   <Tab title="表单提交" value="form-submission" label="Python">
@@ -125,7 +139,7 @@ stagehand_tool = StagehandTool(
         提交联系表单：
         1. 访问 https://example.com/contact
         2. 使用姓名“John Doe”、邮箱“john@example.com”填写表单
-        3. 提交并确认已成功
+        3. 提交并确认提交成功
         """,
         agent=researcher,
     )
@@ -136,7 +150,7 @@ stagehand_tool = StagehandTool(
     extraction_task = Task(
         description="""
         提取产品信息：
-        1. 前往产品页面
+        1. 前往产品页
         2. 提取所有产品名称、价格和描述
         3. 格式化为结构化数据
         """,
@@ -150,9 +164,9 @@ stagehand_tool = StagehandTool(
         description="""
         导航与分析：
         1. 从首页开始
-        2. 前往产品栏目
+        2. 进入产品板块  
         3. 按“Electronics”类别筛选
-        4. 查找并提取评分最高产品的详细信息
+        4. 查找并提取评分最高的产品详情
         """,
         agent=researcher,
     )
@@ -162,7 +176,7 @@ stagehand_tool = StagehandTool(
 
 <CardGroup cols={2}>
   <Card title="CrewAI 文档" icon="book" href="https://docs.crewai.com/">
-    深入了解 CrewAI 文档，探索其功能与集成方式。
+    查看 CrewAI 文档，了解其功能与集成。
   </Card>
   <Card title="Browserbase 文档" icon="book" href="https://docs.browserbase.com/">
     查阅 Browserbase 文档，获取完整指南与资源。

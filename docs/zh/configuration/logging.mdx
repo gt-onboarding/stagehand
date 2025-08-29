@@ -1,7 +1,7 @@
 ---
 title: 日志与调试
 sidebarTitle: 日志
-description: 为 Stagehand 工作流设置日志、调试与错误监控
+description: 为 Stagehand 工作流配置日志、调试与错误追踪
 ---
 
 Stagehand 提供完善的日志功能，帮助你调试自动化工作流、跟踪执行并诊断问题。可为开发与生产环境配置日志级别、结构化输出和调试工具。
@@ -31,12 +31,12 @@ stagehand = Stagehand(
 </CodeGroup>
 
 <div id="verbose-levels">
-  ### 日志详尽级别
+  ### 日志详细程度
 </div>
 
-- **级别 0**：仅错误——适合生产环境的最小输出
-- **级别 1**：信息——包含成功操作和重要事件
-- **级别 2**：调试——涵盖内部操作在内的全面日志
+- **级别 0**：仅错误——适用于生产环境的最小输出
+- **级别 1**：信息——包含成功操作与重要事件
+- **级别 2**：调试——包含内部操作在内的全面日志
 
 <div id="structured-logging">
   ## 结构化日志
@@ -46,7 +46,7 @@ stagehand = Stagehand(
   ### 日志行格式
 </div>
 
-每条日志条目包含结构化信息：
+每条日志记录都包含结构化信息：
 
 <CodeGroup>
 ```typescript TypeScript
@@ -99,7 +99,7 @@ class AdvancedLogger {
     const colors = {
       browser: '\x1b[34m', // 蓝色
       action: '\x1b[32m',  // 绿色
-      llm: '\x1b[35m',     // 洋红
+      llm: '\x1b[35m',     // 品红
       error: '\x1b[31m',   // 红色
       stagehand: '\x1b[36m', // 青色
       cache: '\x1b[33m',   // 黄色
@@ -111,7 +111,7 @@ class AdvancedLogger {
     // 控制台彩色输出
     console.log(`${color}[${logLine.category}]${reset} ${logLine.message}`);
     
-    // 若可用则记录执行时间
+    // 如有，记录执行时间
     if (logLine.auxiliary?.executionTime) {
       console.log(` ${logLine.auxiliary.executionTime.value}${logLine.auxiliary.executionTime.unit}`);
     }
@@ -121,7 +121,7 @@ class AdvancedLogger {
       console.log('  Context:', JSON.stringify(logLine.auxiliary, null, 2));
     }
     
-    // 写入文件日志（可选）
+    // 写入文件（可选）
     if (this.logFile) {
       const logEntry = {
         timestamp,
@@ -156,7 +156,7 @@ class AdvancedLogger:
         colors = {
             'browser': '\033[34m',   # 蓝色
             'action': '\033[32m',    # 绿色
-            'llm': '\033[35m',       # 洋红
+            'llm': '\033[35m',       # 品红
             'error': '\033[31m',     # 红色
             'stagehand': '\033[36m', # 青色
             'cache': '\033[33m',     # 黄色
@@ -168,7 +168,7 @@ class AdvancedLogger:
         # 控制台彩色输出
         print(f"{color}[{log_line.get('category')}]{reset} {log_line.get('message')}")
         
-        // 若可用则记录执行时间
+        # 如有，记录执行时间
         if log_line.get('auxiliary', {}).get('execution_time'):
             exec_time = log_line['auxiliary']['execution_time']
             print(f"{exec_time['value']}{exec_time['unit']}")
@@ -178,7 +178,7 @@ class AdvancedLogger:
         if auxiliary and len(auxiliary) > 0:
             print('  Context:', json.dumps(auxiliary, indent=2))
         
-        # 写入文件日志（可选）
+        # 写入文件（可选）
         if self.log_file:
             log_entry = {
                 'timestamp': timestamp,
@@ -253,7 +253,7 @@ inference_summary/
     ```json
     {
       "category": "action", 
-      "message": "操作成功完成",
+      "message": "act completed successfully",
       "level": 1,
       "auxiliary": {
         "executionTime": {"value": "1250", "unit": "ms"},
@@ -267,7 +267,7 @@ inference_summary/
     ```json
     {
       "category": "llm",
-      "message": "推理完成", 
+      "message": "inference completed", 
       "level": 1,
       "auxiliary": {
         "model": "gpt-4o",
@@ -281,7 +281,7 @@ inference_summary/
     ```json
     {
       "category": "action",
-      "message": "操作失败：未找到元素",
+      "message": "action failed: element not found",
       "level": 0, 
       "auxiliary": {
         "selector": "button[data-testid='submit']",
@@ -299,22 +299,22 @@ inference_summary/
 
 <AccordionGroup>
 <Accordion title="开发环境">
-- 将 `verbose: 2` 与可视化调试配合使用
-- 启用浏览器 DevTools 进行元素检查
-- 使用 `logInferenceToFile: true` 记录 LLM 决策
-- 尽早落地结构化日志
+- 将 `verbose` 设为 `2` 并启用可视化调试
+- 启用浏览器 DevTools 检查元素
+- 使用 `logInferenceToFile: true` 以捕获 LLM 决策
+- 尽早实施结构化日志
 </Accordion>
 
 <Accordion title="生产环境">
-- 使用 `verbose: 1` 在可见性与性能间取得平衡
-- 部署错误追踪与告警
+- 将 `verbose` 设为 `1`，在可见性与性能之间取得平衡
+- 实施错误跟踪与告警
 - 使用结构化 JSON 日志
-- 监控会话成功率与执行时间
+- 监控会话成功率与执行时长
 </Accordion>
 
 <Accordion title="安全与合规">
 - 切勿记录凭据或敏感数据
 - 制定并执行日志保留策略
-- 保护日志文件和仪表盘
+- 保护日志文件与仪表盘
 </Accordion>
 </AccordionGroup>

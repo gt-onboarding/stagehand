@@ -4,31 +4,31 @@ sidebarTitle: 可观测性
 description: 通过会话可见性与分析跟踪 Stagehand 自动化
 ---
 
-Stagehand 提供强大的可观测性功能，帮助你监控、跟踪性能并分析浏览器自动化流程。聚焦会话监控、资源使用，以及在 Browserbase 与本地环境中的运营洞察。
+Stagehand 提供强大的可观测性功能，帮助您监控、衡量性能并分析浏览器自动化工作流。内容涵盖 Browserbase 与本地环境中的会话监控、资源使用与运行洞察。
 
 <div id="browserbase-session-monitoring">
   ## Browserbase 会话监控
 </div>
 
-在 Browserbase 上运行时，你可以通过 Browserbase API 和仪表板获得完善的云端监控与会话管理能力。
+在 Browserbase 上运行时，您可通过 Browserbase API 与仪表板获得完整的云端监控与会话管理能力。
 
 <div style={{ textAlign: "center" }}>
   <img src="/media/observability.gif" alt="Browserbase 会话可观测性" width="400" />
 </div>
 
 <div id="live-session-visibility">
-  ### 实时会话可视性
+  ### 实时会话可见性
 </div>
 
-Browserbase 为你的自动化会话提供实时可视性：
+Browserbase 为您的自动化会话提供实时可见性：
 
 **会话仪表板功能**
 
 - 实时浏览器屏幕录制与回放
 - 带详细时序的网络请求监控
-- JavaScript 控制台日志与错误追踪
+- JavaScript 控制台日志与错误跟踪
 - CPU 与内存使用指标
-- 会话状态与时长追踪
+- 会话状态与时长跟踪
 
 **会话管理与 API 访问**
 
@@ -91,7 +91,7 @@ Browserbase 为你的自动化会话提供实时可视性：
   </Card>
 
   <Card title="Session Recordings" icon="video">
-    查看完整会话录制并逐帧回放。以可视化方式分析网络请求并调试浏览器交互。
+    回看完整会话录制，支持逐帧播放。以可视化方式分析网络请求并调试浏览器交互。
   </Card>
 
   <Card title="API Management" icon="code">
@@ -99,7 +99,7 @@ Browserbase 为你的自动化会话提供实时可视性：
   </Card>
 
   <Card title="Usage Monitoring" icon="chart-bar">
-    跟踪资源消耗、会话时长与 API 使用情况。获取关于自动化流程的成本与利用率的详细拆解。
+    跟踪资源消耗、会话时长与 API 使用情况。获取覆盖整个自动化流程的成本与利用率的详细拆分。
   </Card>
 </CardGroup>
 
@@ -107,7 +107,7 @@ Browserbase 为你的自动化会话提供实时可视性：
   ### 会话监控与筛选
 </div>
 
-按状态与元数据查询和监控会话：
+按状态与元数据查询并监控会话：
 
 <CodeGroup>
   ```typescript TypeScript
@@ -117,7 +117,7 @@ Browserbase 为你的自动化会话提供实时可视性：
     apiKey: process.env.BROWSERBASE_API_KEY,
   });
 
-  // List sessions with filtering
+  // 通过筛选列出会话
   async function getFilteredSessions() {
     const sessions = await browserbase.sessions.list({
       status: 'RUNNING'
@@ -136,7 +136,7 @@ Browserbase 为你的自动化会话提供实时可视性：
     }));
   }
 
-  // Query sessions by metadata
+  // 按元数据查询会话
   async function querySessionsByMetadata(query: string) {
     const sessions = await browserbase.sessions.list({
       q: query
@@ -180,10 +180,10 @@ Browserbase 为你的自动化会话提供实时可视性：
   ## 本地环境监控
 </div>
 
-在本地开发中，Stagehand 可在你的机器上直接提供性能监控与资源跟踪能力。
+在本地开发场景下，Stagehand 可在你的机器上直接提供性能监控与资源跟踪能力。
 
 <div id="performance-tracking">
-  ### 性能监测
+  ### 性能跟踪
 </div>
 
 <CodeGroup>
@@ -192,7 +192,7 @@ Browserbase 为你的自动化会话提供实时可视性：
 
   const stagehand = new Stagehand({
     env: "LOCAL",
-    verbose: 1, // 在无调试噪声的前提下监控性能
+    verbose: 1, // 在无调试噪声的情况下监控性能
   });
 
   // 跟踪本地自动化指标
@@ -204,10 +204,10 @@ Browserbase 为你的自动化会话提供实时可视性：
   const finalMetrics = stagehand.metrics;
   const executionTime = Date.now() - startTime;
 
-  console.log('Local Performance Summary:', {
+  console.log('本地性能摘要:', {
     executionTime: `${executionTime}ms`,
     totalTokens: finalMetrics.totalPromptTokens + finalMetrics.totalCompletionTokens,
-    averageResponseTime: finalMetrics.totalInferenceTimeMs / 3, // 假设执行了 3 次操作
+    averageResponseTime: finalMetrics.totalInferenceTimeMs / 3, // 假设进行 3 次操作
     tokensPerSecond: (finalMetrics.totalPromptTokens + finalMetrics.totalCompletionTokens) / (executionTime / 1000)
   });
   ```
@@ -218,7 +218,7 @@ Browserbase 为你的自动化会话提供实时可视性：
 
   stagehand = Stagehand(
       env="LOCAL",
-      verbose=1,  # 在无调试噪声的前提下监控性能
+      verbose=1,  # 在无调试噪声的情况下监控性能
   )
 
   # 跟踪本地自动化指标
@@ -230,10 +230,10 @@ Browserbase 为你的自动化会话提供实时可视性：
   final_metrics = stagehand.metrics
   execution_time = (time.time() - start_time) * 1000  # 转换为毫秒
 
-  print('Local Performance Summary:', {
+  print('本地性能摘要:', {
       'execution_time': f"{execution_time:.0f}ms",
       'total_tokens': final_metrics['total_prompt_tokens'] + final_metrics['total_completion_tokens'],
-      'average_response_time': final_metrics['total_inference_time_ms'] / 3,  # 假设执行了 3 次操作
+      'average_response_time': final_metrics['total_inference_time_ms'] / 3,  # 假设进行 3 次操作
       'tokens_per_second': (final_metrics['total_prompt_tokens'] + final_metrics['total_completion_tokens']) / (execution_time / 1000)
   })
   ```
@@ -243,7 +243,7 @@ Browserbase 为你的自动化会话提供实时可视性：
   ## 资源使用监控
 </div>
 
-在本地运行时，监控系统资源占用与浏览器性能：
+在本地运行时，请监控系统资源占用与浏览器性能：
 
 <CodeGroup>
   ```typescript TypeScript
@@ -257,11 +257,11 @@ Browserbase 为你的自动化会话提供实时可视性：
     
     startMonitoring() {
       const interval = setInterval(() => {
-        // Track system resources
+        // 跟踪系统资源
         const memUsage = process.memoryUsage();
         this.memoryUsage.push(memUsage.heapUsed / 1024 / 1024); // MB
         
-        // Track CPU (simplified)
+        // 跟踪 CPU（简化）
         const loadAvg = os.loadavg()[0];
         this.cpuUsage.push(loadAvg);
       }, 1000);
@@ -284,7 +284,7 @@ Browserbase 为你的自动化会话提供实时可视性：
 
   const stagehand = new Stagehand({ env: "LOCAL" });
 
-  // ... run automation
+  // ... 运行自动化任务
 
   clearInterval(interval);
   console.log('Resource Usage:', monitor.getResourceSummary());
@@ -307,15 +307,15 @@ Browserbase 为你的自动化会话提供实时可视性：
           import threading
           
           def monitor_resources():
-              while self.monitoring:
-                  # Track CPU and memory usage
-                  cpu_percent = psutil.cpu_percent(interval=1)
-                  memory_info = psutil.virtual_memory()
-                  
-                  self.cpu_usage.append(cpu_percent)
-                  self.memory_usage.append(memory_info.percent)
-                  
-                  time.sleep(1)
+            while self.monitoring:
+                # 跟踪 CPU 与内存占用
+                cpu_percent = psutil.cpu_percent(interval=1)
+                memory_info = psutil.virtual_memory()
+                
+                self.cpu_usage.append(cpu_percent)
+                self.memory_usage.append(memory_info.percent)
+                
+                time.sleep(1)
           
           thread = threading.Thread(target=monitor_resources)
           thread.daemon = True
@@ -327,7 +327,7 @@ Browserbase 为你的自动化会话提供实时可视性：
       
       def get_resource_summary(self):
           if not self.cpu_usage or not self.memory_usage:
-              return {'error': 'No monitoring data collected'}
+              return {'error': '未收集到监控数据'}
           
           return {
               'avg_cpu_usage': sum(self.cpu_usage) / len(self.cpu_usage),
@@ -342,15 +342,15 @@ Browserbase 为你的自动化会话提供实时可视性：
 
   stagehand = Stagehand(env="LOCAL")
 
-  # ... run automation
+  # ... 运行自动化任务
 
   monitor.stop_monitoring()
   print('Resource Usage:', monitor.get_resource_summary())
   ```
 </CodeGroup>
 
-<Card title="LLM Usage" icon="chart-line" href="/zh/configuration/evals">
-  监控 Token 使用量、成本与速度；为关键故障设置自动告警；在不同环境中进行成本跟踪；利用会话分析优化自动化工作流。
+<Card title="LLM 使用情况" icon="chart-line" href="/zh/configuration/evals">
+  监控 Token 用量、成本与速度；为关键故障设置自动告警；在不同环境中实施成本跟踪；使用会话分析优化自动化工作流。
 </Card>
 
 <div id="real-time-metrics-monitoring">
@@ -358,7 +358,7 @@ Browserbase 为你的自动化会话提供实时可视性：
 </div>
 
 <div id="basic-usage-tracking">
-  ### 基础用量追踪
+  ### 基本用量跟踪
 </div>
 
 使用 `stagehand.metrics` 实时监控自动化的资源使用情况：
@@ -412,7 +412,7 @@ Browserbase 为你的自动化会话提供实时可视性：
   ### 了解指标数据
 </div>
 
-metrics 对象会按 Stagehand 的各项操作提供详细拆分：
+metrics 对象按 Stagehand 操作提供详细拆分：
 
 <CodeGroup>
   ```typescript TypeScript
@@ -460,7 +460,7 @@ metrics 对象会按 Stagehand 的各项操作提供详细拆分：
   ### 将推理日志写入文件
 </div>
 
-你也可以将 `logInferenceToFile` 设置为 `true`，把推理过程记录到文件。这将在项目根目录创建名为 `inference_summary` 的目录。
+也可以将 `logInferenceToFile` 设为 `true`，把推理过程记录到文件。这将在项目根目录创建名为 `inference_summary` 的目录。
 
 <CodeGroup>
   ```typescript TypeScript
@@ -525,31 +525,31 @@ inference_summary/
 </div>
 
 <AccordionGroup>
-  <Accordion title="生产环境监控">
+  <Accordion title="Production Monitoring">
     - 跟踪会话成功率与失败模式
-    - 监控资源使用情况与弹性扩缩需求
+    - 监控资源使用与扩容需求
     - 为关键故障设置自动告警
     - 在不同环境中进行成本跟踪
-    - 使用会话分析优化自动化流程
+    - 使用会话分析优化自动化工作流
   </Accordion>
 
-  <Accordion title="性能优化">
+  <Accordion title="Performance Optimization">
     - 比较 Browserbase 与本地的执行时间
     - 跨模型监控 token 使用量与推理成本
     - 跟踪不同地域的性能差异
-    - 识别自动化流程中的瓶颈
-    - 在成本效益与速度之间做优化
+    - 识别自动化工作流中的瓶颈
+    - 优化成本效益与速度
   </Accordion>
 
-  <Accordion title="运营洞察">
-    - 跟踪各地区的会话分布
-    - 监控并发会话上限与扩缩能力
+  <Accordion title="Operational Insights">
+    - 跟踪会话在各地区的分布
+    - 监控并发会话上限与扩容情况
     - 分析失败模式与常见错误场景
     - 使用会话录制进行根因分析
-    - 使用自定义元数据对流程进行分类
+    - 通过自定义元数据对工作流进行分类
   </Accordion>
 
-  <Accordion title="集成与告警">
+  <Accordion title="Integration & Alerting">
     - 将会话 API 集成到监控仪表板
     - 为会话失败设置自动通知
     - 跟踪 SLA 合规性与性能基准
@@ -558,4 +558,4 @@ inference_summary/
   </Accordion>
 </AccordionGroup>
 
-有关详细的日志与调试功能，请参阅 [Logging](/zh/configuration/logging)。
+有关详细的日志与调试能力，请参见[Logging](/zh/configuration/logging)。
