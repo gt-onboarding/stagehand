@@ -1,17 +1,17 @@
 ---
 title: "部署 Stagehand"
-description: "将你的 AI 代理与自动化部署到云端"
+description: "将 AI 代理与自动化部署到云端"
 ---
 
 <Tip>
-  **🌟 预览：Browser Functions** - 通过 Browser Functions 将你的网页自动化代码直接部署到 Browserbase。无需自建基础设施，即可在云端横向扩展你的 `act()` 自动化。发送邮件至 hello@browserbase.com 申请测试资格。
+  **🌟 预览：Browser Functions** - 使用 Browser Functions 将网页自动化代码直接部署到 Browserbase。零基础设施配置，在云端横向扩展你的 `act()` 自动化。联系 hello@browserbase.com 获取测试版访问权限。
 </Tip>
 
 <div id="deploy-on-vercel">
   ## 部署到 Vercel
 </div>
 
-在 Vercel Function 中通过 Browserbase 安全运行 Stagehand。本指南演示一个最小且适用于生产环境的 HTTP 端点，你可以直接调用或按计划调用。
+在 Vercel Function 中通过 Browserbase 安全运行 Stagehand。本指南提供一个最小可用、可用于生产的 HTTP 端点，你可以直接调用或按计划触发。
 
 <div id="1-install-vercel-cli">
   ### 1. 安装 Vercel CLI
@@ -50,7 +50,7 @@ your-project/
   vercel.json
 ```
 
-通过以下命令创建该结构：
+创建该结构：
 
 ```bash
 mkdir -p api
@@ -163,7 +163,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse): 
 }
 ```
 
-更多详情请参阅 Vercel 的[函数配置](https://vercel.com/docs/functions/configuring-functions)文档。
+更多详情参见 Vercel 的[配置函数](https://vercel.com/docs/functions/configuring-functions)文档。
 
 <div id="7-link-your-project">
   ### 7. 关联你的项目
@@ -172,7 +172,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse): 
 在配置环境变量之前，将本地文件夹关联到一个 Vercel 项目：
 
 ```bash
-# 如有需要先进行身份验证
+# 如有需要，先进行认证
 vercel login
 
 # 将当前目录关联到一个 Vercel 项目（交互式）
@@ -183,25 +183,25 @@ vercel link
   ### 8. 环境变量
 </div>
 
-生产环境下不要提交 `.env`。通过 Vercel CLI 添加变量：
+生产环境中不要提交 `.env`。通过 Vercel CLI 添加变量：
 
 ```bash
 vercel env add BROWSERBASE_API_KEY
 vercel env add BROWSERBASE_PROJECT_ID
-# （若需要，添加你的模型密钥）
+# （如果需要，也添加你的模型密钥）
 vercel env add GOOGLE_API_KEY
 ```
 
-另见：[浏览器环境](/zh/configuration/environment)，了解所需变量的详细信息。
+另见：[浏览器环境](/zh/configuration/environment) 了解所需变量的详情。
 
 <div id="9-test-locally">
   ### 9. 本地测试
 </div>
 
-在本地复刻 Vercel 运行环境，在部署前对你的 Function 进行调试与验证。从项目根目录运行。
+在本地复现 Vercel 环境，以便在部署前运行并验证你的 Function。从项目根目录执行。
 
 ```bash
-# 确保已安装依赖
+# 确保依赖已安装
 npm install
 
 # 启动本地 Vercel 开发服务器
@@ -229,7 +229,7 @@ curl -X POST https://<your-deployment>/api/run
   ### 可选：在 Vercel 上使用 Cron
 </div>
 
-通过扩展 `vercel.json`，按计划调用相同的端点：
+通过扩展 `vercel.json`，按计划触发相同的端点：
 
 ```json
 {
@@ -249,6 +249,6 @@ curl -X POST https://<your-deployment>/api/run
   ### 功能
 </div>
 
-- 使用 `env: "BROWSERBASE"`，无需本地浏览器。[Browserbase](https://www.browserbase.com/) 提供浏览器。
-- 运行快速：将浏览器相关工作卸载到 Browserbase，并快速返回 JSON。
-- 长时任务：提高 `maxDuration`，并/或根据方案考虑 Edge 运行时限制。
+- 使用 `env: "BROWSERBASE"` 时无需本地浏览器。[Browserbase](https://www.browserbase.com/) 提供浏览器环境。
+- 快速响应：将浏览器工作卸载到 Browserbase，快速返回 JSON。
+- 长时任务：提高 `maxDuration`，并/或根据套餐考虑 Edge 运行时限制。

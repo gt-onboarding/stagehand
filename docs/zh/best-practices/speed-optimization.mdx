@@ -1,32 +1,32 @@
 ---
 title: 速度优化
 sidebarTitle: 速度优化
-description: 优化 Stagehand 性能，实现更快的自动化与更低的延迟
+description: 优化 Stagehand 性能，以实现更快的自动化与更低的延迟
 ---
 
-Stagehand 的性能受多种因素影响：DOM 处理速度、LLM 推理时间、浏览器操作以及网络延迟。本指南提供行之有效的策略，帮助最大化自动化速度。
+Stagehand 的性能取决于多种因素：DOM 处理速度、LLM 推理时间、浏览器操作以及网络延迟。本文提供行之有效的策略，帮助最大化自动化速度。
 
 <div id="quick-performance-wins">
   ## 快速性能优化
 </div>
 
 <div id="1-plan-ahead-with-observe">
-  ### 1. 使用 Observe 提前规划
+  ### 1. 先用 observe 做规划
 </div>
 
-通过一次 `observe()` 调用规划多个动作，然后高效执行：
+使用一次 `observe()` 调用来规划多个动作，然后高效执行：
 
 <CodeGroup>
   ```typescript TypeScript
-  // 避免用多次 LLM 调用顺序执行
-  await page.act("Fill name field");        // LLM call #1
-  await page.act("Fill email field");       // LLM call #2
-  await page.act("Select country dropdown"); // LLM call #3
+  // 避免顺序操作导致多次 LLM 调用
+  await page.act("Fill name field");        // LLM 调用 #1
+  await page.act("Fill email field");       // LLM 调用 #2
+  await page.act("Select country dropdown"); // LLM 调用 #3
 
-  // 使用一次 observe 规划所有表单字段——仅一次 LLM 调用
+  // 用一次 observe 规划所有表单字段 —— 仅一次 LLM 调用
   const formFields = await page.observe("Find all form fields to fill");
 
-  // 在不进行 LLM 推理的情况下执行所有操作
+  // 在不进行 LLM 推理的情况下执行所有动作
   for (const field of formFields) {
     await page.act(field); // 无 LLM 调用！
   }
@@ -36,26 +36,25 @@ Stagehand 的性能受多种因素影响：DOM 处理速度、LLM 推理时间�
   ```python Python
   import asyncio
 
-  # 避免用多次 LLM 调用顺序执行
-  await page.act("Fill name field")        # LLM call #1
-  await page.act("Fill email field")       # LLM call #2  
-  await page.act("Select country dropdown") # LLM call #3
+  # 避免顺序操作导致多次 LLM 调用
+  await page.act("Fill name field")        # LLM 调用 #1
+  await page.act("Fill email field")       # LLM 调用 #2  
+  await page.act("Select country dropdown") # LLM 调用 #3
 
-  # 使用一次 observe 规划所有表单字段——仅一次 LLM 调用
+  # 用一次 observe 规划所有表单字段 —— 仅一次 LLM 调用
   form_fields = await page.observe("Find all form fields to fill")
 
-  # 在不进行 LLM 推理的情况下执行所有操作
+  # 在不进行 LLM 推理的情况下执行所有动作
   for field in form_fields:
       await page.act(field) # 无 LLM 调用！
-
   ```
 </CodeGroup>
 
 <Note>
-  **性能提示**：基于 `observe` 结果执行可完全避免 LLM 推理。该方式相比直接调用 `act()` 快 2-3 倍，是多步骤工作流的推荐范式。
+  **性能提示**：直接对 `observe` 的结果执行可完全避免 LLM 推理。该方式通常比直接调用 `act()` 快 2–3 倍，是多步工作流的推荐模式。
 </Note>
 
-<Card title="Caching Guide" icon="database" href="/zh/best-practices/caching">
+<Card title="缓存指南" icon="database" href="/zh/best-practices/caching">
   学习高级缓存模式与缓存失效策略
 </Card>
 
@@ -72,7 +71,7 @@ Stagehand 的性能受多种因素影响：DOM 处理速度、LLM 推理时间�
     // 移除视频等元素
     document.querySelectorAll('video, iframe').forEach(el => el.remove());
     
-    // 禁用复杂动画
+    // 隐藏复杂动画
     document.querySelectorAll('[style*="animation"]').forEach(el => {
       (el as HTMLElement).style.animation = 'none';
     });
@@ -89,7 +88,7 @@ Stagehand 的性能受多种因素影响：DOM 处理速度、LLM 推理时间�
     // 移除视频等元素
     document.querySelectorAll('video, iframe').forEach(el => el.remove());
     
-    // 禁用复杂动画
+    // 隐藏复杂动画
     document.querySelectorAll('[style*="animation"]').forEach(el => {
       el.style.animation = 'none';
     });
@@ -102,32 +101,31 @@ Stagehand 的性能受多种因素影响：DOM 处理速度、LLM 推理时间�
 </CodeGroup>
 
 <div id="3-set-appropriate-timeouts">
-  ### 3. 设置合适的超时时间
+  ### 3. 设置合适的超时
 </div>
 
-简单操作用更短的超时，复杂页面加载用更长的超时：
+简单操作使用更短超时，复杂页面加载使用更长超时：
 
 <CodeGroup>
   ```typescript TypeScript
-  // 简单操作——缩短动作超时
+  // 简单动作 —— 缩短动作超时
   await page.act({ 
     instruction: "Click the login button",
     actTimeout: 5000  // 默认 30000ms，简单点击可缩短
   });
 
-  // 复杂页面加载——优化导航
+  // 复杂页面加载 —— 优化导航
   await page.goto("https://heavy-spa.com", {
-    waitUntil: "domcontentloaded", // 不必等待全部资源
-    timeout: 15000 // 比默认 30s 更短
+    waitUntil: "domcontentloaded", // 无需等待所有资源加载
+    timeout: 15000 // 低于默认 30s
   });
   ```
 
   ```python Python
-  # 简单操作——缩短动作超时
+  # 简单动作 —— 缩短动作超时
   await page.act("Click button", act_timeout=5000)
 
-
-  # 复杂页面加载——优化导航
+  # 复杂页面加载 —— 优化导航
   await page.goto("https://heavy-spa.com", 
       wait_until="domcontentloaded",
       timeout=15000
@@ -143,7 +141,7 @@ Stagehand 的性能受多种因素影响：DOM 处理速度、LLM 推理时间�
   ### 智能模型选择
 </div>
 
-对简单任务使用更快的模型，只有在必要时才使用高阶模型：
+对简单任务使用更快的模型，仅在必要时使用高阶模型：
 
 <CodeGroup>
   ```typescript TypeScript
@@ -157,10 +155,10 @@ Stagehand 的性能受多种因素影响：DOM 处理速度、LLM 推理时间�
     }
   }
 
-  // Use fast model for simple clicks/forms
+  // 对简单的点击/表单使用快速模型
   await stagehand.smartAct(page, "Click submit", 'simple');
 
-  // Use premium model for complex reasoning
+  // 对复杂推理使用高阶模型
   await stagehand.smartAct(page, "Find the cheapest flight option", 'complex');
   ```
 
@@ -174,16 +172,16 @@ Stagehand 的性能受多种因素影响：DOM 处理速度、LLM 推理时间�
           model = self.fast_model if complexity == 'simple' else self.premium_model
           return await model.page.act(prompt)
 
-  # Use fast model for simple clicks/forms
+  # 对简单的点击/表单使用快速模型
   await stagehand.smart_act(page, "Click submit", 'simple')
 
-  # Use premium model for complex reasoning  
+  # 对复杂推理使用高阶模型  
   await stagehand.smart_act(page, "Find the cheapest flight option", 'complex')
   ```
 </CodeGroup>
 
 <Card title="模型配置" icon="brain" href="/zh/configuration/models">
-  比较模型性能与成本
+  比较模型的性能与成本
 </Card>
 
 <div id="page-load-optimization">
@@ -194,7 +192,7 @@ Stagehand 的性能受多种因素影响：DOM 处理速度、LLM 推理时间�
 
 <CodeGroup>
   ```typescript TypeScript
-  // Block heavy resources globally
+  // 全局阻止大体量资源
   await context.route('**/*', (route) => {
     const resourceType = route.request().resourceType();
     if (['image', 'font', 'media'].includes(resourceType)) {
@@ -204,15 +202,15 @@ Stagehand 的性能受多种因素影响：DOM 处理速度、LLM 推理时间�
     }
   });
 
-  // Use faster navigation
+  // 使用更快的导航方式
   await page.goto(url, { 
-    waitUntil: 'domcontentloaded',  // Don't wait for images/fonts
+    waitUntil: 'domcontentloaded',  // 不等待图片/字体
     timeout: 10000 
   });
   ```
 
   ```python Python
-  # Block heavy resources globally
+  # 全局阻止大体量资源
   async def handle_route(route):
       resource_type = route.request.resource_type
       if resource_type in ['image', 'font', 'media']:
@@ -222,26 +220,26 @@ Stagehand 的性能受多种因素影响：DOM 处理速度、LLM 推理时间�
 
   await context.route('**/*', handle_route)
 
-  # Use faster navigation
+  # 使用更快的导航方式
   await page.goto(url, 
-      wait_until='domcontentloaded',  # Don't wait for images/fonts
+      wait_until='domcontentloaded',  # 不等待图片/字体
       timeout=10000
   )
   ```
 </CodeGroup>
 
 <Card title="成本优化" icon="dollar-sign" href="/zh/best-practices/cost-optimization">
-  在速度与成本之间取得平衡
+  在速度与成本之间寻求平衡
 </Card>
 
 <div id="performance-monitoring-and-benchmarking">
   ## 性能监控与基准测试
 </div>
 
-跟踪性能指标并评估优化成效：
+跟踪性能指标并量化优化效果：
 
 <div id="performance-tracking">
-  ### 性能追踪
+  ### 性能跟踪
 </div>
 
 <CodeGroup>
@@ -302,7 +300,7 @@ Action "Confirm submission" took 5000ms
 ```
 
 <div id="before-vs-after-benchmarking">
-  ### 优化前后基准对比
+  ### 优化前后对比基准
 </div>
 
 <CodeGroup>
@@ -318,7 +316,7 @@ Action "Confirm submission" took 5000ms
   console.time("workflow-optimized");
   const workflowActions = await page.observe("Find form, submit, and confirm elements");
 
-  // 依次执行动作以避免冲突
+  // 依次执行以避免冲突
   for (const action of workflowActions) {
     await page.act(action);
   }
@@ -339,7 +337,7 @@ Action "Confirm submission" took 5000ms
   start = time.time()
   workflow_actions = await page.observe("Find form, submit, and confirm elements")
 
-  # 依次执行动作以避免冲突
+  # 依次执行以避免冲突
   for action in workflow_actions:
       await page.act(action)
   print(f"Optimized workflow took {(time.time() - start) * 1000:.0f}ms")  # 500ms
@@ -355,7 +353,7 @@ Optimized workflow took 500ms
 
 <CardGroup cols={1}>
   <Card title="可观测性与指标" icon="chart-line" href="/zh/configuration/observability">
-    配置完善的性能监控
+    配置全面的性能监控
   </Card>
 </CardGroup>
 
@@ -365,11 +363,11 @@ Optimized workflow took 500ms
 
 <CardGroup cols={2}>
   <Card title="缓存策略" icon="database" href="/zh/best-practices/caching">
-    面向极致性能的高级缓存策略
+    高级缓存策略，最大化性能
   </Card>
 
   <Card title="成本优化" icon="dollar-sign" href="/zh/best-practices/cost-optimization">
-    在速度提升与成本之间取得最佳平衡
+    在速度提升与成本之间取得平衡
   </Card>
 
   <Card title="浏览器配置" icon="window-maximize" href="/zh/configuration/browser">

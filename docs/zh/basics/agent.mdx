@@ -1,6 +1,6 @@
 ---
 title: 代理
-description: "利用 AI 驱动的浏览器智能体，自动化复杂工作流程"
+description: "使用 AI 驱动的浏览器代理自动化复杂工作流"
 ---
 
 <div id="what-is-agent">
@@ -11,7 +11,7 @@ description: "利用 AI 驱动的浏览器智能体，自动化复杂工作流�
 agent.execute("apply for a job at browserbase")
 ```
 
-`agent` 可将高层任务转化为**全自动**的浏览器工作流。你可以通过指定 LLM 提供方与模型、设置自定义行为指令，并配置最大执行步数来定制该 agent。
+`agent` 会将高层次任务转换为**全自动**的浏览器工作流。你可以通过指定 LLM 提供方与模型、设置自定义行为指令，并配置最大步骤数来定制该代理。
 
 <img src="/images/agent.gif" alt="Agent" />
 
@@ -20,12 +20,12 @@ agent.execute("apply for a job at browserbase")
 </div>
 
 <CardGroup cols={2}>
-  <Card title="多步骤工作流" icon="route" href="#agent-execution-configuration">
-    自动完成复杂流程。
+  <Card title="多步工作流" icon="route" href="#agent-execution-configuration">
+    自动完成复杂的多步骤操作。
   </Card>
 
   <Card title="视觉理解" icon="eye" href="/zh/best-practices/computer-use">
-    借助计算机视觉，像人类一样“看懂”网页界面。
+    借助计算机视觉，像人类一样感知并理解网页界面。
   </Card>
 </CardGroup>
 
@@ -33,7 +33,7 @@ agent.execute("apply for a job at browserbase")
   ## 使用 `agent()`
 </div>
 
-以下展示了如何使用 `agent()` 创建一个代理。
+下面演示如何使用 `agent()` 创建一个代理。
 
 <CodeGroup>
   ```typescript TypeScript
@@ -61,15 +61,63 @@ agent.execute("apply for a job at browserbase")
   ```
 </CodeGroup>
 
+<div id="mcp-integrations">
+  ## MCP 集成
+</div>
+
+可以通过 MCP（Model Context Protocol）集成将外部工具和服务接入代理，从而增强代理能力。这样你的代理不仅能进行浏览器交互，还能访问外部 API 和数据源。
+
+<CodeGroup>
+  ```typescript TypeScript (Pass URL)
+  const agent = stagehand.agent({
+    provider: "openai",
+    model: "computer-use-preview",
+    integrations: [
+      `https://mcp.exa.ai/mcp?exaApiKey=${process.env.EXA_API_KEY}`,
+    ],
+    instructions: `You have access to web search through Exa. Use it to find current information before browsing.`,
+    options: {
+      apiKey: process.env.OPENAI_API_KEY,
+    },
+  });
+
+  await agent.execute("Search for the best headphones of 2025 and go through checkout for the top recommendation");
+  ```
+
+  ```typescript TypeScript (Create Connection)
+  import { connectToMCPServer } from "@browserbasehq/stagehand";
+
+  const supabaseClient = await connectToMCPServer(
+    `https://server.smithery.ai/@supabase-community/supabase-mcp/mcp?api_key=${process.env.SMITHERY_API_KEY}`
+  );
+
+  const agent = stagehand.agent({
+    provider: "openai",
+    model: "computer-use-preview",
+    integrations: [supabaseClient],
+    instructions: `You can interact with Supabase databases. Use these tools to store and retrieve data.`,
+    options: {
+      apiKey: process.env.OPENAI_API_KEY,
+    },
+  });
+
+  await agent.execute("Search for restaurants and save the first result to the database");
+  ```
+</CodeGroup>
+
+<Tip>
+  通过 MCP 集成，代理可以将浏览器自动化与外部 API、数据库和服务相结合，更加高效强大。代理可智能决策何时使用浏览器操作、何时调用外部工具。
+</Tip>
+
 <Warning>
-  Stagehand 默认使用 1024×768 的视口（这对“计算机使用型”代理而言是最佳尺寸）。其他视口大小可能会降低性能。如需修改视口，请在[浏览器配置](/zh/configuration/browser)中进行调整。
+  Stagehand 默认使用 1024x768 的浏览器窗口尺寸（Viewport），这是 Computer Use Agent 的最佳尺寸。其他 Viewport 可能会降低性能。如需修改 Viewport，可在[浏览器配置](/zh/configuration/browser)中进行设置。
 </Warning>
 
 <div id="available-models">
   ## 可用模型
 </div>
 
-使用专门用于计算机操作的模型（例如 OpenAI 的 `computer-use-preview` 或 Anthropic 的 `claude-sonnet-4-20250514`）
+使用专门的 Computer Use 模型（例如 OpenAI 的 `computer-use-preview` 或 Anthropic 的 `claude-sonnet-4-20250514`）
 
 <Card title="Available Models" icon="robot" href="/zh/configuration/models">
   查看在 Stagehand 中使用不同模型的指南。
@@ -79,56 +127,56 @@ agent.execute("apply for a job at browserbase")
   ## 代理执行配置
 </div>
 
-使用 `maxSteps` 参数控制代理为完成任务所能执行的最大操作步数。
+使用 `maxSteps` 参数控制代理为完成任务可执行的最大步骤数。
 
 <CodeGroup>
   ```typescript TypeScript
-  // 通过 maxSteps 限制代理可执行的操作次数
+  // 通过设置 maxSteps 控制代理可执行的动作数量
   await agent.execute({
     instruction: "帮我办理一张图书馆借书证",
-    maxSteps: 15 // 若任务未完成，代理将在 15 步后停止
+    maxSteps: 15 // 若任务未完成，代理将在第 15 步后停止
   });
   ```
 
   ```python Python
-  # 通过 max_steps 限制代理可执行的操作次数
+  # 通过设置 max_steps 控制代理可执行的动作数量
   result = await agent.execute({
       "instruction": "帮我办理一张图书馆借书证",
-      "max_steps": 15  # 若任务未完成，代理将在 15 步后停止
+      "max_steps": 15  # 若任务未完成，代理将在第 15 步后停止
   })
   ```
 </CodeGroup>
 
-对于复杂任务，可提高 `maxSteps` 上限，并检查任务是否成功完成。
+对于复杂任务，请提高 `maxSteps` 上限，并检查任务是否成功。
 
 <CodeGroup>
   ```typescript TypeScript
-  // 复杂的多步骤任务，需要更多操作
+  // 复杂的多步任务，需要执行更多动作
   const result = await agent.execute({
-    instruction: "查找并申请软件工程岗位，按远程工作筛选，并保存 3 份申请",
-    maxSteps: 30, // 为复杂流程设置更高的上限
+    instruction: "查找并申请软件工程师职位，按远程工作筛选，并保存 3 份申请",
+    maxSteps: 30, // 为复杂工作流设置更高上限
   });
 
   // 检查任务是否成功完成
   if (result.success === true) {
-    console.log("任务已成功完成！");
+    console.log("Task completed successfully!");
   } else {
-    console.log("任务失败或未完成");
+    console.log("Task failed or was incomplete");
   }
   ```
 
   ```python Python
-  # 复杂的多步骤任务，需要更多操作
+  # 复杂的多步任务，需要执行更多动作
   result = await agent.execute({
-      "instruction": "查找并申请软件工程岗位，按远程工作筛选，并保存 3 份申请",
-      "max_steps": 30  # 为复杂流程设置更高的上限
+      "instruction": "查找并申请软件工程师职位，按远程工作筛选，并保存 3 份申请",
+      "max_steps": 30  # 为复杂工作流设置更高上限
   })
 
   # 检查任务是否成功完成
   if result.success == True:
-      print("任务已成功完成！")
+      print("Task completed successfully!")
   else:
-      print("任务失败或未完成")
+      print("Task failed or was incomplete")
   ```
 </CodeGroup>
 
@@ -136,16 +184,16 @@ agent.execute("apply for a job at browserbase")
   ## 最佳实践
 </div>
 
-遵循这些最佳实践将提升代理的成功率、缩短执行时间，并尽量减少任务执行中的意外错误。
+遵循这些最佳实践将提升代理的成功率、缩短执行时间，并在完成任务时尽量减少意外错误。
 
 <div id="start-on-the-right-page">
   ### 从正确的页面开始
 </div>
 
-在执行任务前先打开目标页面：
+在执行任务前先跳转到目标页面：
 
 <Tabs>
-  <Tab title="这样做">
+  <Tab title="推荐做法">
     <CodeGroup>
       ```typescript TypeScript
       await page.goto('https://github.com/browserbase/stagehand');
@@ -159,7 +207,7 @@ agent.execute("apply for a job at browserbase")
     </CodeGroup>
   </Tab>
 
-  <Tab title="不要这样做">
+  <Tab title="不推荐做法">
     <CodeGroup>
       ```typescript TypeScript
       await agent.execute('Go to GitHub and find the latest PR on browserbase/stagehand');
@@ -176,10 +224,10 @@ agent.execute("apply for a job at browserbase")
   ### 具体明确
 </div>
 
-提供更具体的指令以获得更佳效果：
+提供更具体的指令以获得更好的结果：
 
 <Tabs>
-  <Tab title="这样做">
+  <Tab title="推荐做法">
     <CodeGroup>
       ```typescript TypeScript
       await agent.execute("Find Italian restaurants in Brooklyn that are open after 10pm and have outdoor seating");
@@ -191,7 +239,7 @@ agent.execute("apply for a job at browserbase")
     </CodeGroup>
   </Tab>
 
-  <Tab title="不要这样做">
+  <Tab title="不推荐做法">
     <CodeGroup>
       ```typescript TypeScript
       await agent.execute("Find a restaurant");
@@ -210,28 +258,28 @@ agent.execute("apply for a job at browserbase")
 
 <AccordionGroup>
   <Accordion title="Agent is stopping before completing the task">
-    **问题**：Agent 在完成所请求的任务之前就停止了
+    **问题**：Agent 在完成所请求的任务之前就停止
 
     **解决方案**：
 
-    - 检查 agent 是否触达 maxSteps 限制（默认 20）
-    - 对于复杂任务提高 maxSteps：例如 `maxSteps: 30` 或更高
-    - 将极其复杂的任务拆分为更小的顺序步骤执行
+    - 检查是否触达 maxSteps 限制（默认 20）
+    - 对复杂任务提高 maxSteps：`maxSteps: 30` 或更高
+    - 将非常复杂的任务拆解为更小的顺序执行
 
     ```typescript
-    // 为复杂任务提高 maxSteps
+    // 针对复杂任务增加 maxSteps
     await agent.execute({
       instruction: "Complete the multi-page registration form with all required information",
       maxSteps: 40 // 为复杂任务提高上限
     });
 
-    // 或将其拆分为更小的任务并检查成功状态
+    // 或拆分为更小的任务并进行成功检查
     const firstResult = await agent.execute({
       instruction: "Fill out page 1 of the registration form", 
       maxSteps: 15
     });
 
-    // 仅在第一个任务成功时继续
+    // 仅在首个任务成功时继续
     if (firstResult.success === true) {
       await agent.execute({
         instruction: "Navigate to page 2 and complete remaining fields",
@@ -244,12 +292,12 @@ agent.execute("apply for a job at browserbase")
   </Accordion>
 
   <Accordion title="Agent is failing to click the proper elements">
-    **问题**：Agent 点击了错误的元素，或无法与正确的 UI 组件交互
+    **问题**：Agent 点击了错误的元素或未能与正确的 UI 组件交互
 
     **解决方案**：
 
-    - 确保使用合适的视口大小：Stagehand 默认使用 `1024x768`（对 Computer Use 模型更优）
-    - 避免更改视口尺寸，其他大小可能会降低性能
+    - 确保合适的浏览器窗口尺寸（Viewport）：Stagehand 默认 `1024x768`（对 Computer Use 模型最优）
+    - 避免更改 Viewport 尺寸，其他大小可能会降低性能
   </Accordion>
 </AccordionGroup>
 
@@ -259,10 +307,10 @@ agent.execute("apply for a job at browserbase")
 
 <CardGroup cols={2}>
   <Card title="Act" icon="play" href="/zh/basics/act">
-    基于观察结果高效执行操作
+    使用 observe() 的结果高效执行操作
   </Card>
 
   <Card title="Extract" icon="download" href="/zh/basics/extract">
-    从已观察到的元素中提取结构化数据
+    从已观测到的元素中提取结构化数据
   </Card>
 </CardGroup>

@@ -6,11 +6,13 @@ icon: "robot"
 
 <CardGroup cols={1}>
   <Card title="Agent" icon="robot" href="/zh/basics/agent">
-    了解如何使用 agent() 为多步骤浏览器工作流创建自主 AI 智能体
+    了解如何使用 agent() 为多步浏览器工作流创建自主 AI 代理
   </Card>
 </CardGroup>
 
-### 创建 Agent
+<div id="agent-creation">
+  ### 创建 Agent
+</div>
 
 <Tabs>
   <Tab title="TypeScript">
@@ -27,6 +29,8 @@ icon: "robot"
       model?: string;
       instructions?: string;
       options?: Record<string, unknown>;
+      integrations?: (Client | string)[];
+      tools?: ToolSet;
     }
     ```
 
@@ -51,33 +55,49 @@ icon: "robot"
   </Tab>
 </Tabs>
 
-### 配置 Agent
+<div id="agent-configuration">
+  ### Agent 配置
+</div>
 
 <ParamField path="provider" type="AgentProviderType" optional>
-  为智能体功能选择的 AI 提供商。
+  agent 功能所用的 AI 提供商。
 
-  **选项：** `"anthropic"`，`"openai"`
+  **可选项：** `"anthropic"`, `"openai"`
 </ParamField>
 
 <ParamField path="model" type="string" optional>
-  用于智能体执行的具体模型。
+  agent 执行所用的具体模型。
 
-  **Anthropic：** `"claude-sonnet-4-20250514"`，`"claude-3-5-sonnet-20241022"`
+  **Anthropic：** `"claude-sonnet-4-20250514"`, `"claude-3-5-sonnet-20241022"`
 
-  **OpenAI：** `"computer-use-preview"`，`"gpt-4o"`
+  **OpenAI：** `"computer-use-preview"`, `"gpt-4o"`
 </ParamField>
 
 <ParamField path="instructions" type="string" optional>
-  定义智能体行为的系统指令。
+  定义 agent 行为的系统级指令。
 </ParamField>
 
 <ParamField path="options" type="Record<string, unknown>" optional>
   提供商特定的配置。
 
-  **通用：** `apiKey`，`baseURL`，`organization`
+  **常见项：** `apiKey`, `baseURL`, `organization`
 </ParamField>
 
-### Execute 方法
+<ParamField path="integrations" type="(Client | string)[]" optional>
+  面向外部工具与服务的 MCP（Model Context Protocol）集成。
+
+  **数组元素：** MCP 服务器 URL（字符串）或已连接的 Client 对象
+</ParamField>
+
+<ParamField path="tools" type="ToolSet" optional>
+  自定义工具定义，用于扩展 agent 能力。
+
+  **格式：** 以工具名称为键、工具定义为值的对象
+</ParamField>
+
+<div id="execute-method">
+  ### execute 方法
+</div>
 
 <Tabs>
   <Tab title="TypeScript">
@@ -119,35 +139,39 @@ icon: "robot"
   </Tab>
 </Tabs>
 
-### Execute 参数
+<div id="execute-parameters">
+  ### execute 参数
+</div>
 
 <ParamField path="instruction" type="string" required>
-  使用自然语言给出的高层任务描述。
+  以自然语言编写的高层任务描述。
 </ParamField>
 
 <ParamField path="maxSteps" type="number" optional>
-  智能体可执行的最大动作数。
+  agent 可执行的最大动作数。
 
-  **默认：** `20`
+  **默认值：** `20`
 </ParamField>
 
 <ParamField path="autoScreenshot" type="boolean" optional>
-  是否在每次动作前进行截屏。
+  是否在每次动作前自动截屏。
 
-  **默认：** `true`
+  **默认值：** `true`
 </ParamField>
 
 <ParamField path="waitBetweenActions" type="number" optional>
   各动作之间的延迟（毫秒）。
 
-  **默认：** `0`
+  **默认值：** `0`
 </ParamField>
 
 <ParamField path="context" type="string" optional>
-  提供给智能体的额外上下文或约束。
+  提供给 agent 的附加上下文或约束条件。
 </ParamField>
 
-### 响应
+<div id="response">
+  ### 响应
+</div>
 
 **返回：** `Promise<AgentResult>`
 
@@ -179,7 +203,7 @@ interface AgentResult {
     </ParamField>
 
     <ParamField path="actions" type="AgentAction[]">
-      执行期间所采取的各项操作的数组。
+      执行过程中各个动作的数组。
     </ParamField>
 
     <ParamField path="completed" type="boolean">
@@ -191,7 +215,7 @@ interface AgentResult {
     </ParamField>
 
     <ParamField path="usage" type="object" optional>
-      Token 使用情况与性能指标。
+      Token 使用量与性能指标。
     </ParamField>
   </Tab>
 
@@ -205,7 +229,7 @@ interface AgentResult {
     </ParamField>
 
     <ParamField path="actions" type="AgentAction[]">
-      执行期间所采取的各项操作的数组。
+      执行过程中各个动作的数组。
     </ParamField>
 
     <ParamField path="completed" type="boolean">
@@ -214,7 +238,9 @@ interface AgentResult {
   </Tab>
 </Tabs>
 
-### 示例响应
+<div id="example-response">
+  ### 示例响应
+</div>
 
 ```json
 {

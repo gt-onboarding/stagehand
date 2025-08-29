@@ -6,14 +6,14 @@ description: 在 Browserbase 或本地配置 Stagehand
 
 Stagehand 支持两种主要环境：
 
-- **Browserbase** - 为大规模生产级网页自动化优化的云托管浏览器基础设施
-- **本地** - 在你的机器上直接运行浏览器，便于开发与调试
+- **Browserbase** - 面向大规模生产级网页自动化优化的云托管浏览器基础设施
+- **本地** - 在本机直接运行浏览器，便于开发和调试
 
 <div id="browserbase-environment">
   ## Browserbase 环境
 </div>
 
-Browserbase 提供面向大规模网页自动化的托管云端浏览器基础设施，并针对该场景进行了优化。它支持隐身模式、代理、持久化上下文等高级功能。
+Browserbase 提供针对大规模网页自动化优化的托管云端浏览器基础设施，具备隐身模式、代理支持和持久化上下文等高级功能。
 
 <Card icon="cloud" title="Browserbase" href="https://docs.browserbase.com" description="了解在可扩展网页自动化中使用 Browserbase 的功能与优势。">
   借助 Browserbase，体验云托管浏览器基础设施的强大能力。
@@ -23,7 +23,7 @@ Browserbase 提供面向大规模网页自动化的托管云端浏览器基础�
   ### 环境变量
 </div>
 
-开始之前，请先配置必需的环境变量：
+开始之前，请先设置所需的环境变量：
 
 <CodeGroup>
 ```bash .env
@@ -33,11 +33,11 @@ BROWSERBASE_PROJECT_ID=your_project_id_here
 </CodeGroup>
 
 <Tip>
-在 [Browserbase 仪表盘](https://browserbase.com/overview) 获取你的 API Key 和 Project ID
+在 [Browserbase 控制台](https://browserbase.com/overview) 获取你的 API Key 和 Project ID
 </Tip>
 
 <div id="using-stagehand-with-browserbase">
-  ### 将 Stagehand 与 Browserbase 搭配使用
+  ### 将 Stagehand 与 Browserbase 配合使用
 </div>
 
 <div id="basic-setup">
@@ -72,14 +72,14 @@ await stagehand.init()
   #### 高级配置
 </div>
 
-配置浏览器设置、代理支持及其他会话参数：
+配置浏览器设置、代理支持以及其他会话参数：
 <CodeGroup>
 ```typescript TypeScript
 import { Stagehand } from "@browserbasehq/stagehand";
 
 const stagehand = new Stagehand({
   env: "BROWSERBASE",
-  // 可选：API Key 和 Project ID 将直接从环境变量中读取
+  // 可选：API Key 和 Project ID 将直接从环境变量读取
   apiKey: process.env.BROWSERBASE_API_KEY,
   projectId: process.env.BROWSERBASE_PROJECT_ID,
   browserbaseSessionCreateParams: {
@@ -101,7 +101,7 @@ from stagehand import Stagehand
 
 stagehand = Stagehand(
     env="BROWSERBASE",
-    # 可选：API Key 和 Project ID 将直接从环境变量中读取
+    # 可选：API Key 和 Project ID 将直接从环境变量读取
     api_key=os.getenv("BROWSERBASE_API_KEY"),
     project_id=os.getenv("BROWSERBASE_PROJECT_ID"),
     browserbase_session_create_params={
@@ -127,10 +127,10 @@ stagehand = Stagehand(
         projectId: process.env.BROWSERBASE_PROJECT_ID!,
         proxies: true,
         region: "us-west-2",
-        timeout: 3600, // 1 hour session timeout
-        keepAlive: true, // Available on Startup plan
+        timeout: 3600, // 会话超时时长 1 小时
+        keepAlive: true, // Startup 方案可用
         browserSettings: {
-          advancedStealth: false, // this is a Scale Plan feature - reach out to support@browserbase.com to enable
+          advancedStealth: false, // Scale 方案功能 — 如需启用请联系 support@browserbase.com
           blockAds: true,
           solveCaptchas: true,
           recordSession: false,
@@ -162,10 +162,10 @@ stagehand = Stagehand(
             "project_id": os.getenv("BROWSERBASE_PROJECT_ID"),
             "proxies": True,
             "region": "us-west-2",
-            "timeout": 3600,  # 1 hour session timeout
-            "keep_alive": True,  # Available on Startup plan
+            "timeout": 3600,  # 会话超时时长 1 小时
+            "keep_alive": True,  # Startup 方案可用
             "browser_settings": {
-                "advanced_stealth": False,  # this is a Scale Plan feature - reach out to support@browserbase.com to enable
+                "advanced_stealth": False,  # Scale 方案功能 — 如需启用请联系 support@browserbase.com
                 "block_ads": True,
                 "solve_captchas": True,
                 "record_session": False,
@@ -208,7 +208,7 @@ print(result)
 ```
 </CodeGroup>
 
-返回的对象包括：
+返回的对象包含：
 ```Example
 {
   debugUrl: 'https://www.browserbase.com/devtools/inspector.html?wss=connect.browserbase.com/debug/f8a21b4a-6fa1-4ab9-9007-fbfe61dc14f0/devtools/page/5474B0E0510C5B6E629BEB06E799CD70?debug=true',
@@ -219,15 +219,15 @@ print(result)
 
 <AccordionGroup>
 <Accordion title="debugUrl">
-**打开 Browserbase 的[会话实时视图](https://docs.browserbase.com/features/session-live-view)**，以便引入人工参与（human-in-the-loop）。
+**打开 Browserbase 的[会话实时视图](https://docs.browserbase.com/features/session-live-view)**，以便引入人参与的闭环（human-in-the-loop）。
 </Accordion>
 
 <Accordion title="sessionUrl">
-**打开[会话回放](https://docs.browserbase.com/features/session-replay)**，查看完整的会话录制。
+**打开[会话回放](https://docs.browserbase.com/features/session-replay)** 以查看完整的会话录制。
 </Accordion>
 
 <Accordion title="sessionId">
-[Browserbase 会话](https://docs.browserbase.com/introduction/what-is-browserbase)的**唯一标识符**。用于在 Browserbase 仪表盘中标识并连接该会话。
+[Browserbase 会话](https://docs.browserbase.com/introduction/what-is-browserbase)的**唯一标识符**。用于在 Browserbase 仪表板中识别并连接该会话。
 </Accordion>
 </AccordionGroup>
 
@@ -247,7 +247,7 @@ const bb = new Browserbase({
 
 const session = await bb.sessions.create({
   projectId: process.env.BROWSERBASE_PROJECT_ID!,
-  // 在这里添加配置选项
+  // 在此添加配置选项
 });
 ```
 ```python Python
@@ -257,16 +257,16 @@ bb = Browserbase(api_key=os.environ["BROWSERBASE_API_KEY"])
 
 session = bb.sessions.create(
     project_id=os.environ["BROWSERBASE_PROJECT_ID"],
-    # 在这里添加配置选项
+    # 在此添加配置选项
 )
 ```
 </CodeGroup>
 
 <div id="connecting-to-an-existing-session">
-  #### 连接到现有会话
+  #### 连接到已有会话
 </div>
 
-使用会话 ID 连接到先前创建的 Browserbase 会话：
+使用其会话 ID 连接到先前创建的 Browserbase 会话：
 
 <CodeGroup>
 ```typescript TypeScript
@@ -278,7 +278,7 @@ const stagehand = new Stagehand({
 });
 
 await stagehand.init();
-console.log("Resumed Session ID:", stagehand.sessionId);
+console.log("已恢复的会话 ID:", stagehand.sessionId);
 ```
 ```python Python
 import os
@@ -290,7 +290,7 @@ stagehand = Stagehand(
 )
 
 await stagehand.init()
-print(f"Resumed Session ID: {stagehand.session_id}")
+print(f"已恢复的会话 ID: {stagehand.session_id}")
 ```
 </CodeGroup>
 
@@ -298,7 +298,7 @@ print(f"Resumed Session ID: {stagehand.session_id}")
   ## 本地环境
 </div>
 
-本地环境在你的机器上直接运行浏览器，可对浏览器实例与配置实现完全控制。非常适合用于开发、调试，以及需要自定义浏览器设置的场景。
+本地环境会在你的机器上直接运行浏览器，提供对浏览器实例与配置的完全控制。适合用于开发、调试，以及需要自定义浏览器设置的场景。
 
 <div id="environment-comparison">
   ### 环境对比
@@ -306,18 +306,18 @@ print(f"Resumed Session ID: {stagehand.session_id}")
 
 | 功能 | Browserbase | 本地 |
 | --- | --- | --- |
-| **可扩展性** | 高（云端托管） | 有限（本地资源） |
-| **隐匿能力** | 高级指纹防护 | 基础隐匿 |
+| **可扩展性** | 高（云端托管） | 受限（本地资源） |
+| **隐身能力** | 高级指纹伪装 | 基础隐身 |
 | **代理支持** | 内置住宅代理 | 手动配置 |
 | **会话持久化** | 云端上下文存储 | 基于文件的用户数据 |
 | **地理分布** | 多区域部署 | 单机 |
 | **调试** | 会话录制与日志 | 直接使用 DevTools |
-| **设置复杂度** | 仅需环境变量 | 需要安装浏览器 |
-| **成本** | 按使用量计费 | 基础设施与维护 |
-| **最佳适用** | 生产、扩展、合规 | 开发、调试 |
+| **搭建复杂度** | 仅需配置环境变量 | 需要安装浏览器 |
+| **成本** | 按用量计费 | 基础设施与运维 |
+| **最佳适用场景** | 生产、规模化、合规 | 开发、调试 |
 
 <div id="basic-local-setup">
-  ### 基础本地设置
+  ### 本地基础配置
 </div>
 
 <CodeGroup>
@@ -344,10 +344,10 @@ print(f"Session ID: {stagehand.session_id}")
 </CodeGroup>
 
 <div id="advanced-local-configuration">
-  ### 高级本地配置
+  ### 本地高级配置
 </div>
 
-为本地开发自定义浏览器启动参数：
+为本地开发自定义浏览器启动选项：
 
 <CodeGroup>
 ```typescript TypeScript
@@ -406,7 +406,7 @@ await stagehand.init()
   ### 连接到本地浏览器
 </div>
 
-连接到你现有的本地 Chrome/Chromium 浏览器，而不是启动新的实例。这样你可以自动化日常使用的浏览器，同时保留所有已有标签页、扩展和设置。
+连接到已在本机运行的 Chrome/Chromium，而不是启动一个新的实例。这样可以在你日常使用的浏览器上进行自动化，保留现有的标签页、扩展和设置。
 
 <CodeGroup>
 ```typescript TypeScript
@@ -436,7 +436,7 @@ await stagehand.init()
 </CodeGroup>
 
 <div id="troubleshooting">
-  ## 疑难解答
+  ## 故障排查
 </div>
 
 <div id="common-issues">
@@ -444,21 +444,21 @@ await stagehand.init()
 </div>
 
 <AccordionGroup>
-<Accordion title="Browserbase 身份验证错误">
-- 确认已正确设置 `BROWSERBASE_API_KEY` 和 `BROWSERBASE_PROJECT_ID`
-- 检查你的 API 密钥是否具备必要权限
-- 确保你的 Browserbase 账户有足够的点数/额度
+<Accordion title="Browserbase 认证错误">
+- 核对是否正确设置了 `BROWSERBASE_API_KEY` 和 `BROWSERBASE_PROJECT_ID`
+- 检查 API key 是否具备所需权限
+- 确保 Browserbase 账户余额/额度充足
 </Accordion>
 
 <Accordion title="本地浏览器启动失败">
 - 在系统中安装 Chrome 或 Chromium
-- 为你的 Chrome 安装配置正确的 `executablePath`
-- 检查是否已安装所需依赖（Linux：`libnss3-dev libatk-bridge2.0-dev libgtk-3-dev libxss1 libasound2`）
+- 为已安装的 Chrome 设置正确的 `executablePath`
+- 检查是否已安装必需依赖（Linux：`libnss3-dev libatk-bridge2.0-dev libgtk-3-dev libxss1 libasound2`）
 </Accordion>
 
 <Accordion title="会话超时问题">
-- 在 `browserbaseSessionCreateParams.timeout` 中增加会话超时时长
-- 对于长时间运行的会话，使用 `keepAlive: true`
-- 监控会话使用情况，避免意外终止
+- 在 `browserbaseSessionCreateParams.timeout` 中提高会话超时时间
+- 对于长时运行的会话使用 `keepAlive: true`
+- 监控会话使用情况以避免意外中断
 </Accordion>
 </AccordionGroup>

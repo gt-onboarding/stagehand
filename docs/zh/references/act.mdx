@@ -10,18 +10,20 @@ icon: "arrow-pointer"
   </Card>
 </CardGroup>
 
-### 方法签名
+<div id="method-signatures">
+  ### 方法签名
+</div>
 
 <Tabs>
   <Tab title="TypeScript">
     ```typescript
-    // 字符串指令
+    // String instruction
     await page.act(instruction: string): Promise<ActResult>
 
-    // 使用 ActOptions
+    // With ActOptions
     await page.act(options: ActOptions): Promise<ActResult>
 
-    // 执行已观测到的操作
+    // Execute observed action
     await page.act(observeResult: ObserveResult): Promise<ActResult>
     ```
 
@@ -42,10 +44,10 @@ icon: "arrow-pointer"
 
   <Tab title="Python">
     ```python
-    # 字符串指令
+    # String instruction
     await page.act(instruction: str) -> ActResult
 
-    # 传入参数
+    # With parameters
     await page.act(
         instruction: str,
         variables: Dict[str, str] = None,
@@ -56,16 +58,18 @@ icon: "arrow-pointer"
         iframes: bool = None,
     ) -> ActResult
 
-    # 执行已观测到的操作
+    # Execute observed action
     await page.act(observe_result: ObserveResult) -> ActResult
     ```
   </Tab>
 </Tabs>
 
-### 参数
+<div id="parameters">
+  ### 参数
+</div>
 
 <ParamField path="action" type="string" required>
-  要执行的操作的自然语言描述。
+  要执行的动作的自然语言描述。
 </ParamField>
 
 <ParamField path="variables" type="Record<string, string>" optional>
@@ -73,60 +77,64 @@ icon: "arrow-pointer"
 </ParamField>
 
 <ParamField path="modelName" type="AvailableModel" optional>
-  覆盖此操作的默认 LLM 模型。
+  覆盖此动作的默认 LLM 模型。
 </ParamField>
 
 <ParamField path="modelClientOptions" type="ClientOptions" optional>
-  模型特定的配置选项。
+  模型专用的配置选项。
 
-  选项：`temperature`、`maxTokens`、`apiKey`
+  **选项：** `temperature`、`maxTokens`、`apiKey`
 </ParamField>
 
 <ParamField path="domSettleTimeoutMs" type="number" optional>
-  在尝试执行操作前等待 DOM 稳定的最长时间。
+  在尝试执行动作前等待 DOM 稳定的最长时长。
 
-  默认值：`30000`
+  **默认值：** `30000`
 </ParamField>
 
 <ParamField path="timeoutMs" type="number" optional>
-  等待操作完成的最长时间。
+  等待动作完成的最长时长。
 </ParamField>
 
 <ParamField path="iframes" type="boolean" optional>
-  如果目标元素位于 iframe 内，请设置为 `true`。
+  若目标元素位于 iframe 中，请设置为 `true`。
 
-  默认值：`false`
+  **默认值：** `false`
 </ParamField>
 
 <ParamField path="observeResult" type="ObserveResult" optional>
-  直接执行先前观测到的操作（启用自愈）。
+  直接执行先前 observe() 得到的动作（启用自愈能力）。
 </ParamField>
 
-### 返回值 `Promise<ActResult>`
+<div id="returns-promiseactresult">
+  ### 返回值 `Promise<ActResult>`
+</div>
 
 <ParamField path="success" type="boolean" required>
-  操作是否成功完成。
+  动作是否成功完成。
 </ParamField>
 
 <ParamField path="message" type="string" required>
-  操作执行的详细信息。
+  关于该动作执行的详细信息。
 </ParamField>
 
 <ParamField path="action" type="string" required>
-  实际执行的操作。
+  实际执行的动作。
 </ParamField>
 
 ```Example Response
 {
   success: true,
   message: 'Action [scrollTo] performed successfully on selector: /html[1]',
-  action: '页面中可滚动的区域，用户可在此跳转到定价部分或页面的其他区域'
+  action: 'Scrollable area of the page where user can navigate to the pricing section or other parts of the page'
 }
 ```
 
-### 错误类型
+<div id="error-types">
+  ### 错误类型
+</div>
 
-- **TimeoutError** - 操作超出超时限制
+- **TimeoutError** - 动作超出超时限制
 - **ElementNotFoundError** - 无法定位目标元素
-- **ActionFailedError** - 操作未能完成
-- **StagehandError** - Stagehand 的通用错误
+- **ActionFailedError** - 无法完成该动作
+- **StagehandError** - Stagehand 特定的通用错误
